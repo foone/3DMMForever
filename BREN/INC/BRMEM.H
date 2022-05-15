@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: brmem.h 1.13 1995/05/25 13:37:26 sam Exp $
- * $Locker: sam $
+ * $Id: brmem.h 1.15 1995/08/31 16:36:13 sam Exp $
+ * $Locker:  $
  *
  * Brender's interface to memory allocation
  */
@@ -81,6 +81,7 @@ enum br_memory_classes {
 	BR_MEMORY_IMAGE_SECTIONS,
 	BR_MEMORY_IMAGE_NAMES,
 	BR_MEMORY_EXCEPTION_HANDLER,
+	BR_MEMORY_RENDER_DATA,
 
 	/*
 	 * Application classes

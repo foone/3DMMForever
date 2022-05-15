@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: compiler.h 1.20 1995/05/25 13:37:28 sam Exp $
+ * $Id: compiler.h 1.22 1995/08/31 16:36:15 sam Exp $
  * $Locker: sam $
  *
  * Misc host compiler configuration (types & special declarators etc.)
@@ -76,12 +76,16 @@ typedef int br_boolean;
 #define stricmp _stricmp
 #define strnicmp _strnicmp
 #define memccpy _memccpy
+#define MEMAVL	0
 
 #pragma aux __cdecl "_*" parm caller [] modify [eax ecx edx] ;
 
 #define BR_PUBLIC_ENTRY __cdecl
 #define BR_CALLBACK __cdecl
+
 #else
+
+#define MEMAVL	_memavl()
 #define BR_PUBLIC_ENTRY
 #define BR_CALLBACK
 #endif
@@ -99,12 +103,16 @@ typedef int br_boolean;
 #define BR_SUFFIX_HOST "-WTC"
 
 #define BR_HAS_FAR	1
+
 /*
  * Stop unreferenced variables producing a warning
  * Things like "rcsid" and unused fucntion arguments
  */
 #pragma off (unreferenced);
 
+#ifndef __H2INC__
+#pragma pack(4);
+#endif
 /*
  * Zortech C++
  */
@@ -119,6 +127,7 @@ typedef int br_boolean;
 #define BR_SUFFIX_HOST "-ZTC"
 
 #define BR_HAS_FAR	1
+#define MEMAVL	0
 
 /*
  * GNU C
@@ -135,6 +144,7 @@ typedef int br_boolean;
 #define BR_SUFFIX_HOST "-GCC"
 
 #define BR_HAS_FAR	0
+#define MEMAVL	0
 
 /*
  * Apple MPW C
@@ -150,6 +160,7 @@ typedef int br_boolean;
 #define BR_SUFFIX_HOST "-MPW"
 
 #define BR_HAS_FAR	0
+#define MEMAVL	0
 
 /*
  * Intel Proton
@@ -165,6 +176,7 @@ typedef int br_boolean;
 #define BR_SUFFIX_HOST "-PROTON"
 
 #define BR_HAS_FAR	1
+#define MEMAVL	0
 
 /*
  * Microsoft Visual C++
@@ -180,6 +192,12 @@ typedef int br_boolean;
 #define BR_SUFFIX_HOST "-VISUALC"
 
 #define BR_HAS_FAR	0
+#define MEMAVL	0
+
+#ifndef __H2INC__
+#pragma warning(disable:4103)
+#pragma pack(4)
+#endif
 
 /*
  * Metaware High-C Version 1
@@ -198,6 +216,7 @@ typedef int br_boolean;
 #define BR_SUFFIX_HOST "-HIGHC1"
 
 #define BR_HAS_FAR	0
+#define MEMAVL	0
 
 #define stricmp _stricmp
 
@@ -218,6 +237,7 @@ typedef int br_boolean;
 #define BR_SUFFIX_HOST "-HIGHC3"
 
 #define BR_HAS_FAR	0
+#define MEMAVL	0
 
 #define stricmp _stricmp
 
@@ -236,6 +256,12 @@ typedef int br_boolean;
 
 #define BR_HAS_FAR	0
 
+#define MEMAVL	0
+
+#ifndef __H2INC__
+#pragma option -a4
+#endif
+
 /*
  * IBM CSet++
  */
@@ -250,6 +276,7 @@ typedef int br_boolean;
 #define BR_SUFFIX_HOST "-CSET"
 
 #define BR_HAS_FAR	0
+#define MEMAVL	0
 
 #endif
 

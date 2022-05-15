@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: pixelmap.h 1.15 1995/06/30 16:08:58 sam Exp $
- * $Locker: sam $
+ * $Id: pixelmap.h 1.17 1995/08/31 16:36:19 sam Exp $
+ * $Locker:  $
  *
  * A stopgap 2D pixelmap structure for brender. This should really be the
  * pixelmap data type from the underlying 2D system (whatever that will
@@ -69,7 +69,7 @@ enum {
 	/*
 	 * Wrong way around 15 bit true colour
 	 */
-	BR_PMT_BGR_555,
+	BR_PMT_BGR_555
 };
 
 /*

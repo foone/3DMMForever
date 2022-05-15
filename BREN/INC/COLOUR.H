@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: colour.h 1.3 1995/02/22 21:37:03 sam Exp $
+ * $Id: colour.h 1.4 1995/08/31 16:36:14 sam Exp $
  * $Locker:  $
  *
  * Colour type and macros
@@ -23,7 +23,7 @@ typedef unsigned long int br_colour;
 
 #define BR_COLOUR_RGBA(r,g,b,a) \
 		((((unsigned int)(a))<<24) |\
-		((((unsigned int)(r))<<16) |\
+		(((unsigned int)(r))<<16) |\
 		(((unsigned int)(g))<<8) |\
 		((unsigned int)(b)))
 

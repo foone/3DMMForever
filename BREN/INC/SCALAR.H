@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: scalar.h 1.20 1995/05/25 13:37:37 sam Exp $
+ * $Id: scalar.h 1.21 1995/08/31 16:36:20 sam Exp $
  * $Locker:  $
  *
  * Scalar type
@@ -95,6 +95,7 @@ typedef br_fixed_luf	br_ufraction;
 #define BR_SQR(a)				BrFixedSqr(a)
 
 #define BR_ABS(a)				BrFixedAbs(a)
+#define BR_NEG(a)				(-(a))
 
 #define BR_DIV(a,b)				BrFixedDiv(a,b)
 #define BR_DIVR(a,b)			BrFixedDivR(a,b)
@@ -202,12 +203,13 @@ double atan2(double,double);
 #define BR_MUL(a,b)				((a)*(b))
 #define BR_SQR(a)				((a)*(a))
 
-#define BR_ABS(a)				fabs(a)
+#define BR_ABS(a)				((br_scalar)fabs(a))
+#define BR_NEG(a)				(-(a))
 
 #define BR_DIV(a,b)				((a)/(b))
 #define BR_DIVR(a,b)			((a)/(b))
 #define BR_MULDIV(a,b,c)		((a)*(b)/(c))
-#define BR_RCP(a)				(1.0/(a))
+#define BR_RCP(a)				((br_scalar)(1.0/(a)))
 
 #define BR_CONST_MUL(a,b)		((a)*(b))
 #define BR_CONST_DIV(a,b)		((a)/(b))
@@ -229,16 +231,16 @@ double atan2(double,double);
 #define BR_FMAC3(a,b,c,d,e,f)	((a)*(b)+(c)*(d)+(e)*(f))
 #define BR_FMAC4(a,b,c,d,e,f,g,h) ((a)*(b)+(c)*(d)+(e)*(f)+(g)*(h))
 
-#define BR_LENGTH2(a,b)			sqrt((a)*(a)+(b)*(b))
-#define BR_LENGTH3(a,b,c)		sqrt((a)*(a)+(b)*(b)+(c)*(c))
-#define BR_LENGTH4(a,b,c,d)		sqrt((a)*(a)+(b)*(b)+(c)*(c)+(d)*(d))
+#define BR_LENGTH2(a,b)			((br_scalar)sqrt((a)*(a)+(b)*(b)))
+#define BR_LENGTH3(a,b,c)		((br_scalar)sqrt((a)*(a)+(b)*(b)+(c)*(c)))
+#define BR_LENGTH4(a,b,c,d)		((br_scalar)sqrt((a)*(a)+(b)*(b)+(c)*(c)+(d)*(d)))
 
-#define BR_RLENGTH2(a,b)		(1.0/sqrt((a)*(a)+(b)*(b)))
-#define BR_RLENGTH3(a,b,c)		(1.0/sqrt((a)*(a)+(b)*(b)+(c)*(c)))
-#define BR_RLENGTH4(a,b,c,d)	(1.0/sqrt((a)*(a)+(b)*(b)+(c)*(c)+(d)*(d)))
+#define BR_RLENGTH2(a,b)		((br_scalar)(1.0/sqrt((a)*(a)+(b)*(b))))
+#define BR_RLENGTH3(a,b,c)		((br_scalar)(1.0/sqrt((a)*(a)+(b)*(b)+(c)*(c))))
+#define BR_RLENGTH4(a,b,c,d)	((br_scalar)(1.0/sqrt((a)*(a)+(b)*(b)+(c)*(c)+(d)*(d))))
 
-#define BR_POW(a,b)				pow((a),(b))
-#define BR_SQRT(a)				sqrt(a)
+#define BR_POW(a,b)				((br_scalar)pow((a),(b)))
+#define BR_SQRT(a)				((br_scalar)sqrt(a))
 
 #endif
 
