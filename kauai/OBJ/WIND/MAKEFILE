@@ -4,10 +4,10 @@
 .SILENT:
 
 
-ALL: SETBLD KAUAI_SRC KAUAI_TOOLS
+ALL: KAUAI_SRC KAUAI_TOOLS # SETBLD 
 
-SETBLD:
-    Setbld d w n
+#SETBLD:
+#    Setbld d w n
 
 
 KAUAI_SRC:

@@ -10,6 +10,8 @@ set KAUAI_ROOT=%SOC_ROOT%\kauai
 :: Update includes to cover whats needed
 set include=%include%;%SOC_ROOT%\INC;%SOC_ROOT%\BREN\INC;%KAUAI_ROOT%\SRC;%SOC_ROOT%\SRC
 
+set MSVCNT_ROOT=C:\MSVC20
+
 :: Set project
 set PROJ=SOC
 

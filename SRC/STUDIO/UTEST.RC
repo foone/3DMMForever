@@ -91,9 +91,9 @@ END
 // Icon
 //
 
-IDI_APP                 ICON    DISCARDABLE     "studio\\bmp\\app.ico"
-IDI_DOC                 ICON    DISCARDABLE     "studio\\bmp\\doc.ico"
-IDI_CD                  ICON    DISCARDABLE     "studio\\bmp\\cd.ico"
+IDI_APP                 ICON    DISCARDABLE     "bmp\\app.ico"
+IDI_DOC                 ICON    DISCARDABLE     "bmp\\doc.ico"
+IDI_CD                  ICON    DISCARDABLE     "bmp\\cd.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
