@@ -76,7 +76,7 @@ protected:
 		BVEC3 *pbvec3RayPos, BVEC3 *pbvec3RayDir, BRS dzpNear, BRS dzpFar, 
 		void *pbwld);
 	static void BR_CALLBACK _ActorRendered(PBACT pbact, PBMDL pbmdl, 
-		PBMTL pbmtl, br_uint_8 bStyle, br_matrix4 *pbmat4ModelToScreen,
+		PBMTL pbmtl, void* render_data, br_uint_8 bStyle, br_matrix4 *pbmat4ModelToScreen,
 		br_int_32 bounds[4]);
 	
 public:

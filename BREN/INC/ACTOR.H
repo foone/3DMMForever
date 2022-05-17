@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: actor.h 1.14 1995/05/25 13:37:23 sam Exp $
+ * $Id: actor.h 1.15 1995/08/31 16:36:10 sam Exp $
  * $Locker:  $
  *
  * Definitons for an Actor
@@ -102,6 +102,12 @@ typedef struct br_actor {
 	 * Render style for actor, and all it's decendants if not BR_RSTYLE_DEFAULT
 	 */
 	br_uint_8 render_style;
+
+	/*
+	 * Reference to renderer specific data associated with this actor - NULL will
+	 * inherit from parent (root inherits default data)
+	 */
+	void *render_data;
 
 	/*
 	 * Postiton of this actor within parent space

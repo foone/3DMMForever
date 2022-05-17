@@ -21,18 +21,18 @@ typedef void BR_CALLBACK br_diag_warning_cbfn(char * message);
 typedef void BR_CALLBACK br_diag_failure_cbfn(char * message);
 
 typedef struct br_diaghandler {
-    char *identifier;
-    br_diag_warning_cbfn *warning;
-    br_diag_failure_cbfn *failure;
+	char *identifier;
+	br_diag_warning_cbfn *warning;
+	br_diag_failure_cbfn *failure;
 } br_diaghandler;
 
 /*
  * For backwards compatibility
  */
 typedef struct br_errorhandler {
-    char *identifier;
-    br_diag_warning_cbfn *message;
-    br_diag_failure_cbfn *error;
+	char *identifier;
+	br_diag_warning_cbfn *message;
+	br_diag_failure_cbfn *error;
 
 } br_errorhandler;
 
@@ -92,3 +92,4 @@ typedef struct br_errorhandler {
 };
 #endif
 #endif
+

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 1993-1995 Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: fwiproto.h 1.27 1995/06/30 16:01:14 sam Exp $
- * $Locker: sam $
+ * $Id: brerr.h 1.4 1995/07/28 18:57:02 sam Exp $
+ * $Locker:  $
  *
  * Error type
  */

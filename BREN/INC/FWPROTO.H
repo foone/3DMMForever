@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: fwproto.h 1.42 1995/06/30 16:08:49 sam Exp $
+ * $Id: fwproto.h 1.44 1995/08/31 16:36:16 sam Exp $
  * $Locker: sam $
  *
  * Function prototypes for brender framework
@@ -160,10 +160,10 @@ br_fixed_ls BR_ASM_CALL BrFixedFMac3(br_fixed_lsf a, br_fixed_ls b,
 
 /* result = a*b + c*d + e*f + g*h (a,c,e,g are fractions)
  */
-br_fixed_ls BR_ASM_CALL BrFixedFMac4(br_fixed_ls a, br_fixed_ls b,
-									br_fixed_ls c, br_fixed_ls d,
-									br_fixed_ls e, br_fixed_ls f,
-									br_fixed_ls g, br_fixed_ls h);
+br_fixed_ls BR_ASM_CALL BrFixedFMac4(br_fixed_lsf a, br_fixed_ls b,
+									br_fixed_lsf c, br_fixed_ls d,
+									br_fixed_lsf e, br_fixed_ls f,
+									br_fixed_lsf g, br_fixed_ls h);
 
 /*
  * Misc. support  functions
@@ -374,6 +374,11 @@ void BR_PUBLIC_ENTRY BrPixelmapRectangleFill(br_pixelmap *dst,br_int_16 x,br_int
 void BR_PUBLIC_ENTRY BrPixelmapDirtyRectangleCopy(br_pixelmap *dst,br_pixelmap *src,br_int_16 x,br_int_16 y,br_uint_16 w,br_uint_16 h);
 void BR_PUBLIC_ENTRY BrPixelmapDirtyRectangleFill(br_pixelmap *dst,br_int_16 x,br_int_16 y,br_uint_16 w,br_uint_16 h,br_uint_32 colour);
 
+/*
+ * Backwards compat.
+ */
+#define BrPixelmapDirtyRectangleClear BrPixelmapDirtyRectangleFill
+
 void BR_PUBLIC_ENTRY BrPixelmapPixelSet(br_pixelmap *dst,br_int_16 x,br_int_16 y,br_uint_32 colour);
 br_uint_32 BR_PUBLIC_ENTRY BrPixelmapPixelGet(br_pixelmap *dst,br_int_16 x,br_int_16 y);
 void BR_PUBLIC_ENTRY BrPixelmapCopy(br_pixelmap *dst,br_pixelmap *src);
@@ -390,7 +395,7 @@ void BR_PUBLIC_ENTRY BrPixelmapCopyBits(br_pixelmap *dst,
 br_uint_16 BR_PUBLIC_ENTRY BrPixelmapTextWidth(br_pixelmap *dst, br_font *font, char *text);
 br_uint_16 BR_PUBLIC_ENTRY BrPixelmapTextHeight(br_pixelmap *dst, br_font *font);
 
-void BR_PUBLIC_ENTRY BrPixelmapDoubleBuffer(br_pixelmap *dst,br_pixelmap *src);
+br_pixelmap * BR_PUBLIC_ENTRY BrPixelmapDoubleBuffer(br_pixelmap *dst,br_pixelmap *src);
 
 /*
  * Backwards compatibility
@@ -547,7 +552,7 @@ br_scalar BR_PUBLIC_ENTRY BrVector2LengthSquared(br_vector2 *v1);
 /**
  ** 3D VECTORS
  **/
-void BR_PUBLIC_ENTRY BrVector3Copy(br_vector3 *v1, br_vector2 *v2);
+void BR_PUBLIC_ENTRY BrVector3Copy(br_vector3 *v1, br_vector3 *v2);
 void BR_PUBLIC_ENTRY BrVector3Set(br_vector3 *v1, br_scalar s1, br_scalar s2, br_scalar s3);
 void BR_PUBLIC_ENTRY BrVector3SetInt(br_vector3 *v1, int i1, int i2, int i3);
 void BR_PUBLIC_ENTRY BrVector3SetFloat(br_vector3 *v1, float f1, float f2, float f3);

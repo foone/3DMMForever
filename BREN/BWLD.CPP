@@ -636,7 +636,7 @@ void BWLD::_CleanWorkingBuffers(void)
 	Callback for when a BACT is rendered.  Need to union with dirty
 	region.
 ***************************************************************************/
-void BWLD::_ActorRendered(PBACT pbact, PBMDL pbmdl, PBMTL pbmtl,
+void BWLD::_ActorRendered(PBACT pbact, PBMDL pbmdl, PBMTL pbmtl, void* render_data,
 	br_uint_8 bStyle, br_matrix4 *pbmat4ModelToScreen, br_int_32 bounds[4])
 {
 	AssertVarMem(pbact);

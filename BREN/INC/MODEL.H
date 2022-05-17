@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: model.h 1.19 1995/05/25 13:37:34 sam Exp $
+ * $Id: model.h 1.20 1995/08/31 16:36:18 sam Exp $
  * $Locker:  $
  *
  * In-memory structures for models, both public and private areas
@@ -80,6 +80,7 @@ typedef void BR_CALLBACK br_model_custom_cbfn(
 				struct br_actor *actor,
 				struct br_model *model,
 				struct br_material *material,
+				void *render_data,
 				br_uint_8 style,
 				int on_screen,
 				br_matrix34 *model_to_view,

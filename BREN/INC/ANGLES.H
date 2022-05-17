@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1992,1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: angles.h 1.9 1995/05/25 13:37:24 sam Exp $
+ * $Id: angles.h 1.10 1995/08/31 16:36:11 sam Exp $
  * $Locker:  $
  *
  */
@@ -17,8 +17,8 @@ extern "C" {
  */
 typedef br_fixed_luf br_angle;
 
-#define BR_ANGLE_DEG(deg) ((br_angle)((deg)*182))
-#define BR_ANGLE_RAD(rad) ((br_angle)((rad)*10430))
+#define BR_ANGLE_DEG(deg) ((br_angle)(long)((deg)*182))
+#define BR_ANGLE_RAD(rad) ((br_angle)(long)((rad)*10430))
 
 
 #if BASED_FIXED
@@ -31,7 +31,7 @@ typedef br_fixed_luf br_angle;
 #define BrRadianToDegree(r) (BR_MUL((r),BR_SCALAR(180.0/PI)))
 
 #define BrAngleToScalar(a) ((br_scalar)(a))
-#define BrScalarToAngle(s) ((br_angle)(s))
+#define BrScalarToAngle(s) ((br_angle)(long)(s))
 
 #define BR_SIN(a)					BrFixedSin(a)
 #define BR_COS(a)					BrFixedCos(a)
@@ -44,22 +44,22 @@ typedef br_fixed_luf br_angle;
 
 #if BASED_FLOAT
 
-#define BrAngleToDegree(a) ((a) * (180.0/32768.0))
-#define BrDegreeToAngle(d) ((br_angle)((d) * (32768.0/180.0)))
-#define BrAngleToRadian(a) ((a) * (PI/32768.0))
-#define BrRadianToAngle(r) ((br_angle)((r)*(32768.0/PI)))
-#define BrDegreeToRadian(d) ((d)*(PI/180.0))
-#define BrRadianToDegree(r) ((r)*(180.0/PI))
+#define BrAngleToDegree(a) ((br_scalar)((a) * (180.0/32768.0)))
+#define BrDegreeToAngle(d) ((br_angle)(long)((d) * (32768.0/180.0)))
+#define BrAngleToRadian(a) ((br_scalar)((a) * (PI/32768.0)))
+#define BrRadianToAngle(r) ((br_angle)(long)((r)*(32768.0/PI)))
+#define BrDegreeToRadian(d) ((br_scalar)((d)*(PI/180.0)))
+#define BrRadianToDegree(r) ((br_scalar)((r)*(180.0/PI)))
 
-#define BrAngleToScalar(a) ((a)*(1.0/(float)BR_ONE_LS))
-#define BrScalarToAngle(s) ((br_angle)((s)*(float)BR_ONE_LS))
+#define BrAngleToScalar(a) ((br_scalar)((a)*(1.0/(float)BR_ONE_LS)))
+#define BrScalarToAngle(s) ((br_angle)(long)((s)*(float)BR_ONE_LS))
 
-#define BR_SIN(a)					sin(BrAngleToRadian(a))
-#define BR_COS(a)					cos(BrAngleToRadian(a))
+#define BR_SIN(a)					((br_scalar)sin(BrAngleToRadian(a)))
+#define BR_COS(a)					((br_scalar)cos(BrAngleToRadian(a)))
 #define BR_ASIN(a)					BrRadianToAngle(asin(a))
 #define BR_ACOS(a)					BrRadianToAngle(acos(a))
 #define BR_ATAN2(a,b)				BrRadianToAngle(atan2((a),(b)))
-#define BR_ATAN2FAST(a,b)			RBradianToAngle(atan2((a),(b)))
+#define BR_ATAN2FAST(a,b)			BrRadianToAngle(atan2((a),(b)))
 
 #endif
 
