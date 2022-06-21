@@ -124,14 +124,14 @@ bool SREC::_FOpenRecord(void)
     if (pvNil == _hwavein)
     {
         // open a wavein device
-        if (waveInOpen(&_hwavein, WAVE_MAPPER, _priff->PwfxGet(), (DWORD)_WaveInProc, (DWORD)this, CALLBACK_FUNCTION))
+        if (waveInOpen(&_hwavein, WAVE_MAPPER, _priff->PwfxGet(), (DWORD_PTR)_WaveInProc, (DWORD_PTR)this, CALLBACK_FUNCTION))
         {
             // it doesn't support this format
             return fFalse;
         }
 
         // prepare header on block of data
-        _wavehdr.dwUser = (DWORD)this;
+        _wavehdr.dwUser = (DWORD_PTR)this;
         if (waveInPrepareHeader(_hwavein, &_wavehdr, sizeof(WAVEHDR)))
         {
             waveInClose(_hwavein);
@@ -257,7 +257,7 @@ void SREC::_UpdateStatus(void)
 /***************************************************************************
     Figure out if we're recording or not
 ***************************************************************************/
-void SREC::_WaveInProc(HWAVEIN hwi, UINT uMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2)
+void CALLBACK SREC::_WaveInProc(HWAVEIN hwi, UINT uMsg, DWORD_PTR dwInstance, DWORD_PTR dwParam1, DWORD_PTR dwParam2)
 {
     // the psrec pointer is a pointer to the class which generated the event and owns the device
     SREC *psrec = (SREC *)dwInstance;

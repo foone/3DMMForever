@@ -436,7 +436,7 @@ bool APPB::_FFrameWndProc(HWND hwnd, uint wm, WPARAM wParam, LPARAM lw, long *pl
 
             pmmi = (MINMAXINFO *)lw;
 
-            *plwRet = DefFrameProc(hwnd, vwig.hwndClient, wm, wParam, (long)pmmi);
+            *plwRet = DefFrameProc(hwnd, vwig.hwndClient, wm, wParam, (LPARAM)pmmi);
             dypFrame = GetSystemMetrics(SM_CYFRAME);
             dypScreen = GetSystemMetrics(SM_CYSCREEN);
             dypExtra = 0;
@@ -447,7 +447,7 @@ bool APPB::_FFrameWndProc(HWND hwnd, uint wm, WPARAM wParam, LPARAM lw, long *pl
                 dypExtra = GetSystemMetrics(SM_CYCAPTION);
             pmmi->ptMaxPosition.y = -dypFrame - dypExtra;
             pmmi->ptMaxSize.y = pmmi->ptMaxTrackSize.y = dypScreen + 2 * dypFrame + dypExtra;
-            _FCommonWndProc(hwnd, wm, wParam, (long)pmmi, &fullscreen);
+            _FCommonWndProc(hwnd, wm, wParam, (LPARAM)pmmi, &fullscreen);
         }
         return fTrue;
 
