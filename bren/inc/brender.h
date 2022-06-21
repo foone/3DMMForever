@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: brender.h 1.17 1995/03/01 16:08:11 sam Exp $
- * $Locker: sam $
+ * $Id: brender.h 1.19 1995/08/31 16:36:12 sam Exp $
+ * $Locker:  $
  *
  * Master include file for BRender
  *
@@ -15,9 +15,7 @@ extern "C"
 {
 #endif
 
-#ifndef _COMPILER_H_
 #include "compiler.h"
-#endif
 
 #ifndef _BRLIMITS_H_
 #include "brlimits.h"
@@ -53,6 +51,10 @@ extern "C"
 
 #ifndef _TRANSFRM_H_
 #include "transfrm.h"
+#endif
+
+#ifndef _ORDER_H_
+#include "order.h"
 #endif
 
 #ifndef _PIXELMAP_H_
@@ -95,12 +97,12 @@ extern "C"
 #include "brfile.h"
 #endif
 
-#ifndef _BRMEM_H_
-#include "brmem.h"
-#endif
-
 #ifndef _BRDIAG_H_
 #include "brdiag.h"
+#endif
+
+#ifndef _BRMEM_H_
+#include "brmem.h"
 #endif
 
 #ifndef _BRERR_H_
@@ -123,8 +125,8 @@ extern "C"
 #include "zbproto.h"
 #endif
 
-#ifndef _FWPEXTRA_H_
-#include "fwpextra.h"
+#ifndef _ZSPROTO_H_
+#include "zsproto.h"
 #endif
 
     /*
@@ -139,7 +141,11 @@ extern "C"
 #endif
 #endif
 
+#include "compend.h"
+
 #ifdef __cplusplus
 };
 #endif
 #endif
+
+

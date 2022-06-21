@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1992,1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: vecfns.h 1.11 1995/06/30 16:09:04 sam Exp $
+ * $Id: vecfns.h 1.12 1995/08/31 16:36:22 sam Exp $
  * $Locker:  $
  *
  * Inline versions of the vector operations (could do compiler specific
@@ -293,9 +293,9 @@ extern "C"
         }                                                                                                              \
         else                                                                                                           \
         {                                                                                                              \
-            (v1)->v[0] = BR_FRACTION(1.0);                                                                             \
-            (v1)->v[1] = BR_FRACTION(0.0);                                                                             \
-            (v1)->v[2] = BR_FRACTION(0.0);                                                                             \
+            (v1)->v[0] = BR_SCALAR(1.0);                                                                               \
+            (v1)->v[1] = BR_SCALAR(0.0);                                                                               \
+            (v1)->v[2] = BR_SCALAR(0.0);                                                                               \
         }                                                                                                              \
     } while (0)
 
@@ -358,8 +358,8 @@ extern "C"
         }                                                                                                              \
         else                                                                                                           \
         {                                                                                                              \
-            (v1)->v[0] = BR_FRACTION(1.0);                                                                             \
-            (v1)->v[1] = BR_FRACTION(0.0);                                                                             \
+            (v1)->v[0] = BR_SCALAR(1.0);                                                                               \
+            (v1)->v[1] = BR_SCALAR(0.0);                                                                               \
         }                                                                                                              \
     } while (0)
 

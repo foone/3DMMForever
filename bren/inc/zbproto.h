@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: zbproto.h 1.8 1995/02/22 21:37:28 sam Exp $
+ * $Id: zbproto.h 1.9 1995/08/31 16:36:24 sam Exp $
  * $Locker:  $
  *
  * Function prototypes for Z buffer renderer
@@ -24,7 +24,8 @@ extern "C"
      * rendered
      */
     typedef void BR_CALLBACK br_renderbounds_cbfn(br_actor *actor, br_model *model, br_material *material,
-                                                  br_uint_8 style, br_matrix4 *model_to_screen, br_int_32 bounds[4]);
+                                                  void *render_data, br_uint_8 style, br_matrix4 *model_to_screen,
+                                                  br_int_32 bounds[4]);
 
 #ifndef _NO_PROTOTYPES
 
@@ -38,7 +39,7 @@ extern "C"
     void BR_PUBLIC_ENTRY BrZbSceneRenderEnd(void);
 
     /*
-     * Wrapper that inokes above therr calls in order
+     * Wrapper that invokes above three calls in order
      */
     void BR_PUBLIC_ENTRY BrZbSceneRender(br_actor *world, br_actor *camera, br_pixelmap *colour_buffer,
                                          br_pixelmap *depth_buffer);
@@ -56,3 +57,4 @@ extern "C"
 #endif
 #endif
 #endif
+

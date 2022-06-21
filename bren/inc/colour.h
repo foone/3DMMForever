@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1993-1995 by Argonaut Technologies Limited. All rights reserved.
  *
- * $Id: colour.h 1.3 1995/02/22 21:37:03 sam Exp $
+ * $Id: colour.h 1.4 1995/08/31 16:36:14 sam Exp $
  * $Locker:  $
  *
  * Colour type and macros
@@ -20,10 +20,7 @@ extern "C"
 #define BR_COLOUR_RGB(r, g, b) ((((unsigned int)(r)) << 16) | (((unsigned int)(g)) << 8) | ((unsigned int)(b)))
 
 #define BR_COLOUR_RGBA(r, g, b, a)                                                                                     \
-        ((((unsigned int)(a))<<24) |\
-		((((unsigned int)(r))<<16) |\
-		(((unsigned int)(g))<<8) |\
-		((unsigned int)(b)))
+    ((((unsigned int)(a)) << 24) | (((unsigned int)(r)) << 16) | (((unsigned int)(g)) << 8) | ((unsigned int)(b)))
 
 #define BR_ALPHA(c) ((c >> 24) & 0xFF)
 #define BR_RED(c) ((c >> 16) & 0xFF)
