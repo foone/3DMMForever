@@ -263,6 +263,7 @@ void *BASE::operator new(size_t cb)
 }
 
 #if defined(DEBUG) || defined(WIN)
+
 /***************************************************************************
     DEBUG : Unlink from linked list of allocated objects and free the memory.
 ***************************************************************************/
@@ -285,6 +286,14 @@ void BASE::operator delete(void *pv)
     ::delete (pv);
 #endif //! WIN
 }
+
+#ifdef DEBUG
+void BASE::operator delete(void *pv, schar *pszsFile, long lwLine)
+{
+    BASE::operator delete(pv);
+}
+#endif // DEBUG
+
 #endif // DEBUG || WIN
 
 #ifdef DEBUG
