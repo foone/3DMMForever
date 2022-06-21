@@ -44,12 +44,13 @@ endif()
 # Local Tooling
 add_compile_definitions(
   $<$<PLATFORM_ID:Windows>:WIN>
-  $<$<PLATFORM_ID:Windows>:IN_80386>
   $<$<CONFIG:Debug>:DEBUG>
 )
 
-if (NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
-  message(FATAL_ERROR "Cannot compile for 64-bit yet")
+if (CMAKE_SIZEOF_VOID_P EQUAL 4)
+  add_compile_definitions(
+    $<$<PLATFORM_ID:Windows>:IN_80386>
+  )
 endif()
 
 # NOTE: kcdc-386 and kcd2-386 prevent cross compiling at this time.

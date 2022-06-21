@@ -206,6 +206,7 @@ bool FAllocPv(void **ppv, long cb, ulong grfmem, long mpr)
     long *plw;
     long ilw;
 
+#ifdef IN_80386
     __asm { mov plw,ebp }
     for (ilw = 0; ilw < kclwStackMbh; ilw++)
     {
@@ -220,6 +221,12 @@ bool FAllocPv(void **ppv, long cb, ulong grfmem, long mpr)
             plw = (long *)*plw;
         }
     }
+#else
+    for (ilw = 0; ilw < kclwStackMbh; ilw++)
+    {
+        pmbh->rglwStack[ilw] = 0;
+    }
+#endif // !IN_80386
 #endif // WIN
 
     // write the footer

@@ -238,7 +238,7 @@ LFail:
 /***************************************************************************
     Windows dialog proc.
 ***************************************************************************/
-BOOL CALLBACK _FDlgCore(HWND hdlg, UINT msg, WPARAM w, LPARAM lw)
+INT_PTR CALLBACK _FDlgCore(HWND hdlg, UINT msg, WPARAM w, LPARAM lw)
 {
     PDLG pdlg;
     DIT dit;

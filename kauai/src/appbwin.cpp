@@ -441,12 +441,13 @@ bool APPB::_FFrameWndProc(HWND hwnd, uint wm, WPARAM wParam, LPARAM lw, long *pl
             dypScreen = GetSystemMetrics(SM_CYSCREEN);
             dypExtra = 0;
 
-            FGetProp(kpridFullScreen, &lw);
-            if (lw)
+            long fullscreen = 0;
+            FGetProp(kpridFullScreen, &fullscreen);
+            if (fullscreen)
                 dypExtra = GetSystemMetrics(SM_CYCAPTION);
             pmmi->ptMaxPosition.y = -dypFrame - dypExtra;
             pmmi->ptMaxSize.y = pmmi->ptMaxTrackSize.y = dypScreen + 2 * dypFrame + dypExtra;
-            _FCommonWndProc(hwnd, wm, wParam, (long)pmmi, &lw);
+            _FCommonWndProc(hwnd, wm, wParam, (long)pmmi, &fullscreen);
         }
         return fTrue;
 
@@ -803,7 +804,7 @@ STN *_rgpstn[3];
 /***************************************************************************
     Dialog proc for assert.
 ***************************************************************************/
-BOOL CALLBACK _FDlgAssert(HWND hdlg, UINT msg, WPARAM w, LPARAM lw)
+INT_PTR CALLBACK _FDlgAssert(HWND hdlg, UINT msg, WPARAM w, LPARAM lw)
 {
     switch (msg)
     {
@@ -874,6 +875,7 @@ bool APPB::FAssertProcApp(PSZS pszsFile, long lwLine, PSZS pszsMsg, void *pv, lo
         stn1 = PszLit("Some Header file");
     stn0.FFormatSz(psz, &stn1, lwLine, &stn2);
 
+#ifdef IN_80386
     // call stack - follow the EBP chain....
     __asm { mov plw,ebp }
     for (ilw = 0; ilw < kclwChain; ilw++)
@@ -889,6 +891,12 @@ bool APPB::FAssertProcApp(PSZS pszsFile, long lwLine, PSZS pszsMsg, void *pv, lo
             plw = (long *)*plw;
         }
     }
+#else
+    for (ilw = 0; ilw < kclwChain; ilw++)
+    {
+        rglw[ilw] = 0;
+    }
+#endif // !IN_80386
 
     for (cact = 0; cact < 2; cact++)
     {

@@ -61,7 +61,7 @@ class DLG : public DLG_PAR
     void *_pv;
 
 #ifdef WIN
-    friend BOOL CALLBACK _FDlgCore(HWND hdlg, UINT msg, WPARAM w, LPARAM lw);
+    friend INT_PTR CALLBACK _FDlgCore(HWND hdlg, UINT msg, WPARAM w, LPARAM lw);
 #endif // WIN
 
     DLG(long rid);
