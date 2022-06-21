@@ -473,6 +473,12 @@ bool KCDC::_FDecode(void *pvSrc, long cbSrc, void *pvDst, long cbDst, long *pcbD
 
 #else //! IN_80386
 
+#include "kcdc_c.h"
+
+    *pcbDst = cbTot;
+    return fTrue;
+
+#if 0 // BROKEN; KEPT FOR REFERENCE
     long cb, dib, ibit, cbit;
     register ulong luCur;
     byte *pbT;
@@ -560,6 +566,7 @@ bool KCDC::_FDecode(void *pvSrc, long cbSrc, void *pvDst, long cbDst, long *pcbD
 
 #undef _FTest
 #undef _Advance
+#endif // 0
 
 #endif //! IN_80386
 
@@ -835,6 +842,12 @@ bool KCDC::_FDecode2(void *pvSrc, long cbSrc, void *pvDst, long cbDst, long *pcb
 
 #else //! IN_80386
 
+#include "kcd2_c.h"
+
+    *pcbDst = cbTot;
+    return fTrue;
+
+#if 0 // BROKEN; KEPT FOR REFERENCE
     long cb, dib, ibit, cbit;
     register ulong luCur;
     byte bT;
@@ -935,6 +948,8 @@ LDone:
 
 #undef _FTest
 #undef _Advance
+
+#endif // 0
 
 #endif //! IN_80386
 
