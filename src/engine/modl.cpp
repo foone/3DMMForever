@@ -9,6 +9,7 @@
     Review Status: REVIEWED - any changes to this file must be reviewed!
 
 ***************************************************************************/
+#include <stdio.h>
 #include "soc.h"
 ASSERTNAME
 
@@ -80,6 +81,40 @@ bool MODL::FReadModl(PCRF pcrf, CTG ctg, CNO cno, PBLCK pblck, PBACO *ppbaco, lo
     return fTrue;
 }
 
+// Portable version of br_face for reading from files.
+// Original comes from BRender model.h.
+// br_material* material has been replaced with a ulong.
+#pragma pack(4)
+typedef struct BRF_IO
+{
+    br_uint_16 vertices[3]; /* Vertices around face 				*/
+    br_uint_16 edges[3];    /* Edges around face					*/
+    ulong material;  /* Face material (or NULL) 				*/
+    br_uint_16 smoothing;   /* Controls if shared edges are smooth	*/
+    br_uint_8 flags;        /* Bits 0,1 and 2 denote internal edges	*/
+    br_uint_8 _pad0;
+    br_fvector3 n; /* Plane equation of face				*/
+    br_scalar d;
+} BRF_IO;
+#pragma pack()
+
+void BRF_IoToNative(BRF* dst, const BRF_IO* src, size_t count)
+{
+    for (size_t f = 0; f < count; f++)
+    {
+        for (int i = 0; i < 3; i++)
+            dst[f].vertices[i] = src[f].vertices[i];
+        for (int i = 0; i < 3; i++)
+            dst[f].edges[i] = src[f].edges[i];
+        dst[f].material = pvNil;
+        dst[f].smoothing = src[f].smoothing;
+        dst[f].flags = src[f].flags;
+        dst[f]._pad0 = src[f]._pad0;
+        dst[f].n = src[f].n;
+        dst[f].d = src[f].d;
+    }
+}
+
 /***************************************************************************
     Reads a MODL from a BLCK
 ***************************************************************************/
@@ -109,9 +144,13 @@ bool MODL::_FInit(PBLCK pblck)
         SwapBytesBom(&modlf, kbomModlf);
     Assert(kboCur == modlf.bo, "bad MODL!");
 
+    printf("size of MODLF == %d\n", (int)size(MODLF));
+    printf("size of BRV == %d\n", (int)size(BRV));
+    printf("size of BRF == %d\n", (int)size(BRF_IO));
+
     // Allocate space for the BMDL, array of vertices, and array of faces
     cbrgbrv = LwMul(modlf.cver, size(BRV));
-    cbrgbrf = LwMul(modlf.cfac, size(BRF));
+    cbrgbrf = LwMul(modlf.cfac, size(BRF_IO));
 
     if (modlf.rRadius == rZero)
     {
@@ -123,8 +162,16 @@ bool MODL::_FInit(PBLCK pblck)
         CopyPb(&pmodlThis, _pbmdl->identifier, size(PMODL));
         if (!pblck->FReadRgb(_pbmdl->vertices, cbrgbrv, size(MODLF)))
             return fFalse;
-        if (!pblck->FReadRgb(_pbmdl->faces, cbrgbrf, size(MODLF) + cbrgbrv))
+        BRF_IO* faces_io = new BRF_IO[modlf.cfac];
+        if (!pblck->FReadRgb(faces_io, cbrgbrf, size(MODLF) + cbrgbrv))
+        {
+            delete[] faces_io;
             return fFalse;
+        }
+
+        BRF_IoToNative(_pbmdl->faces, faces_io, modlf.cfac);
+
+        delete[] faces_io;
 
         BrModelAdd(_pbmdl);
 
@@ -160,17 +207,24 @@ bool MODL::_FInit(PBLCK pblck)
                 SwapBytesBom(pbrv, kbomBrv);
             }
         }
-        if (!pblck->FReadRgb(_pbmdl->prepared_faces, cbrgbrf, size(MODLF) + cbrgbrv))
+        BRF_IO* prepared_faces_io = new BRF_IO[modlf.cfac];
+        if (!pblck->FReadRgb(prepared_faces_io, cbrgbrf, size(MODLF) + cbrgbrv))
         {
+            delete[] prepared_faces_io;
             return fFalse;
         }
         if (kboOther == modlf.bo)
         {
-            for (ibrf = 0, pbrf = _pbmdl->prepared_faces; ibrf < modlf.cfac; ibrf++, pbrf++)
+            BRF_IO* pbrf;
+            for (ibrf = 0, pbrf = prepared_faces_io; ibrf < modlf.cfac; ibrf++, pbrf++)
             {
                 SwapBytesBom(pbrf, kbomBrf);
             }
         }
+
+        BRF_IoToNative(_pbmdl->prepared_faces, prepared_faces_io, modlf.cfac);
+
+        delete[] prepared_faces_io;
 
         _pbmdl->flags = BR_MODF_PREPREPARED;
         _pbmdl->nprepared_vertices = (ushort)modlf.cver;

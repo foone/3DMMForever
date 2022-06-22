@@ -47,12 +47,16 @@ endif()
 add_compile_definitions(
   $<$<PLATFORM_ID:Windows>:WIN>
   $<$<CONFIG:Debug>:DEBUG>
-  LITTLE_ENDIAN
 )
 
 if (CMAKE_SIZEOF_VOID_P EQUAL 4)
   add_compile_definitions(
     $<$<PLATFORM_ID:Windows>:IN_80386>
+    # IN_80386 implies LITTLE_ENDIAN
+  )
+else()
+  add_compile_definitions(
+    LITTLE_ENDIAN
   )
 endif()
 

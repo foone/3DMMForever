@@ -1964,7 +1964,7 @@ bool BRWN::FCmdOk(PCMD pcmd)
         PMVU pmvu;
         pmvu = (PMVU)(_pstdio->Pmvie()->PddgGet(0));
         tag.sid = ksidInvalid;
-        tag.pcrf = pvNil;
+        tag.pcrfRef = pvNil;
         pmvu->SetTagTool(&tag); // No need to close tag with ksidInvalid
     }
 
@@ -2057,7 +2057,7 @@ bool BRWM::_FUpdateLists(void)
         if (!pcfl->FGetCkiCtg(kctgMsnd, icki, &cki))
             goto LNext;
         tag.sid = ksidUseCrf; // Non-CD-loaded content
-        tag.pcrf = _pcrf;
+        tag.pcrfRef = PcrfToRef(_pcrf);
         tag.ctg = kctgMsnd;
         tag.cno = cki.cno;
 
@@ -2141,7 +2141,7 @@ bool BRWM::_FAddThd(STN *pstn, CKI *pcki)
     ;
 
     thd.tag.sid = ksidUseCrf;
-    thd.tag.pcrf = _pcrf;
+    thd.tag.pcrfRef = PcrfToRef(_pcrf);
     thd.tag.ctg = pcki->ctg;
     thd.tag.cno = pcki->cno;
     thd.cno = cnoNil;       // unused
@@ -2175,7 +2175,7 @@ void BRWM::_ProcessSelection(void)
     _GetThumFromIthum(_ithumSelect, &thumSelect, &sid);
 
     tag.sid = sid;
-    tag.pcrf = (ksidUseCrf == sid) ? _pcrf : pvNil;
+    tag.pcrfRef = (ksidUseCrf == sid) ? PcrfToRef(_pcrf) : pvNil;
     tag.ctg = kctgMsnd;
     tag.cno = (CNO)thumSelect;
 
@@ -2367,7 +2367,7 @@ bool BRWM::FCmdDel(PCMD pcmd)
     // Delete the midi or wave child chunk from the msnd
     // Invalidate the sound
     tag.sid = ksidUseCrf; // Non-CD-loaded content
-    tag.pcrf = _pcrf;
+    tag.pcrfRef = PcrfToRef(_pcrf);
     tag.ctg = kctgMsnd;
     _GetThumFromIthum(_ithumSelect, &tag.cno, &sid);
 

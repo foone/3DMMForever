@@ -425,7 +425,7 @@ void BRWB::_ApplySelection(long thumSelect, long sid)
     PMVU pmvu;
 
     tag.sid = sid;
-    tag.pcrf = pvNil;
+    tag.pcrfRef = pvNil;
     tag.ctg = kctgBkgd;
     tag.cno = (CNO)thumSelect;
 
@@ -472,7 +472,7 @@ void BRWP::_ApplySelection(long thumSelect, long sid)
 
     AssertPo(pmvu, 0);
     tag.sid = sid;
-    tag.pcrf = pvNil;
+    tag.pcrfRef = pvNil;
     tag.ctg = kctgTmpl;
     tag.cno = (CNO)thumSelect;
 
@@ -550,7 +550,7 @@ void BRWM::_ApplySelection(long thumSelect, long sid)
     tag.cno = (CNO)thumSelect;
     tag.sid = sid;
     if (ksidUseCrf != sid)
-        tag.pcrf = pvNil;
+        tag.pcrfRef = pvNil;
     else
     {
         if (!_pstdio->Pmvie()->FEnsureAutosave(&_pcrf))

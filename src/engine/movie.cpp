@@ -6135,7 +6135,7 @@ void MVU::SetTagTool(PTAG ptag)
     // Make sure the new tag has been opened, if it's a "ksidUseCrf" tag
     if (ptag->sid == ksidUseCrf)
     {
-        AssertPo(ptag->pcrf, 0);
+        AssertPo(RefToPcrf(ptag->pcrfRef), 0);
     }
 #endif
 
