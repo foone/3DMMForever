@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  3dmmforever-build:
+    image: 3dmmforever-build
+    container_name: 3dmmforever-build
+    build: .
+    volumes:
+      - .:C:\3d
+    working_dir: C:\3d
+    command: >
+            C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\Common7\\Tools\\VsDevCmd.bat &&
+            cmake --preset x86:msvc:debug &&
+            cmake --build build &&
+            cmake --install build
+    
