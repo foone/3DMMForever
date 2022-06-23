@@ -131,7 +131,7 @@ HWND GOB::_HwndNewMdi(PSTN pstnTitle)
     hwnd = CreateMDIWindow(PszLit("MDI"), pstnTitle->Psz(), lwStyle, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
                            CW_USEDEFAULT, vwig.hwndClient, vwig.hinst, 0L);
     if (hNil != hwnd && pvNil != vpmubCur)
-        vpmubCur->FAddListCid(cidChooseWnd, (long)hwnd, pstnTitle);
+        vpmubCur->FAddListCid(cidChooseWnd, (LONG_PTR)hwnd, pstnTitle);
     return hwnd;
 }
 

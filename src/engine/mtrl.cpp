@@ -305,7 +305,7 @@ PMTRL MTRL::PmtrlFromBmtl(PBMTL pbmtl)
 {
     AssertVarMem(pbmtl);
 
-    PMTRL pmtrl = (PMTRL) * (long *)pbmtl->identifier;
+    PMTRL pmtrl = (PMTRL) * (PMTRL *)pbmtl->identifier;
     AssertPo(pmtrl, 0);
     return pmtrl;
 }
