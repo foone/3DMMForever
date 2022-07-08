@@ -3427,4 +3427,3 @@ goto LCopyByte6
 LDone:
 	cbTot  = edi - pvDst;
 // clang-format on
-

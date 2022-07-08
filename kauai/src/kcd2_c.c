@@ -152,7 +152,7 @@ void End(void)
     //                 "	}\n\n");
     fprintf(output, "\nLDone:\n"
                     "	cbTot = edi - pvDst;\n"
-                    "// clang-format on\n\n");
+                    "// clang-format on\n");
 }
 
 void Advance(long cb)
