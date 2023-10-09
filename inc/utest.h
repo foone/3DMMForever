@@ -61,6 +61,7 @@ class KWA : public KWA_PAR
 #define kszProductsKey PszLit("Software\\Microsoft\\Microsoft Kids\\3D Movie Maker\\Products")
 #define kszUserDataValue PszLit("UserData")
 #define kszBetterSpeedValue PszLit("BetterSpeed")
+#define kszSkipSplashScreenValue PszLit("SkipSplashScreen")
 
 // FGetSetRegKey flags
 enum
@@ -167,7 +168,7 @@ class APP : public APP_PAR
     bool _FGetUserDirectories(void);
     bool _FReadUserData(void);
     bool _FWriteUserData(void);
-    bool _FDisplayHomeLogo(void);
+    bool _FDisplayHomeLogo(bool fSkipSplashScreen);
     bool _FDetermineIfSlowCPU(void);
     bool _FOpenResourceFile(void);
     bool _FInitKidworld(void);
