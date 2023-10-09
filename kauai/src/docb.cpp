@@ -236,7 +236,7 @@ tribool DOCB::_TQuerySave(bool fForce)
 {
     AssertThis(0);
 
-    return vpappb->TQuerySaveDoc(this, fForce) ? tYes : tNo;
+    return vpappb->TQuerySaveDoc(this, fForce);
 }
 
 /***************************************************************************
