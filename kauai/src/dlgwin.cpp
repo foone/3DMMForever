@@ -111,7 +111,7 @@ bool DLG::_FInit(void)
     for (csit = dtm.cdit, idit = 0; csit > 0; csit--)
     {
         // align to dword
-        if ((long)psw & 2)
+        if ((LONG_PTR)psw & 2)
             psw++;
 
         // get and skip the ditm
@@ -238,7 +238,7 @@ LFail:
 /***************************************************************************
     Windows dialog proc.
 ***************************************************************************/
-BOOL CALLBACK _FDlgCore(HWND hdlg, UINT msg, WPARAM w, LPARAM lw)
+INT_PTR CALLBACK _FDlgCore(HWND hdlg, UINT msg, WPARAM w, LPARAM lw)
 {
     PDLG pdlg;
     DIT dit;
@@ -272,7 +272,7 @@ BOOL CALLBACK _FDlgCore(HWND hdlg, UINT msg, WPARAM w, LPARAM lw)
             goto LFail;
 
         // create a timer so we can do idle processing
-        if (SetTimer(hdlg, (uint)hdlg, 10, pvNil) == 0)
+        if (SetTimer(hdlg, (UINT_PTR)hdlg, 10, pvNil) == 0)
             goto LFail;
 
         // create a container gob and attach the hdlg
@@ -361,7 +361,7 @@ BOOL CALLBACK _FDlgCore(HWND hdlg, UINT msg, WPARAM w, LPARAM lw)
 
             // remove the pdlg property and kill the timer
             RemoveProp(hdlg, _szDlgProp);
-            KillTimer(hdlg, (uint)hdlg);
+            KillTimer(hdlg, (UINT_PTR)hdlg);
 
             EndDialog(hdlg, idit);
             return fTrue;
@@ -384,7 +384,7 @@ long DLG::IditDo(long iditFocus)
 
     dlgi.pdlg = this;
     dlgi.iditFocus = iditFocus;
-    idit = DialogBoxParam(vwig.hinst, MIR(_rid), vwig.hwndApp, &_FDlgCore, (long)&dlgi);
+    idit = DialogBoxParam(vwig.hinst, MIR(_rid), vwig.hwndApp, &_FDlgCore, (LPARAM)&dlgi);
 
     return idit;
 }

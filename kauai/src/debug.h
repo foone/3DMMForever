@@ -19,7 +19,7 @@
 #ifdef WIN
 inline void Debugger(void)
 {
-    __asm { int 3 }
+    DebugBreak();
 }
 #endif // WIN
 

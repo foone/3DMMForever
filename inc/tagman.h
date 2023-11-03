@@ -44,6 +44,10 @@ const long ksidInvalid = -1; // negative SIDs imply an invalid TAG
 const long sidNil = 0;
 const long ksidUseCrf = 0; // chunk is in ptag->pcrf
 
+PCRF RefToPcrf(ulong ref);
+ulong PcrfToRef(PCRF pcrf);
+void ReleasePpoPcrfRef(ulong* ref);
+
 typedef struct TAG *PTAG;
 struct TAG
 {
@@ -54,7 +58,8 @@ struct TAG
 #endif // DEBUG
 
     long sid;  // Source ID (or ksidUseCrf)
-    PCRF pcrf; // File to look in for this chunk if sid is ksidUseCrf
+    //PCRF pcrf; // File to look in for this chunk if sid is ksidUseCrf
+    ulong pcrfRef; // An 8-byte pointer cannot be stored here, so use a ulong reference instead.
     CTG ctg;   // CTG of chunk
     CNO cno;   // CNO of chunk
 };

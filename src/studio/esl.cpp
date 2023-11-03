@@ -485,7 +485,7 @@ bool ESLT::FCmdSetFont(PCMD pcmd)
     TAG tagTdfNew;
 
     tagTdfNew.sid = pcmd->rglw[1];
-    tagTdfNew.pcrf = pvNil;
+    tagTdfNew.pcrfRef = pvNil;
     tagTdfNew.ctg = kctgTdf;
     tagTdfNew.cno = pcmd->rglw[0];
 
@@ -530,7 +530,7 @@ bool ESLT::FCmdSetColor(PCMD pcmd)
     TAG tagTdfNew;
 
     tagTdfNew.sid = pcmd->rglw[1];
-    tagTdfNew.pcrf = pvNil;
+    tagTdfNew.pcrfRef = pvNil;
     tagTdfNew.ctg = kctgMtrl;
     tagTdfNew.cno = pcmd->rglw[0];
 

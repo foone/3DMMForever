@@ -323,11 +323,11 @@ WORD wHaveMCI(LPSTR dwDeviceType)
     mciOpen.lpstrAlias = NULL;
 
     // mciErr =  mciSendCommand(0, MCI_OPEN, MCI_OPEN_TYPE | MCI_OPEN_TYPE_ID, (DWORD)(LPMCI_OPEN_PARMS)&mciOpen);
-    mciErr = mciSendCommand(0, MCI_OPEN, MCI_OPEN_TYPE, (DWORD)(LPMCI_OPEN_PARMS)&mciOpen);
+    mciErr = mciSendCommand(0, MCI_OPEN, MCI_OPEN_TYPE, (DWORD_PTR)(LPMCI_OPEN_PARMS)&mciOpen);
 
     if (MMSYSERR_NOERROR == mciErr)
     {
-        mciSendCommand(mciOpen.wDeviceID, MCI_CLOSE, 0, (DWORD)(LPMCI_OPEN_PARMS)&mciOpen);
+        mciSendCommand(mciOpen.wDeviceID, MCI_CLOSE, 0, (DWORD_PTR)(LPMCI_OPEN_PARMS)&mciOpen);
     }
 
 #ifdef _DEBUG

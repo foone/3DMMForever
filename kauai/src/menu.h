@@ -116,9 +116,9 @@ class MUB : public MUB_PAR
     virtual void EnqueueWcid(long wcid);
 #endif // WIN
 
-    virtual bool FAddListCid(long cid, long lw0, PSTN pstn);
-    virtual bool FRemoveListCid(long cid, long lw0, PSTN pstn = pvNil);
-    virtual bool FChangeListCid(long cid, long lwOld, PSTN pstnOld, long lwNew, PSTN pstnNew);
+    virtual bool FAddListCid(long cid, LONG_PTR lw0, PSTN pstn);
+    virtual bool FRemoveListCid(long cid, LONG_PTR lw0, PSTN pstn = pvNil);
+    virtual bool FChangeListCid(long cid, LONG_PTR lwOld, PSTN pstnOld, LONG_PTR lwNew, PSTN pstnNew);
     virtual bool FRemoveAllListCid(long cid);
 };
 

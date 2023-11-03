@@ -512,7 +512,7 @@ bool APPB::FEnableAppCmd(PCMD pcmd, ulong *pgrfeds)
         break;
 
     case cidChooseWnd:
-        if ((HWND)pcmd->rglw[0] == GOB::HwndMdiActive())
+        if ((HWND)pcmd->rglp[0] == GOB::HwndMdiActive())
             *pgrfeds |= fedsCheck;
         else
             *pgrfeds |= fedsUncheck;
@@ -536,7 +536,7 @@ bool APPB::FCmdChooseWnd(PCMD pcmd)
     AssertThis(0);
     AssertVarMem(pcmd);
 
-    GOB::MakeHwndActive((HWND)pcmd->rglw[0]);
+    GOB::MakeHwndActive((HWND)pcmd->rglp[0]);
     return fTrue;
 }
 

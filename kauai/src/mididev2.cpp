@@ -580,8 +580,8 @@ bool MSMIX::_FInit(void)
         return fFalse;
     _pglmsos->SetMinGrow(1);
 
-    if (pvNil == (_pmisi = WMS::PwmsNew(_MidiProc, (ulong)this)) &&
-        pvNil == (_pmisi = OMS::PomsNew(_MidiProc, (ulong)this)))
+    if (pvNil == (_pmisi = WMS::PwmsNew(_MidiProc, (ULONG_PTR)this)) &&
+        pvNil == (_pmisi = OMS::PomsNew(_MidiProc, (ULONG_PTR)this)))
     {
         return fFalse;
     }
@@ -867,7 +867,7 @@ void MSMIX::_SubmitBuffers(ulong tsCur)
 
         _cpvOut++;
         pvData = msos.pmdws->PvLockData(&cb);
-        if (_pmisi->FQueueBuffer(pvData, cb, cbSkip, msos.cactPlay, (ulong)msos.pmdws))
+        if (_pmisi->FQueueBuffer(pvData, cb, cbSkip, msos.cactPlay, (ULONG_PTR)msos.pmdws))
         {
             // it worked!
             _fPlaying = fTrue;
@@ -1066,7 +1066,7 @@ bool MSMIX::_FGetKeyEvents(PMDWS pmdws, ulong dtsSeek, long *pcbSkip)
 /***************************************************************************
     Call back from the midi stream stuff.
 ***************************************************************************/
-void MSMIX::_MidiProc(ulong luUser, void *pvData, ulong luData)
+void MSMIX::_MidiProc(ULONG_PTR luUser, void *pvData, ULONG_PTR luData)
 {
     PMSMIX pmsmix;
     PMDWS pmdws;
@@ -1222,7 +1222,7 @@ ulong MSMIX::_LuThread(void)
 /***************************************************************************
     Constructor for the MIDI stream interface.
 ***************************************************************************/
-MISI::MISI(PFNMIDI pfn, ulong luUser)
+MISI::MISI(PFNMIDI pfn, ULONG_PTR luUser)
 {
     AssertBaseThis(0);
     Assert(pvNil != pfn, 0);
@@ -1375,7 +1375,7 @@ bool MISI::FActivate(bool fActivate)
 /***************************************************************************
     Constructor for the Win95 Midi stream class.
 ***************************************************************************/
-WMS::WMS(PFNMIDI pfn, ulong luUser) : MISI(pfn, luUser)
+WMS::WMS(PFNMIDI pfn, ULONG_PTR luUser) : MISI(pfn, luUser)
 {
 }
 
@@ -1410,7 +1410,7 @@ WMS::~WMS(void)
 /***************************************************************************
     Create a new WMS.
 ***************************************************************************/
-PWMS WMS::PwmsNew(PFNMIDI pfn, ulong luUser)
+PWMS WMS::PwmsNew(PFNMIDI pfn, ULONG_PTR luUser)
 {
     PWMS pwms;
 
@@ -1553,7 +1553,7 @@ bool WMS::_FOpen(void)
     if (hNil != _hms)
         goto LDone;
 
-    if (MMSYSERR_NOERROR != (*_pfnOpen)(&_hms, &uT, 1, (ulong)_MidiProc, (ulong)this, CALLBACK_FUNCTION))
+    if (MMSYSERR_NOERROR != (*_pfnOpen)(&_hms, &uT, 1, (DWORD_PTR)_MidiProc, (DWORD_PTR)this, CALLBACK_FUNCTION))
     {
         goto LFail;
     }
@@ -1677,7 +1677,7 @@ void WMS::_ResetStream(void)
     This submits a buffer and restarts the midi stream. If the data is
     bigger than 64K, this (in conjunction with _Notify) deals with it.
 ***************************************************************************/
-bool WMS::FQueueBuffer(void *pvData, long cb, long ibStart, long cactPlay, ulong luData)
+bool WMS::FQueueBuffer(void *pvData, long cb, long ibStart, long cactPlay, ULONG_PTR luData)
 {
     AssertThis(0);
     AssertPvCb(pvData, cb);
@@ -1766,7 +1766,7 @@ long WMS::_CmhSubmitBuffers(void)
         cbMh = LwMin(pmsir->cb - pmsir->ibNext, kcbMaxWmsBuffer);
         pmh->dwBufferLength = cbMh;
         pmh->dwBytesRecorded = cbMh;
-        pmh->dwUser = (ulong)pmsir;
+        pmh->dwUser = (DWORD_PTR)pmsir;
         pmsir->ibNext += cbMh;
         pmsir->rgibLim[imh] = pmsir->ibNext;
 
@@ -1835,7 +1835,7 @@ void WMS::StopPlaying(void)
     to 0, this stops the midi stream. If the indicated sound is done,
     we notify the client.
 ***************************************************************************/
-void __stdcall WMS::_MidiProc(HMS hms, ulong msg, ulong luUser, ulong lu1, ulong lu2)
+void CALLBACK WMS::_MidiProc(HMS hms, UINT msg, DWORD_PTR luUser, DWORD_PTR lu1, DWORD_PTR lu2)
 {
     PWMS pwms;
     PMH pmh;
@@ -1991,7 +1991,7 @@ void WMS::_DoCallBacks()
 /***************************************************************************
     Constructor for our own midi stream api implementation.
 ***************************************************************************/
-OMS::OMS(PFNMIDI pfn, ulong luUser) : MISI(pfn, luUser)
+OMS::OMS(PFNMIDI pfn, ULONG_PTR luUser) : MISI(pfn, luUser)
 {
 }
 
@@ -2023,7 +2023,7 @@ OMS::~OMS(void)
 /***************************************************************************
     Create a new OMS.
 ***************************************************************************/
-POMS OMS::PomsNew(PFNMIDI pfn, ulong luUser)
+POMS OMS::PomsNew(PFNMIDI pfn, ULONG_PTR luUser)
 {
     POMS poms;
 
@@ -2165,7 +2165,7 @@ bool OMS::_FClose(void)
 /***************************************************************************
     Queue a buffer to the midi stream.
 ***************************************************************************/
-bool OMS::FQueueBuffer(void *pvData, long cb, long ibStart, long cactPlay, ulong luData)
+bool OMS::FQueueBuffer(void *pvData, long cb, long ibStart, long cactPlay, ULONG_PTR luData)
 {
     AssertThis(0);
     AssertPvCb(pvData, cb);

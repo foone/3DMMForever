@@ -38,8 +38,50 @@
     short names.
 
 ***************************************************************************/
+#include <map>
 #include "soc.h"
 ASSERTNAME
+
+ulong g_nextPcrfRef = 1; // FIXME: handle/prevent overflow and generally make this more robust
+// These two maps form a bidirectional map of refs and their corresponding PCRF's.
+static std::map<ulong, PCRF> g_refToPcrfMap;
+static std::map<PCRF, ulong> g_pcrfToRefMap;
+
+PCRF RefToPcrf(ulong ref)
+{
+    if (ref == 0)
+        return pvNil;
+    return g_refToPcrfMap[ref];
+}
+
+ulong PcrfToRef(PCRF pcrf)
+{
+    if (pcrf == pvNil)
+        return 0;
+    if (g_pcrfToRefMap.find(pcrf) == g_pcrfToRefMap.end())
+    {
+        g_pcrfToRefMap[pcrf] = g_nextPcrfRef;
+        ++g_nextPcrfRef;
+    }
+
+    return g_pcrfToRefMap[pcrf];
+}
+
+void ReleasePpoPcrfRef(ulong* ref)
+{
+    if (*ref != 0)
+    {
+        PCRF pcrf = g_refToPcrfMap[*ref];
+        if (pcrf->CactRef() <= 1)
+        {
+            // PCRF will be deleted, remove it from the bimap.
+            g_pcrfToRefMap.erase(pcrf);
+            g_refToPcrfMap.erase(*ref);
+        }
+        ReleasePpo(&pcrf);
+        *ref = 0;
+    }
+}
 
 RTCLASS(TAGM)
 
@@ -779,14 +821,14 @@ bool TAGM::FBuildChildTag(PTAG ptagPar, CHID chid, CTG ctgChild, PTAG ptagChild)
 
     if (ksidUseCrf == ptagPar->sid)
     {
-        AssertPo(ptagPar->pcrf, 0);
-        if (!ptagPar->pcrf->Pcfl()->FGetKidChidCtg(ptagPar->ctg, ptagPar->cno, chid, ctgChild, &kid))
+        AssertPo(RefToPcrf(ptagPar->pcrfRef), 0);
+        if (!RefToPcrf(ptagPar->pcrfRef)->Pcfl()->FGetKidChidCtg(ptagPar->ctg, ptagPar->cno, chid, ctgChild, &kid))
         {
             return fFalse; // child chunk not found
         }
         ptagChild->sid = ksidUseCrf;
-        ptagChild->pcrf = ptagPar->pcrf;
-        ptagPar->pcrf->AddRef();
+        ptagChild->pcrfRef = ptagPar->pcrfRef;
+        RefToPcrf(ptagPar->pcrfRef)->AddRef();
         ptagChild->ctg = kid.cki.ctg;
         ptagChild->cno = kid.cki.cno;
         return fTrue;
@@ -890,8 +932,8 @@ PBACO TAGM::PbacoFetch(PTAG ptag, PFNRPO pfnrpo, bool fUseCD)
     {
         // Tag knows pcrf, so just read from there.  Nothing we can do if
         // it's not there.
-        AssertPo(ptag->pcrf, 0);
-        return ptag->pcrf->PbacoFetch(ptag->ctg, ptag->cno, pfnrpo);
+        AssertPo(RefToPcrf(ptag->pcrfRef), 0);
+        return RefToPcrf(ptag->pcrfRef)->PbacoFetch(ptag->ctg, ptag->cno, pfnrpo);
     }
 
     // fTrue parameter ensures that _PcrmSourceGet won't hit the CD
@@ -990,12 +1032,12 @@ bool TAGM::FOpenTag(PTAG ptag, PCRF pcrfDest, PCFL pcflSrc)
     {
         if (!pcflSrc->FCopy(ptag->ctg, ptag->cno, pcrfDest->Pcfl(), &cnoDest))
         {
-            ptag->pcrf = pvNil;
+            ptag->pcrfRef = pvNil;
             return fFalse; // copy failed
         }
         ptag->cno = cnoDest;
     }
-    ptag->pcrf = pcrfDest;
+    ptag->pcrfRef = PcrfToRef(pcrfDest);
     pcrfDest->AddRef();
     return fTrue;
 }
@@ -1015,9 +1057,9 @@ bool TAGM::FSaveTag(PTAG ptag, PCRF pcrf, bool fRedirect)
     if (ptag->sid != ksidUseCrf)
         return fTrue;
 
-    AssertPo(ptag->pcrf, 0);
+    AssertPo(RefToPcrf(ptag->pcrfRef), 0);
 
-    if (!ptag->pcrf->Pcfl()->FCopy(ptag->ctg, ptag->cno, pcrf->Pcfl(), &cnoDest))
+    if (!RefToPcrf(ptag->pcrfRef)->Pcfl()->FCopy(ptag->ctg, ptag->cno, pcrf->Pcfl(), &cnoDest))
     {
         return fFalse; // copy failed
     }
@@ -1025,8 +1067,8 @@ bool TAGM::FSaveTag(PTAG ptag, PCRF pcrf, bool fRedirect)
     if (fRedirect)
     {
         pcrf->AddRef();
-        ReleasePpo(&ptag->pcrf);
-        ptag->pcrf = pcrf;
+        ReleasePpoPcrfRef(&ptag->pcrfRef);
+        ptag->pcrfRef = PcrfToRef(pcrf);
         ptag->cno = cnoDest;
     }
 
@@ -1044,8 +1086,8 @@ void TAGM::DupTag(PTAG ptag)
 
     if (ptag->sid == ksidUseCrf)
     {
-        AssertPo(ptag->pcrf, 0);
-        ptag->pcrf->AddRef();
+        AssertPo(RefToPcrf(ptag->pcrfRef), 0);
+        RefToPcrf(ptag->pcrfRef)->AddRef();
     }
 }
 
@@ -1061,8 +1103,8 @@ void TAGM::CloseTag(PTAG ptag)
 
     if (ptag->sid == ksidUseCrf)
     {
-        AssertPo(ptag->pcrf, 0);
-        ReleasePpo(&ptag->pcrf);
+        AssertPo(RefToPcrf(ptag->pcrfRef), 0);
+        ReleasePpoPcrfRef(&ptag->pcrfRef);
     }
 }
 
@@ -1091,9 +1133,9 @@ ulong TAGM::FcmpCompareTags(PTAG ptag1, PTAG ptag2)
     // If both sids are ksidUseCrf, compare CRFs
     if (ptag1->sid == ksidUseCrf) // implies ptag2->sid == ksidUseCrf
     {
-        if (ptag1->pcrf < ptag2->pcrf)
+        if (ptag1->pcrfRef < ptag2->pcrfRef)
             return fcmpLt;
-        if (ptag1->pcrf > ptag2->pcrf)
+        if (ptag1->pcrfRef > ptag2->pcrfRef)
             return fcmpGt;
     }
     return fcmpEq;
@@ -1151,8 +1193,8 @@ void TAG::MarkMem(void)
 {
     if (sid == ksidUseCrf)
     {
-        AssertPo(pcrf, 0);
-        MarkMemObj(pcrf);
+        AssertPo(RefToPcrf(pcrfRef), 0);
+        MarkMemObj(RefToPcrf(pcrfRef));
     }
 }
 #endif // DEBUG

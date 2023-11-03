@@ -1568,7 +1568,7 @@ bool APP::_FReadTitlesFromReg(PGST *ppgst)
     {
         Warn("Missing InstallDirectory registry entry or registry error");
         _FGenericError("Missing InstallDirectory registry entry or registry error");
-        goto LFail;
+        goto LFallback;
     }
 
     for (iValue = 0; RegEnumValue(hkey, iValue, szSid, &cchSid, NULL, NULL, (unsigned char *)szTitle, &cchTitle) !=
@@ -1588,6 +1588,7 @@ bool APP::_FReadTitlesFromReg(PGST *ppgst)
         cchSid = kcchMaxSz;
     }
 
+LFallback:
     if (pgst->IvMac() == 0)
     {
         stnTitle.SetSz(PszLit("3D Movie Maker/3DMovie"));

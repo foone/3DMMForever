@@ -758,7 +758,7 @@ bool ACTR::FPaste(long nfrm, SCEN *pscen)
         {
             return fFalse;
         }
-        if (pcrf != _tagTmpl.pcrf)
+        if (pcrf != RefToPcrf(_tagTmpl.pcrfRef))
         {
             // Need to save this actor's tagTmpl in this movie because it came from another movie
 
@@ -839,7 +839,7 @@ bool ACTR::FPaste(long nfrm, SCEN *pscen)
         if (aevsnd.tag.sid != ksidUseCrf)
             continue;
         // Save tag (this may be a new movie)
-        if (!aevsnd.tag.pcrf->Pcfl()->FFind(aevsnd.tag.ctg, aevsnd.tag.cno))
+        if (!RefToPcrf(aevsnd.tag.pcrfRef)->Pcfl()->FFind(aevsnd.tag.ctg, aevsnd.tag.cno))
         {
             PushErc(ercSocNoSndOnPaste);
             _RemoveAev(iaev);

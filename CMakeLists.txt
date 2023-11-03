@@ -18,8 +18,10 @@ endif()
 include(CMakeDependentOption)
 include(TargetChompSources)
 
-find_package(AudioMan)
-find_package(BRender REQUIRED)
+if (CMAKE_SIZEOF_VOID_P EQUAL 4)
+  find_package(AudioMan)
+endif()
+# find_package(BRender REQUIRED)
 
 # Options
 option(BUILD_PACKAGES "Build packages for 3DMM" ON)
@@ -44,12 +46,18 @@ endif()
 # Local Tooling
 add_compile_definitions(
   $<$<PLATFORM_ID:Windows>:WIN>
-  $<$<PLATFORM_ID:Windows>:IN_80386>
   $<$<CONFIG:Debug>:DEBUG>
 )
 
-if (NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
-  message(FATAL_ERROR "Cannot compile for 64-bit yet")
+if (CMAKE_SIZEOF_VOID_P EQUAL 4)
+  add_compile_definitions(
+    $<$<PLATFORM_ID:Windows>:IN_80386>
+    # IN_80386 implies LITTLE_ENDIAN
+  )
+else()
+  add_compile_definitions(
+    LITTLE_ENDIAN
+  )
 endif()
 
 # NOTE: kcdc-386 and kcd2-386 prevent cross compiling at this time.
@@ -262,20 +270,115 @@ target_link_libraries(kauai
     $<$<PLATFORM_ID:Windows>:mpr>)
 
 add_library(brender)
-target_sources(brender
-    PRIVATE
-    "${PROJECT_SOURCE_DIR}/bren/bwld.cpp"
-    "${PROJECT_SOURCE_DIR}/bren/stderr.c"
-    "${PROJECT_SOURCE_DIR}/bren/stdfile.c"
-    "${PROJECT_SOURCE_DIR}/bren/stdmem.c"
-    "${PROJECT_SOURCE_DIR}/bren/tmap.cpp"
-    "${PROJECT_SOURCE_DIR}/bren/zbmp.cpp"
+target_sources(brender PRIVATE
+  "${PROJECT_SOURCE_DIR}/bren/bwld.cpp"
+  "${PROJECT_SOURCE_DIR}/bren/stderr.c"
+  "${PROJECT_SOURCE_DIR}/bren/stdfile.c"
+  "${PROJECT_SOURCE_DIR}/bren/stdmem.c"
+  "${PROJECT_SOURCE_DIR}/bren/tmap.cpp"
+  "${PROJECT_SOURCE_DIR}/bren/zbmp.cpp"
+    
+  "${PROJECT_SOURCE_DIR}/bren/FW/actsupt.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/angles.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/brlists.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/brqsort.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/bswap.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/custsupt.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/datafile.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/def_mdl.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/def_mat.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/diag.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/envmap.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/error.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/ffhooks.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/file.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/fileops.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/fixed.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/fontptrs.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/fwsetup.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/light8.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/light8o.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/light24.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/light24o.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/logprint.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/matrix23.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/matrix34.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/matrix4.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/mem.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/onscreen.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/pick.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/pixelmap.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/pmdsptch.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/pmgenops.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/pmmemops.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/pool.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/prelight.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/prepmatl.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/prepmesh.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/prepmap.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/preptab.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/quat.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/quantize.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/register.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/regsupt.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/resource.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/scalar.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/scale.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/scratch.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/scrstr.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/surface.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/transfrm.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/vector.c"
+  
+  "${PROJECT_SOURCE_DIR}/bren/FW/fixed_agnostic.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/blockops.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/font_f_3x5.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/font_p_4x6.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/font_p_7x9.c"
+  "${PROJECT_SOURCE_DIR}/bren/FW/memloops.c"
+
+	"${PROJECT_SOURCE_DIR}/bren/ZB/awtmz.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/bbox.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/decalz.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/dither.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/frcp.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/l_piz.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/p_piz.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/perspz.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/zbclip.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/zbmatl.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/zbmesh.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/zbmeshe.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/zbmeshp.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/zbrendr.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/zbsetup.c"
+
+	"${PROJECT_SOURCE_DIR}/bren/ZB/mesh_agnostic.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/safediv.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/t_piza.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/ti8_pizp.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/ti8_piz.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/tt15_piz.c"
+	"${PROJECT_SOURCE_DIR}/bren/ZB/tt24_piz.c"
 )
-target_include_directories(brender PUBLIC "${PROJECT_SOURCE_DIR}/BREN/INC")
-target_link_libraries(brender
-  PUBLIC
-    kauai
-    BRender::Libraries)
+target_include_directories(brender PUBLIC
+  "${PROJECT_SOURCE_DIR}/BREN/INC"
+  "${PROJECT_SOURCE_DIR}/bren/FW"
+)
+if (CMAKE_C_BYTE_ORDER MATCHES BIG_ENDIAN)
+	target_compile_definitions (brender PUBLIC "BR_ENDIAN_BIG=1")
+else()
+  target_compile_definitions (brender PUBLIC "BR_ENDIAN_BIG=0")
+endif()
+if (CMAKE_C_BYTE_ORDER MATCHES LITTLE_ENDIAN)
+  target_compile_definitions (brender PUBLIC "BR_ENDIAN_LITTLE=1")
+else()
+  target_compile_definitions (brender PUBLIC "BR_ENDIAN_LITTLE=0")
+endif ()
+target_link_libraries(brender PUBLIC
+  kauai
+  #BRender::Libraries
+)
 
 add_library(engine)
 target_sources(engine

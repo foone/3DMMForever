@@ -7201,7 +7201,7 @@ void ReleasePpsse(PSSE *ppsse)
 
     for (itagc = 0; itagc < psse->ctagc; itagc++)
     {
-        if (psse->Ptag(itagc)->pcrf != pvNil)
+        if (psse->Ptag(itagc)->pcrfRef != pvNil)
             TAGM::CloseTag(psse->Ptag(itagc));
     }
 
@@ -7234,14 +7234,14 @@ PSSE SSE::PsseDupFromGg(PGG pgg, long iv, bool fDupTags)
         {
             if (psse->Ptag(itagc)->sid == ksidUseCrf)
             {
-                AssertPo(psse->Ptag(itagc)->pcrf, 0);
+                AssertPo(RefToPcrf(psse->Ptag(itagc)->pcrfRef), 0);
                 TAGM::DupTag(psse->Ptag(itagc));
             }
         }
         else
         {
             // Clear the crf on read, since the caller isn't having us dupe the tag
-            psse->Ptag(itagc)->pcrf = pvNil;
+            psse->Ptag(itagc)->pcrfRef = pvNil;
         }
     }
 

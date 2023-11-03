@@ -19,7 +19,7 @@ bool FPortGetFniOpen(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, FNI *pfni
 bool FPortGetFniSave(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, LPTSTR lpstrDefExt, PSTN pstnDefFileName,
                      ulong grfPrevType, CNO cnoWave);
 
-UINT CALLBACK OpenHookProc(HWND hWnd, UINT msg, UINT wParam, LONG lParam);
+UINT_PTR CALLBACK OpenHookProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void OpenPreview(HWND hwnd, PGNV pgnvOff, RCS *prcsPreview);
 void RepaintPortfolio(HWND hwndCustom);
 
