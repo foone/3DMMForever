@@ -123,7 +123,7 @@ HWND GOB::_HwndNewMdi(PSTZ pstzTitle)
 
     hwnd = (HWND)NewCWindow(pvNil, &rcs, (byte *)pstzTitle, fTrue, documentProc, GrafPtr(-1), fTrue, 0);
     if (hNil != hwnd && pvNil != vpmubCur)
-        vpmubCur->FAddListCid(cidChooseWnd, (long)hwnd, pstzTitle);
+        vpmubCur->FAddListCid(cidChooseWnd, (LONG_PTR)hwnd, pstzTitle);
     return hwnd;
 }
 
@@ -133,7 +133,7 @@ HWND GOB::_HwndNewMdi(PSTZ pstzTitle)
 void GOB::_DestroyHwnd(HWND hwnd)
 {
     if (pvNil != vpmubCur)
-        vpmubCur->FRemoveListCid(cidChooseWnd, (long)hwnd);
+        vpmubCur->FRemoveListCid(cidChooseWnd, (LONG_PTR)hwnd);
     DisposeWindow((PPRT)hwnd);
 }
 
@@ -241,7 +241,7 @@ void GOB::SetHwndName(PSTZ pstz)
     }
     if (pvNil != vpmubCur)
     {
-        vpmubCur->FChangeListCid(cidChooseWnd, (long)_hwnd, pvNil, (long)_hwnd, pstz);
+        vpmubCur->FChangeListCid(cidChooseWnd, (LONG_PTR)_hwnd, pvNil, (LONG_PTR)_hwnd, pstz);
     }
     SetWTitle(&_hwnd->port, (byte *)pstz);
 }

@@ -548,14 +548,15 @@ void STN::GetSzs(PSZS pszs)
     following needs a number also.  So the above example would be
     "%<1>d %<0>d %<2>d %d", producing { 1, 0, 2, 3 }.
 
-    WARNING: all arguments should be 4 bytes long.
+    WARNING: all arguments should be sizeof(void*) bytes long.
 ***************************************************************************/
 bool STN::FFormat(PSTN pstnFormat, ...)
 {
     AssertThis(0);
     AssertPo(pstnFormat, 0);
 
-    return FFormatRgch(pstnFormat->Prgch(), pstnFormat->Cch(), (ulong *)(&pstnFormat + 1));
+    // FIXME: Use a standards-compliant way to pass params
+    return FFormatRgch(pstnFormat->Prgch(), pstnFormat->Cch(), (ULONG_PTR *)(&pstnFormat + 1));
 }
 
 /***************************************************************************
@@ -566,13 +567,14 @@ bool STN::FFormatSz(PSZ pszFormat, ...)
     AssertThis(0);
     AssertSz(pszFormat);
 
-    return FFormatRgch(pszFormat, CchSz(pszFormat), (ulong *)(&pszFormat + 1));
+    // FIXME: Use a standards-compliant way to pass params
+    return FFormatRgch(pszFormat, CchSz(pszFormat), (ULONG_PTR *)(&pszFormat + 1));
 }
 
 /***************************************************************************
     Core routine for sprintf functionality.
 ***************************************************************************/
-bool STN::FFormatRgch(achar *prgchFormat, long cchFormat, ulong *prgluData)
+bool STN::FFormatRgch(achar *prgchFormat, long cchFormat, ULONG_PTR *prgluData)
 {
     AssertThis(0);
     AssertIn(cchFormat, 0, kcchMaxStn + 1);
@@ -591,7 +593,8 @@ bool STN::FFormatRgch(achar *prgchFormat, long cchFormat, ulong *prgluData)
     long cch;
     long cchMin;
     long ivArg;
-    ulong lu, luRad;
+    ULONG_PTR lu;
+    ulong luRad;
     achar ch;
     achar rgchT[kcchMaxStn];
     achar *prgchTerm;
@@ -684,7 +687,7 @@ bool STN::FFormatRgch(achar *prgchFormat, long cchFormat, ulong *prgluData)
 
         // code after the switch assumes that prgchTerm points to the
         // characters to add to the stream and cch is the number of characters
-        AssertPvCb(prgluData, LwMul(ivArg + 1, size(ulong)));
+        AssertPvCb(prgluData, LwMul(ivArg + 1, size(ULONG_PTR)));
         lu = prgluData[ivArg++];
         prgchTerm = rgchT;
         switch (ch)

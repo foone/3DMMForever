@@ -372,7 +372,7 @@ GVDW::~GVDW(void)
         MCI_GENERIC_PARMS mci;
         PSNDV psndv;
 
-        mciSendCommand(_lwDevice, MCI_CLOSE, MCI_WAIT, (long)&mci);
+        mciSendCommand(_lwDevice, MCI_CLOSE, MCI_WAIT, (LONG_PTR)&mci);
         if (pvNil != vpsndm && pvNil != (psndv = vpsndm->PsndvFromCtg(kctgWave)))
         {
             psndv->Suspend(fFalse);
@@ -406,7 +406,7 @@ bool GVDW::_FInit(PFNI pfni, PGOB pgobBase)
     mciOpen.dwStyle = WS_CHILD | WS_CLIPSIBLINGS | WS_DISABLED;
     mciOpen.hWndParent = _pgobBase->HwndContainer();
     if (0 != mciSendCommand(0, MCI_OPEN, MCI_OPEN_TYPE | MCI_OPEN_ELEMENT | MCI_ANIM_OPEN_PARENT | MCI_ANIM_OPEN_WS,
-                            (long)&mciOpen))
+                            (LONG_PTR)&mciOpen))
     {
         goto LFail;
     }
@@ -422,7 +422,7 @@ bool GVDW::_FInit(PFNI pfni, PGOB pgobBase)
     // REVIEW shonk: mmsystem.h defines MCI_ANIM_STATUS_HWND as 0x00004003,
     // which doesn't give us the hwnd. 4001 does!
     mciStatus.dwItem = 0x00004001;
-    if (0 != mciSendCommand(_lwDevice, MCI_STATUS, MCI_STATUS_ITEM, (long)&mciStatus))
+    if (0 != mciSendCommand(_lwDevice, MCI_STATUS, MCI_STATUS_ITEM, (LONG_PTR)&mciStatus))
     {
         goto LFail;
     }
@@ -432,14 +432,14 @@ bool GVDW::_FInit(PFNI pfni, PGOB pgobBase)
     ClearPb(&mciStatus, size(mciStatus));
     mciStatus.dwItem = MCI_STATUS_LENGTH;
     mciStatus.dwTrack = 1;
-    if (0 != mciSendCommand(_lwDevice, MCI_STATUS, MCI_STATUS_ITEM, (long)&mciStatus))
+    if (0 != mciSendCommand(_lwDevice, MCI_STATUS, MCI_STATUS_ITEM, (LONG_PTR)&mciStatus))
     {
         goto LFail;
     }
     _nfrMac = mciStatus.dwReturn;
 
     // get the rectangle
-    if (0 != mciSendCommand(_lwDevice, MCI_WHERE, MCI_ANIM_WHERE_SOURCE, (long)&mciRect))
+    if (0 != mciSendCommand(_lwDevice, MCI_WHERE, MCI_ANIM_WHERE_SOURCE, (LONG_PTR)&mciRect))
     {
         goto LFail;
     }
@@ -487,7 +487,7 @@ long GVDW::NfrCur(void)
     ClearPb(&mciStatus, size(mciStatus));
     mciStatus.dwItem = MCI_STATUS_POSITION;
     mciStatus.dwTrack = 1;
-    if (0 != mciSendCommand(_lwDevice, MCI_STATUS, MCI_STATUS_ITEM, (long)&mciStatus))
+    if (0 != mciSendCommand(_lwDevice, MCI_STATUS, MCI_STATUS_ITEM, (LONG_PTR)&mciStatus))
     {
         Warn("getting position failed");
         return 0;
@@ -543,7 +543,7 @@ bool GVDW::FPlaying(void)
     ClearPb(&mciStatus, size(mciStatus));
     mciStatus.dwItem = MCI_STATUS_MODE;
     mciStatus.dwTrack = 1;
-    if (0 == mciSendCommand(_lwDevice, MCI_STATUS, MCI_STATUS_ITEM, (long)&mciStatus) &&
+    if (0 == mciSendCommand(_lwDevice, MCI_STATUS, MCI_STATUS_ITEM, (LONG_PTR)&mciStatus) &&
         (MCI_MODE_STOP == mciStatus.dwReturn || MCI_MODE_PAUSE == mciStatus.dwReturn))
     {
         _fPlaying = fFalse;
@@ -580,7 +580,7 @@ bool GVDW::FPlay(RC *prc)
 
     // start the movie playing
     ClearPb(&mciPlay, size(mciPlay));
-    if (0 != mciSendCommand(_lwDevice, MCI_PLAY, MCI_MCIAVI_PLAY_WINDOW, (long)&mciPlay))
+    if (0 != mciSendCommand(_lwDevice, MCI_PLAY, MCI_MCIAVI_PLAY_WINDOW, (LONG_PTR)&mciPlay))
     {
         return fFalse;
     }
@@ -623,7 +623,7 @@ void GVDW::Stop(void)
     MCI_GENERIC_PARMS mciPause;
 
     ClearPb(&mciPause, size(mciPause));
-    mciSendCommand(_lwDevice, MCI_PAUSE, 0, (long)&mciPause);
+    mciSendCommand(_lwDevice, MCI_PAUSE, 0, (LONG_PTR)&mciPause);
 #endif // WIN
 
 #ifdef MAC
@@ -666,7 +666,7 @@ void GVDW::_SetRc(void)
             // show the playback window
             ClearPb(&mciWindow, size(mciWindow));
             mciWindow.nCmdShow = SW_SHOW;
-            mciSendCommand(_lwDevice, MCI_WINDOW, MCI_ANIM_WINDOW_STATE, (long)&mciWindow);
+            mciSendCommand(_lwDevice, MCI_WINDOW, MCI_ANIM_WINDOW_STATE, (LONG_PTR)&mciWindow);
             _fVisible = fTrue;
         }
 #endif // WIN

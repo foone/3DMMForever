@@ -227,6 +227,7 @@ void *BASE::operator new(size_t cb)
         long *plw;
         long ilw;
 
+#ifdef IN_80386
         __asm { mov plw,ebp }
         for (ilw = 0; ilw < kclwStackDoi; ilw++)
         {
@@ -241,6 +242,12 @@ void *BASE::operator new(size_t cb)
                 plw = (long *)*plw;
             }
         }
+#else
+        for (ilw = 0; ilw < kclwStackDoi; ilw++)
+        {
+            pdoi->rglwStack[ilw] = 0;
+        }
+#endif // !IN_80386
 #endif // WIN
 
         // update statistics

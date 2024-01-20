@@ -235,7 +235,7 @@ LFail:
 PMODL MODL::PmodlFromBmdl(PBMDL pbmdl)
 {
     AssertVarMem(pbmdl);
-    PMODL pmodl = (PMODL) * (long *)pbmdl->identifier;
+    PMODL pmodl = (PMODL) * (PMODL *)pbmdl->identifier;
     AssertPo(pmodl, 0);
     return pmodl;
 }
@@ -422,7 +422,7 @@ void MODL::AssertValid(ulong grf)
 {
     MODL_PAR::AssertValid(fobjAllocated);
     AssertVarMem(_pbmdl);
-    Assert((PMODL) * (long *)_pbmdl->identifier == this, "Bad MODL identifier");
+    Assert((PMODL) * (PMODL *)_pbmdl->identifier == this, "Bad MODL identifier");
 }
 
 /***************************************************************************

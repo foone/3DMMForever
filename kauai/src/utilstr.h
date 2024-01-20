@@ -479,7 +479,7 @@ class STN
 
     bool FFormat(PSTN pstnFormat, ...);
     bool FFormatSz(PSZ pszFormat, ...);
-    bool FFormatRgch(achar *prgchFormat, long cchFormat, ulong *prgluData);
+    bool FFormatRgch(achar *prgchFormat, long cchFormat, ULONG_PTR *prgluData);
     bool FGetLw(long *plw, long lwBase = 0);
     bool FExpandControls(void);
 };

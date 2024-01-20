@@ -33,12 +33,12 @@ struct MH
     byte *lpData;
     DWORD dwBufferLength;
     DWORD dwBytesRecorded;
-    DWORD dwUser;
+    DWORD_PTR dwUser;
     DWORD dwFlags;
     MH *lpNext;
-    DWORD reserved;
+    DWORD_PTR reserved;
     DWORD dwOffset;
-    DWORD dwReserved[8];
+    DWORD_PTR dwReserved[4];
 };
 typedef MH *PMH;
 
@@ -171,10 +171,10 @@ class MSMIX : public MSMIX_PAR
     void _WaitForBuffers(void);
     void _SubmitBuffers(ulong tsCur);
 
-    static void _MidiProc(ulong luUser, void *pvData, ulong luData);
+    static void _MidiProc(ULONG_PTR luUser, void *pvData, ULONG_PTR luData);
     void _Notify(void *pvData, PMDWS pmdws);
 
-    static ulong __stdcall _ThreadProc(void *pv);
+    static DWORD WINAPI _ThreadProc(void *pv);
     ulong _LuThread(void);
 
   public:
@@ -202,7 +202,7 @@ class MSMIX : public MSMIX_PAR
 /***************************************************************************
     The midi stream interface.
 ***************************************************************************/
-typedef void (*PFNMIDI)(ulong luUser, void *pvData, ulong luData);
+typedef void (*PFNMIDI)(ULONG_PTR luUser, void *pvData, ULONG_PTR luData);
 
 typedef class MISI *PMISI;
 #define MISI_PAR BASE
@@ -212,9 +212,9 @@ class MISI : public MISI_PAR
     RTCLASS_DEC
 
   protected:
-    HMS _hms;         // the midi stream handle
-    PFNMIDI _pfnCall; // call back function
-    ulong _luUser;    // user data to send back
+    HMS _hms;          // the midi stream handle
+    PFNMIDI _pfnCall;  // call back function
+    ULONG_PTR _luUser; // user data to send back
 
     // system volume level - to be saved and restored. The volume we set
     // is always relative to this
@@ -222,7 +222,7 @@ class MISI : public MISI_PAR
     ulong _luVolSys;
     long _vlmBase; // our current volume relative to _luVolSys.
 
-    MISI(PFNMIDI pfn, ulong luUser);
+    MISI(PFNMIDI pfn, ULONG_PTR luUser);
 
     virtual bool _FOpen(void) = 0;
     virtual bool _FClose(void) = 0;
@@ -239,7 +239,7 @@ class MISI : public MISI_PAR
     virtual bool FActive(void);
     virtual bool FActivate(bool fActivate);
 
-    virtual bool FQueueBuffer(void *pvData, long cb, long ibStart, long cactPlay, ulong luData) = 0;
+    virtual bool FQueueBuffer(void *pvData, long cb, long ibStart, long cactPlay, ULONG_PTR luData) = 0;
     virtual void StopPlaying(void) = 0;
 };
 
@@ -273,7 +273,7 @@ class WMS : public WMS_PAR
         void *pvData;
         long cb;
         long cactPlay;
-        ulong luData;
+        ULONG_PTR luData;
         long ibNext;
 
         MH rgmh[kcmhMsir];
@@ -296,7 +296,7 @@ class WMS : public WMS_PAR
     bool _fDone : 1; // tells the aux thread to terminate
 
     MMRESULT(WINAPI *_pfnOpen)
-    (HMS *phms, LPUINT puDeviceID, DWORD cMidi, DWORD dwCallback, DWORD dwInstance, DWORD fdwOpen);
+    (HMS *phms, LPUINT puDeviceID, DWORD cMidi, DWORD_PTR dwCallback, DWORD_PTR dwInstance, DWORD fdwOpen);
     MMRESULT(WINAPI *_pfnClose)(HMS hms);
     MMRESULT(WINAPI *_pfnProperty)(HMS hms, LPBYTE lpb, DWORD dwProperty);
     MMRESULT(WINAPI *_pfnPosition)(HMS hms, LPMMTIME lpmmt, UINT cbmmt);
@@ -305,7 +305,7 @@ class WMS : public WMS_PAR
     MMRESULT(WINAPI *_pfnRestart)(HMS hms);
     MMRESULT(WINAPI *_pfnStop)(HMS hms);
 
-    WMS(PFNMIDI pfn, ulong luUser);
+    WMS(PFNMIDI pfn, ULONG_PTR luUser);
     bool _FInit(void);
 
     virtual bool _FOpen(void);
@@ -316,14 +316,14 @@ class WMS : public WMS_PAR
     long _CmhSubmitBuffers(void);
     void _ResetStream(void);
 
-    static void __stdcall _MidiProc(HMS hms, ulong msg, ulong luUser, ulong lu1, ulong lu2);
+    static void CALLBACK _MidiProc(HMS hms, ulong msg, DWORD_PTR luUser, DWORD_PTR lu1, DWORD_PTR lu2);
     void _Notify(HMS hms, PMH pmh);
 
-    static ulong __stdcall _ThreadProc(void *pv);
+    static DWORD WINAPI _ThreadProc(void *pv);
     ulong _LuThread(void);
 
   public:
-    static PWMS PwmsNew(PFNMIDI pfn, ulong luUser);
+    static PWMS PwmsNew(PFNMIDI pfn, ULONG_PTR luUser);
     ~WMS(void);
 
 #ifdef STREAM_BUG
@@ -331,7 +331,7 @@ class WMS : public WMS_PAR
     virtual bool FActivate(bool fActivate);
 #endif // STREAM_BUG
 
-    virtual bool FQueueBuffer(void *pvData, long cb, long ibStart, long cactPlay, ulong luData);
+    virtual bool FQueueBuffer(void *pvData, long cb, long ibStart, long cactPlay, ULONG_PTR luData);
     virtual void StopPlaying(void);
 };
 
@@ -355,7 +355,7 @@ class OMS : public OMS_PAR
         long ibStart;
         long cactPlay;
 
-        ulong luData;
+        ULONG_PTR luData;
     };
 
     MUTX _mutx;
@@ -372,21 +372,21 @@ class OMS : public OMS_PAR
     PMEV _pmevLim;
     ulong _tsCur;
 
-    OMS(PFNMIDI pfn, ulong luUser);
+    OMS(PFNMIDI pfn, ULONG_PTR luUser);
     bool _FInit(void);
 
     virtual bool _FOpen(void);
     virtual bool _FClose(void);
 
-    static ulong __stdcall _ThreadProc(void *pv);
+    static DWORD WINAPI _ThreadProc(void *pv);
     ulong _LuThread(void);
     void _ReleaseBuffers(void);
 
   public:
-    static POMS PomsNew(PFNMIDI pfn, ulong luUser);
+    static POMS PomsNew(PFNMIDI pfn, ULONG_PTR luUser);
     ~OMS(void);
 
-    virtual bool FQueueBuffer(void *pvData, long cb, long ibStart, long cactPlay, ulong luData);
+    virtual bool FQueueBuffer(void *pvData, long cb, long ibStart, long cactPlay, ULONG_PTR luData);
     virtual void StopPlaying(void);
 };
 
