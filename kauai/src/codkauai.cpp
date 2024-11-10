@@ -844,6 +844,8 @@ bool KCDC::_FDecode2(void *pvSrc, long cbSrc, void *pvDst, long cbDst, long *pcb
     byte *pbLimDst = (byte *)pvDst + cbDst;
     register byte *pbSrc = (byte *)pvSrc + 1;
     byte *pbLimSrc = (byte *)pvSrc + cbSrc - kcbTailKcd2;
+    long cbitHi;
+    bool fAligned;
 
 #define _FTest(ibit) (luCur & (1L << (ibit)))
 #ifdef LITTLE_ENDIAN
@@ -865,7 +867,7 @@ bool KCDC::_FDecode2(void *pvSrc, long cbSrc, void *pvDst, long cbDst, long *pcb
                 goto LDone;
         }
 
-        cb = (1 << cbit) + ((luCur >> (cbit + 1)) & ((1 << cbit) - 1));
+        cb = ((1 << cbit) - 1) + ((luCur >> (ibit + cbit + 1)) & ((1 << cbit) - 1));
         ibit += cbit + cbit + 1;
         _Advance(ibit >> 3);
         ibit &= 0x07;
@@ -880,22 +882,38 @@ bool KCDC::_FDecode2(void *pvSrc, long cbSrc, void *pvDst, long cbDst, long *pcb
                 goto LFail;
 #endif // SAFETY
             ibit++;
-            bT = (byte) ~(luCur & ((1 << ibit) - 1));
-            if (cb > 1)
+
+            fAligned = (ibit == 8);
+            if (fAligned)
             {
-                CopyPb(pbSrc - 3, pbDst, cb - 1);
-                pbDst += cb - 1;
-                _Advance(cb);
+                // Aligned: copy an extra byte
+                cb++;
             }
             else
-                _Advance(1);
-            bT |= luCur & ((1 << ibit) - 1);
-            *pbDst++ = bT;
+            {
+                // Unaligned: the rest of the bits in the current src byte are the lower bits of the final dest byte
+                bT = ((luCur & ~((1 << ibit) - 1)) & 0xFF) >> ibit;
+                cbitHi = ibit;
+                ibit += (8 - ibit);
+            }
+
+            CopyPb(pbSrc - 3, pbDst, cb);
+            pbDst += cb;
+            _Advance(cb);
+
+            if (!fAligned)
+            {
+                // Unaligned: the next cbitHi bits are the upper bits of the final dest byte
+                byte bUpper = (byte)((luCur & ((1 << (ibit + cbitHi)) - 1)) >> ibit);
+                bT |= (bUpper << (8 - cbitHi));
+                *pbDst++ = bT;
+                ibit += cbitHi;
+            }
         }
         else
         {
             // get the offset
-            cb++;
+            cb += 2;
             if (!_FTest(ibit + 1))
             {
                 dib = ((luCur >> (ibit + 2)) & ((1 << kcbitKcd2_0) - 1)) + kdibMinKcd2_0;
@@ -913,7 +931,7 @@ bool KCDC::_FDecode2(void *pvSrc, long cbSrc, void *pvDst, long cbDst, long *pcb
             }
             else
             {
-                dib = (luCur >> (ibit + 4)) & ((1 << kcbitKcd2_3) - 1) + kdibMinKcd2_3;
+                dib = ((luCur >> (ibit + 4)) & ((1 << kcbitKcd2_3) - 1)) + kdibMinKcd2_3;
                 ibit += 4 + kcbitKcd2_3;
                 cb++;
             }
