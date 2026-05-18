@@ -5,7 +5,7 @@ out/
 .vs/
 dist/
 build/
-
+*.code-workspace
 
 # Files generated during build, so they're ignored to keep them out of git
 elib/wind/bren.lib
