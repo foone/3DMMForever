@@ -6,6 +6,8 @@ out/
 dist/
 build/
 *.code-workspace
+.vscode
+*.pdb
 
 # Files generated during build, so they're ignored to keep them out of git
 elib/wind/bren.lib
