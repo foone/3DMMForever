@@ -66,7 +66,7 @@ enum
 const long onnNil = -1;
 
 #ifdef WIN
-int CALLBACK _FEnumFont(LOGFONT *plgf, TEXTMETRIC *ptxm, ulong luType, LPARAM luParam);
+int CALLBACK _FEnumFont(const LOGFONT *plgf, const TEXTMETRIC *ptxm, ulong luType, LPARAM luParam);
 #endif // WIN
 
 #define NTL_PAR BASE
@@ -80,7 +80,7 @@ class NTL : public NTL_PAR
 
   private:
 #ifdef WIN
-    friend int CALLBACK _FEnumFont(LOGFONT *plgf, TEXTMETRIC *ptxm, ulong luType, LPARAM luParam);
+    friend int CALLBACK _FEnumFont(const LOGFONT *plgf, const TEXTMETRIC *ptxm, ulong luType, LPARAM luParam);
 #endif // WIN
     PGST _pgst;
     long _onnSystem;

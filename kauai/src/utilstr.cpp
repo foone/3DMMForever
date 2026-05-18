@@ -996,11 +996,11 @@ bool FValidStz(PSTZ pstz)
 /***************************************************************************
     Find the length of a zero terminated string.
 ***************************************************************************/
-long CchSz(PSZ psz)
+long CchSz(const achar* psz)
 {
     // WARNING: don't call AssertSz, since AssertSz calls CchSz!
     AssertVarMem(psz);
-    achar *pch;
+    const achar *pch;
 
     for (pch = psz; *pch != 0; pch++)
         ;
@@ -1028,7 +1028,7 @@ bool FEqualRgch(achar *prgch1, long cch1, achar *prgch2, long cch2)
     (non-user) sorting only!  The sorting is byte-order independent.
     fcmpLt means that string 1 is less than string 2.
 ***************************************************************************/
-ulong FcmpCompareRgch(achar *prgch1, long cch1, achar *prgch2, long cch2)
+ulong FcmpCompareRgch(const achar *prgch1, long cch1, const achar *prgch2, long cch2)
 {
     AssertIn(cch1, 0, kcbMax);
     AssertPvCb(prgch1, cch1 * size(achar));
@@ -1097,7 +1097,7 @@ bool FEqualUserRgch(achar *prgch1, long cch1, achar *prgch2, long cch2, ulong gr
 /***************************************************************************
     Do user level string comparison with the given options.
 ***************************************************************************/
-ulong FcmpCompareUserRgch(achar *prgch1, long cch1, achar *prgch2, long cch2, ulong grfstn)
+ulong FcmpCompareUserRgch(const achar *prgch1, long cch1, const achar *prgch2, long cch2, ulong grfstn)
 {
     AssertIn(cch1, 0, kcbMax);
     AssertPvCb(prgch1, cch1 * size(achar));

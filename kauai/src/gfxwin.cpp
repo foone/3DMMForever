@@ -1455,12 +1455,12 @@ void GPT::_SetStockBrush(int wType)
 void GPT::_SetTextProps(DSF *pdsf)
 {
     AssertPo(pdsf, 0);
-    static int _mptahw[] = {
+    const int _mptahw[] = {
         TA_LEFT,   // tahLeft
         TA_CENTER, // tahCenter
         TA_RIGHT   // tahRight
     };
-    static _mptavw[] = {
+    const int _mptavw[] = {
         TA_TOP,      // tavTop
         TA_TOP,      // tavCenter + code
         TA_BASELINE, // tavBaseline
@@ -1821,7 +1821,7 @@ bool NTL::FInit(void)
     -- Font enumuration callback.
     -- If font is TrueType, it is added to the GST.
 ***************************************************************************/
-int CALLBACK _FEnumFont(LOGFONT *plgf, TEXTMETRIC *ptxm, ulong luType, LPARAM luParam)
+int CALLBACK _FEnumFont(const LOGFONT *plgf, const TEXTMETRIC *ptxm, DWORD luType, LPARAM luParam)
 {
     long istz;
     PGST pgst = (PGST)luParam;
@@ -1829,10 +1829,10 @@ int CALLBACK _FEnumFont(LOGFONT *plgf, TEXTMETRIC *ptxm, ulong luType, LPARAM lu
 
     if (luType != TRUETYPE_FONTTYPE)
         return fTrue;
-
-    AssertDo(!pgst->FFindRgch(plgf->lfFaceName, CchSz(plgf->lfFaceName), &istz, fgstUserSorted),
+    const char * facename = plgf->lfFaceName;
+    AssertDo(!pgst->FFindRgch(facename, CchSz(plgf->lfFaceName), &istz, fgstUserSorted),
              "font already in list!");
-    return pgst->FInsertRgch(istz, plgf->lfFaceName, CchSz(plgf->lfFaceName), plgf);
+    return pgst->FInsertRgch(istz, facename, CchSz(plgf->lfFaceName), (void*)plgf);
 }
 
 /***************************************************************************

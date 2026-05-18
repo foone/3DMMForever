@@ -413,7 +413,7 @@ class GSTB : public GSTB_PAR
     }
     PST _Qst(long ibst);
     void _RemoveSt(long bst);
-    void _AppendRgch(achar *prgch, long cch);
+    void _AppendRgch(const achar *prgch, long cch);
     void _SwapBytesRgbst(void);
     void _TranslateGrst(short osk, bool fToCur);
     bool _FTranslateGrst(short osk);
@@ -430,8 +430,8 @@ class GSTB : public GSTB_PAR
     bool FEnsureSpace(long cstnAdd, long cchAdd, ulong grfgrp = fgrpNil);
     void SetMinGrow(long cstnAdd, long cchAdd);
 
-    virtual bool FAddRgch(achar *prgch, long cch, void *pvExtra = pvNil, long *pistn = pvNil) = 0;
-    virtual bool FFindRgch(achar *prgch, long cch, long *pistn, ulong grfgst = fgstNil);
+    virtual bool FAddRgch(const achar *prgch, long cch, void *pvExtra = pvNil, long *pistn = pvNil) = 0;
+    virtual bool FFindRgch(const achar *prgch, long cch, long *pistn, ulong grfgst = fgstNil);
 
     long IstnMac(void)
     {
@@ -479,12 +479,12 @@ class GST : public GST_PAR
     PGST PgstDup(void);
 
     // methods required by parent class
-    virtual bool FAddRgch(achar *prgch, long cch, void *pvExtra = pvNil, long *pistn = pvNil);
-    virtual bool FFindRgch(achar *prgch, long cch, long *pistn, ulong grfgst = fgstNil);
+    virtual bool FAddRgch(const achar *prgch, long cch, void *pvExtra = pvNil, long *pistn = pvNil);
+    virtual bool FFindRgch(const achar *prgch, long cch, long *pistn, ulong grfgst = fgstNil);
     virtual void Delete(long istn);
 
     // new methods
-    bool FInsertRgch(long istn, achar *prgch, long cch, void *pvExtra = pvNil);
+    bool FInsertRgch(long istn, const achar *prgch, long cch, void *pvExtra = pvNil);
     bool FInsertStn(long istn, PSTN pstn, void *pvExtra = pvNil);
     void Move(long istnSrc, long istnDst);
 };
@@ -514,7 +514,7 @@ class AST : public AST_PAR
     PAST PastDup(void);
 
     // methods required by parent class
-    virtual bool FAddRgch(achar *prgch, long cch, void *pvExtra = pvNil, long *pistn = pvNil);
+    virtual bool FAddRgch(const achar *prgch, long cch, void *pvExtra = pvNil, long *pistn = pvNil);
     virtual void Delete(long istn);
 };
 

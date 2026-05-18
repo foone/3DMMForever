@@ -360,7 +360,7 @@ bool GSTB::FFindStn(PSTN pstn, long *pistn, ulong grfgst)
     search.  GST overrides this to do a binary search if fgstSorted is
     passed in grfgst.
 ***************************************************************************/
-bool GSTB::FFindRgch(achar *prgch, long cch, long *pistn, ulong grfgst)
+bool GSTB::FFindRgch(const achar *prgch, long cch, long *pistn, ulong grfgst)
 {
     AssertThis(0);
     AssertIn(cch, 0, kcchMaxGst + 1);
@@ -481,7 +481,7 @@ achar *GSTB::_Qst(long ibst)
     Private api to append the string.  It's assumed that the first block
     is already big enough to accomodate the string.
 ***************************************************************************/
-void GSTB::_AppendRgch(achar *prgch, long cch)
+void GSTB::_AppendRgch(const achar *prgch, long cch)
 {
     AssertIn(cch, 0, kcchMaxGst + 1);
     AssertPvCb(prgch, cch * size(achar));
@@ -491,7 +491,7 @@ void GSTB::_AppendRgch(achar *prgch, long cch)
     Assert(_Cb1() >= _bstMac + (cch + 1) * size(achar), "first block not big enough");
     qch = (achar *)_Qb1(_bstMac);
     *qch++ = (achar)cch;
-    CopyPb(prgch, qch, cch * size(achar));
+    CopyPb((const void*)prgch, qch, cch * size(achar));
     _bstMac += (cch + 1) * size(achar);
 }
 
@@ -781,7 +781,7 @@ PGST GST::PgstDup(void)
 /***************************************************************************
     Append a string to the string table.
 ***************************************************************************/
-bool GST::FAddRgch(achar *prgch, long cch, void *pvExtra, long *pistn)
+bool GST::FAddRgch(const achar *prgch, long cch, void *pvExtra, long *pistn)
 {
     AssertThis(0);
     AssertIn(cch, 0, kcchMaxGst + 1);
@@ -805,7 +805,7 @@ bool GST::FAddRgch(achar *prgch, long cch, void *pvExtra, long *pistn)
     is passed in, this does a binary search for the string; otherwise it
     does a linear search.
 ***************************************************************************/
-bool GST::FFindRgch(achar *prgch, long cch, long *pistn, ulong grfgst)
+bool GST::FFindRgch(const achar *prgch, long cch, long *pistn, ulong grfgst)
 {
     AssertThis(0);
     AssertIn(cch, 0, kcchMaxGst);
@@ -848,7 +848,7 @@ bool GST::FFindRgch(achar *prgch, long cch, long *pistn, ulong grfgst)
 /***************************************************************************
     Insert a new entry into the string text.
 ***************************************************************************/
-bool GST::FInsertRgch(long istn, achar *prgch, long cch, void *pvExtra)
+bool GST::FInsertRgch(long istn, const achar *prgch, long cch, void *pvExtra)
 {
     AssertThis(fobjAssertFull);
     AssertIn(istn, 0, _ivMac + 1);
@@ -1027,7 +1027,7 @@ PAST AST::PastDup(void)
 /***************************************************************************
     Append a string to the allocated string table.
 ***************************************************************************/
-bool AST::FAddRgch(achar *prgch, long cch, void *pvExtra, long *pistn)
+bool AST::FAddRgch(const achar *prgch, long cch, void *pvExtra, long *pistn)
 {
     AssertThis(fobjAssertFull);
     AssertIn(cch, 0, kcchMaxGst + 1);

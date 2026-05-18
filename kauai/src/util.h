@@ -38,8 +38,6 @@
 
 #elif defined(WIN)
 
-#define CONST // so we don't have to use const everywhere that Windows wants it
-
 #ifdef UNICODE
 #define _UNICODE
 #endif // UNICODE

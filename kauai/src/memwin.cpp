@@ -206,7 +206,7 @@ void MarkHq(HQ hq)
     Make sure we can access a pointer's memory.  If cb is 0, pv can be
     anything (including nil).
 ***************************************************************************/
-void AssertPvCb(void *pv, long cb)
+void AssertPvCb(const void *pv, long cb)
 {
     if (vcactSuspendCheckPointers == 0 && cb != 0)
     {

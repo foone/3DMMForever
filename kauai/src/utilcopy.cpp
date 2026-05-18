@@ -382,111 +382,24 @@ void MoveElement(void *prgv, long cbElement, long ivSrc, long ivTarget)
 /***************************************************************************
     Check for equality of two blocks.
 ***************************************************************************/
-bool FEqualRgb(void *pv1, void *pv2, long cb)
+bool FEqualRgb(const void *pv1, const void *pv2, long cb)
 {
     AssertIn(cb, 0, kcbMax);
     AssertPvCb(pv1, cb);
     AssertPvCb(pv2, cb);
-
-#ifdef IN_80386
-
-    tribool fRet;
-
-    __asm {
-        // edi -> memory to compare, first pointer
-        // esi -> memory to compare, second pointer
-
-		xor		eax,eax // assume false return
-		mov		edi,pv1
-		mov		esi,pv2
-
-            // compare longs
-		mov		ecx,cb // (ecx) = length in bytes
-		shr		ecx,2 // (ecx) = length in longs
-		repe	cmpsd // compare longs
-		jnz		LDone // mismatch, go report
-
-                // compare extra bytes
-		mov		ecx,cb
-		and		ecx,3 // (ecx) = length mod 4
-		repe	cmpsb // compare odd bytes
-		jnz		LDone // mismatch, go report
-
-		inc		eax // successful compare
-
-LDone:
-		mov		fRet,eax
-    }
-
-    return fRet;
-
-#else //! IN_80386
-
-    byte *pb1 = (byte *)pv1;
-    byte *pb2 = (byte *)pv2;
-
-    while (cb != 0 && *pb1++ == *pb2++)
-        cb--;
-    return cb == 0;
-
-#endif //! IN_80386
+    return memcmp(pv1, pv2, cb) == 0;
 }
 
 /***************************************************************************
     Compare the two buffers byte for byte and return a the number of bytes
     that match.
 ***************************************************************************/
-long CbEqualRgb(void *pv1, void *pv2, long cb)
+long CbEqualRgb(const void *pv1, const void *pv2, long cb)
 {
     AssertIn(cb, 0, kcbMax);
     AssertPvCb(pv1, cb);
     AssertPvCb(pv2, cb);
 
-#ifdef IN_80386
-
-    byte *pb;
-
-    __asm {
-        // edi -> memory to swap, first pointer
-        // esi -> memory to swap, second pointer
-
-		mov		edi,pv1
-		mov		esi,pv2
-
-            // compare extra bytes.
-		mov		ecx,cb
-		and		ecx,3 // (ecx) = length mod 4
-		repe	cmpsb // compare odd bytes
-		jnz		LMiss // mismatch, go report how far we got
-
-                // compare longs
-		mov		ecx,cb // (ecx) = length in bytes
-		shr		ecx,2 // (ecx) = length in longs
-		repe	cmpsd // compare longs
-		jz		LHit // matched all the way
-
-                // esi (and edi) points to the long after the one which caused the
-                // mismatch. Back up 1 long and find the byte. Since we know the
-                // long didn't match, we can assume one of the bytes won't.
-		sub		esi,4 // back up
-		sub		edi,4 // back up
-		mov		ecx,5 // ensure that ecx doesn't count out
-		repe	cmpsb // find mismatch byte
-
-            // esi points to the byte after the one that did not match.
-LMiss:
-		dec		esi
-		dec		edi
-		mov		pb,edi
-    }
-
-    return pb - (byte *)pv1;
-
-LHit:
-    // We matched all the way to the end.
-    return cb;
-
-#else //! IN_80386
 
     byte *pb1 = (byte *)pv1;
     byte *pb2 = (byte *)pv2;
@@ -495,7 +408,6 @@ LHit:
         ;
     return pb1 - (byte *)pv1;
 
-#endif //! IN_80386
 }
 
 /***************************************************************************
@@ -520,44 +432,15 @@ ulong FcmpCompareRgb(void *pv1, void *pv2, long cb)
 /***************************************************************************
     Copy data without overlap.
 ****************************************************************************/
-void CopyPb(void *pv1, void *pv2, long cb)
+void CopyPb(const void *pv1, void *pv2, long cb)
 {
     AssertIn(cb, 0, kcbMax);
     AssertPvCb(pv1, cb);
     AssertPvCb(pv2, cb);
     Assert((byte *)pv1 + cb <= (byte *)pv2 || (byte *)pv2 + cb <= (byte *)pv1, "blocks overlap");
 
-#ifdef IN_80386
+    memcpy(pv2,pv1,cb);
 
-    __asm
-        {// Setup the registers for using REP MOVS instruction to move memory.
-         //
-         // esi -> memory to move
-         // edi -> destination of move
-         // direction flag is clear for auto-increment
-		mov		esi,pv1
-		mov		edi,pv2
-
-             // move the longs
-		mov		ecx,cb
-		shr		ecx,2
-		rep		movsd
-
-             // move the extra bytes
-		mov		ecx,cb
-		and		ecx,3
-		rep		movsb
-        }
-
-#else //! IN_80386
-
-    byte *pb1 = (byte *)pv1;
-    byte *pb2 = (byte *)pv2;
-
-    while (cb-- != 0)
-        *pb2++ = *pb1++;
-
-#endif //! IN_80386
 }
 
 /***************************************************************************

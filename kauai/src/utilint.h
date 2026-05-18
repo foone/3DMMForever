@@ -51,8 +51,8 @@ const ulong kgrfcmpNe = (fcmpGt | fcmpLt);
     Memory access asserts
 ****************************************/
 #ifdef DEBUG
-void AssertPvCb(void *pv, long cb);
-inline void AssertNilOrPvCb(void *pv, long cb)
+void AssertPvCb(const void *pv, long cb);
+inline void AssertNilOrPvCb(const void *pv, long cb)
 {
     if (pv != pvNil)
         AssertPvCb(pv, cb);

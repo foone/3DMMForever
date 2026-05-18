@@ -141,7 +141,7 @@ bool FValidSt(PST pst);
     bytes) and CchTot means the total number of characters including
     overhead.
 ***************************************************************************/
-long CchSz(PSZ psz);
+long CchSz(const achar* psz);
 inline long CchTotSz(PSZ psz)
 {
     return CchSz(psz) + kcchExtraSz;
@@ -183,13 +183,13 @@ inline PSZ PszStz(PSTZ pstz)
     be used only for internal sorting (for binary search etc).
 ***************************************************************************/
 bool FEqualRgch(achar *prgch1, long cch1, achar *prgch2, long cch2);
-ulong FcmpCompareRgch(achar *prgch1, long cch1, achar *prgch2, long cch2);
+ulong FcmpCompareRgch(const achar *prgch1, long cch1, const achar *prgch2, long cch2);
 
 /***************************************************************************
     User level (case insensitive, locale aware) comparison and sorting.
 ***************************************************************************/
 bool FEqualUserRgch(achar *prgch1, long cch1, achar *prgch2, long cch2, ulong grfstn = fstnIgnoreCase);
-ulong FcmpCompareUserRgch(achar *prgch1, long cch1, achar *prgch2, long cch2, ulong grfstn = fstnIgnoreCase);
+ulong FcmpCompareUserRgch(const achar *prgch1, long cch1, const achar *prgch2, long cch2, ulong grfstn = fstnIgnoreCase);
 
 /***************************************************************************
     Upper and lower case utilies
