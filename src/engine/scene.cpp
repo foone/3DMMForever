@@ -1078,6 +1078,9 @@ void SCEN::_DoPrerenderingWork(bool fStartNow)
 {
     AssertThis(0);
 
+    // HACK: Hacked out for simplicity during export. These days we're fast enough to render everything - Alice Averlong
+    return; 
+
     long isev;
     SEV sev;
     long nfrmNextChange;
