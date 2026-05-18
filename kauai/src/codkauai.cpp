@@ -541,7 +541,7 @@ bool KCDC::_FDecode(void *pvSrc, long cbSrc, void *pvDst, long cbDst, long *pcbD
                     goto LFail;
             }
 
-            cb += (1 << cbit) + ((luCur >> (cbit + 1)) & ((1 << cbit) - 1));
+            cb += (1 << cbit) + ((luCur >> (ibit + cbit + 1)) & ((1 << cbit) - 1));
             ibit += cbit + cbit + 1;
 
 #ifdef SAFETY
@@ -834,6 +834,7 @@ bool KCDC::_FDecode2(void *pvSrc, long cbSrc, void *pvDst, long cbDst, long *pcb
     return fTrue;
 
 #else //! IN_80386
+
 
     long cb, dib, ibit, cbit;
     register ulong luCur;
