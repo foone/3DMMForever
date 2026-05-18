@@ -3447,6 +3447,8 @@ bool APP::_FDisplaySwitchSupported(void)
 {
     AssertBaseThis(0);
 
+    return fFalse; // Temporary hack for debugging. TODO: handle this better! //AliceA
+
 #ifdef WIN
     DWORD dwVersion;
     byte bVersionMajor;
