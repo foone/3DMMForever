@@ -22,47 +22,8 @@ void FillPb(void *pv, long cb, byte b)
     AssertIn(cb, 0, kcbMax);
     AssertPvCb(pv, cb);
 
-#ifdef IN_80386
+    memset(pv,b,cb);
 
-    __asm {
-        // Setup the registers for using REP STOS instruction to set memory.
-        // NOTE: Alignment does not effect the speed of STOS.
-        //
-        // edi -> memory to set
-        // eax = value to store in destination
-        // direction flag is clear for auto-increment
-
-		mov		edi,pv
-		mov		al,b
-
-            // set the longs
-		mov		ecx,cb
-		shr		ecx,2
-		jz		LBytes
-
-		shl		eax,8
-		mov		al,b
-		mov		ebx,eax
-		shl		eax,16
-		mov		ax,bx
-
-		rep		stosd
-
-                // set the extra bytes
-LBytes:
-		mov		ecx,cb
-		and		ecx,3
-		rep		stosb
-    }
-
-#else //! IN_80386
-
-    byte *pb;
-
-    for (pb = (byte *)pv; cb != 0; cb--)
-        *pb++ = b;
-
-#endif //! IN_80386
 }
 
 /***************************************************************************
