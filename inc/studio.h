@@ -384,4 +384,6 @@ class SMCC : public SMCC_PAR
     virtual bool FQueryPurgeSounds(void);
 };
 
+bool CheckBooleanInINI(const char *key_name, bool default_value = true);
+
 #endif // STUDIO_H

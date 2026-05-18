@@ -174,6 +174,8 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
     FNI fniUserDoc;
     long fFirstTimeUser;
 
+    bool splashScreens = CheckBooleanInINI("splash",true);
+
     // Only allow one copy of 3DMM to run at a time:
     if (_FAppAlreadyRunning())
     {
@@ -286,12 +288,16 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
         goto LFail;
     }
 
-    if (!_FDisplayHomeLogo())
+    if (splashScreens)
     {
-        _FGenericError(PszLit("_FDisplayHomeLogo"));
-        _fDontReportInitFailure = fTrue;
-        goto LFail;
+        if (!_FDisplayHomeLogo())
+        {
+            _FGenericError(PszLit("_FDisplayHomeLogo"));
+            _fDontReportInitFailure = fTrue;
+            goto LFail;
+        }
     }
+
     tsHomeLogo = TsCurrent();
 
     if (!_FDetermineIfSlowCPU())
@@ -314,25 +320,27 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
         _fDontReportInitFailure = fTrue;
         goto LFail;
     }
-
-    while (TsCurrent() - tsHomeLogo < kdtsHomeLogo)
-        ; // spin until home logo has been up long enough
-
-    if (!_FShowSplashScreen())
+    if(splashScreens)
     {
-        _FGenericError(PszLit("_FShowSplashScreen"));
-        _fDontReportInitFailure = fTrue;
-        goto LFail;
-    }
-    tsSplashScreen = TsCurrent();
+        while (TsCurrent() - tsHomeLogo < kdtsHomeLogo){
+            Sleep(100); // sleep until home logo has been up long enough
+        }
 
-    if (!_FPlaySplashSound())
-    {
-        _FGenericError(PszLit("_FPlaySplashSound"));
-        _fDontReportInitFailure = fTrue;
-        goto LFail;
-    }
+        if (!_FShowSplashScreen())
+        {
+            _FGenericError(PszLit("_FShowSplashScreen"));
+            _fDontReportInitFailure = fTrue;
+            goto LFail;
+        }
+        tsSplashScreen = TsCurrent();
 
+        if (!_FPlaySplashSound())
+        {
+            _FGenericError(PszLit("_FPlaySplashSound"));
+            _fDontReportInitFailure = fTrue;
+            goto LFail;
+        }
+    }
     if (!_FGetUserName())
     {
         _FGenericError(PszLit("_FGetUserName"));
@@ -360,11 +368,13 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
         _fDontReportInitFailure = fTrue;
         goto LFail;
     }
-
-    while (TsCurrent() - tsSplashScreen < kdtsSplashScreen)
-        ;                   // spin until splash screen has been up long enough
-    Pkwa()->SetMbmp(pvNil); // bring down splash screen
-
+    if(splashScreens)
+    {
+        while (TsCurrent() - tsSplashScreen < kdtsSplashScreen){
+            Sleep(100); // sleep until splash screen has been up long enough
+        }
+        Pkwa()->SetMbmp(pvNil); // bring down splash screen
+    }
     // If the user specified a doc on the command line, go straight
     // to the studio.  Otherwise, start the building.
     GetPortfolioDoc(&fniUserDoc);
@@ -3440,6 +3450,14 @@ const PSZ kpszEnum = PszLit("EnumDisplaySettingsA");
 #define DISP_CHANGE_SUCCESSFUL 0
 #endif //! DISP_CHANGE_SUCCESSFUL
 
+bool CheckBooleanInINI(const char *key_name, bool default_value){
+    char buffer[255];
+    char defaultString[2]={(default_value?'1':'0'),0};
+
+    DWORD ret=GetPrivateProfileString("main",key_name,defaultString,buffer,sizeof(buffer),"C:\\Users\\Foone\\Documents\\Github\\3DMMForever\\build\\3dmm.ini");
+    return atoi(buffer)!=0;
+}
+
 /***************************************************************************
     Determine if display resolution switching is supported
 ***************************************************************************/
@@ -3447,7 +3465,9 @@ bool APP::_FDisplaySwitchSupported(void)
 {
     AssertBaseThis(0);
 
-    return fFalse; // Temporary hack for debugging. TODO: handle this better! //AliceA
+    if(CheckBooleanInINI("fullscreen",true) == false){
+        return fFalse; 
+    }
 
 #ifdef WIN
     DWORD dwVersion;
