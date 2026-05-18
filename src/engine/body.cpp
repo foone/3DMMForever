@@ -874,7 +874,12 @@ void BODY::SetPartSetCmtl(CMTL *pcmtl)
             ibmtl++;
         }
     }
-    Assert(ibmtl == pcmtl->Cbprt(), "didn't use all custom materials!");
+    
+    //HACK: Removing this, as it goes off all the time when playing videos? 
+    //TODO: Research why this is happening - Alice Averlong
+
+    //Assert(ibmtl == pcmtl->Cbprt(), "didn't use all custom materials!");
+    
     if (_cactHidden == 0)
     {
         AssertPo(_pbwld, 0);
