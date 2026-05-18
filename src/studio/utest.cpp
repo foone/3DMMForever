@@ -785,7 +785,7 @@ bool APP::_FEnsureDisplayResolution(void)
 
     PDLG pdlg;
     long idit;
-    bool fSwitchRes;
+    BOOL fSwitchRes;
     bool fNoValue;
     long tsResize;
 
