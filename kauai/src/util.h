@@ -17,10 +17,8 @@
 #define UTIL_H
 #include <stddef.h>
 
-// define the endian-ness
-#ifdef IN_80386
+// Assume everything is LE --Alice Averlong
 #define LITTLE_ENDIAN
-#endif // IN_80386
 
 #ifdef LITTLE_ENDIAN
 #define BigLittle(a, b) b
