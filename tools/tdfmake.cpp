@@ -26,7 +26,7 @@ ASSERTNAME
 
 const CTG kctgTdfMake = 'TDFM';
 
-bool FMakeTdf(PFNI pfniSrc, PCFL pcflDst);
+bool FMakeTdf(pFileName pfniSrc, PCFL pcflDst);
 
 /***************************************************************************
     Main routine.  Returns non-zero	if there's an error.
@@ -35,8 +35,8 @@ int __cdecl main(int cpsz, achar *prgpsz[])
 {
     STN stnDst;
     STN stnSrc;
-    FNI fniSrcDir;
-    FNI fniDst;
+    FileName fniSrcDir;
+    FileName fniDst;
     PCFL pcflDst;
     long ifniSrc;
 
@@ -101,14 +101,14 @@ LFail:
     Writes a TDF chunk and child BMDL chunks based on all DAT files in
     pfniSrcDir to the destination file pcflDst.
 ***************************************************************************/
-bool FMakeTdf(PFNI pfniSrcDir, PCFL pcflDst)
+bool FMakeTdf(pFileName pfniSrcDir, PCFL pcflDst)
 {
     AssertPo(pfniSrcDir, ffniDir);
     AssertPo(pcflDst, 0);
 
     FTG ftgDat = MacWin('bdat', 'DAT');
-    FNE fne;
-    FNI fni;
+    FileNameEnumerator fne;
+    FileName fni;
     STN stn;
     STN stn2;
     CHID chid;
@@ -140,7 +140,7 @@ bool FMakeTdf(PFNI pfniSrcDir, PCFL pcflDst)
         stn2 = stn;
     if (!fne.FInit(pfniSrcDir, &ftgDat, 1))
         goto LFail;
-    while (fne.FNextFni(&fni))
+    while (fne.FNextFileName(&fni))
     {
         fni.GetLeaf(&stn);
         psz = stn.Psz();

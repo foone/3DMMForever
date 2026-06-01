@@ -136,7 +136,7 @@ bool PIC::FWrite(PBLCK pblck)
 /***************************************************************************
     Static method to read the file as a native picture (EMF or WMF file).
 ***************************************************************************/
-PPIC PIC::PpicReadNative(FNI *pfni)
+PPIC PIC::PpicReadNative(FileName *pfni)
 {
     AssertPo(pfni, ffniFile);
     HPIC hpic;
@@ -199,7 +199,7 @@ typedef struct _MEFH
 /***************************************************************************
     Static method to read an old style WMF file.
 ***************************************************************************/
-HPIC PIC::_HpicReadWmf(FNI *pfni)
+HPIC PIC::_HpicReadWmf(FileName *pfni)
 {
     MEFH mefh;
     METAHEADER mh;

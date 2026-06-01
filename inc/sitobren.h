@@ -163,7 +163,7 @@ class S2BLX : public S2BLX_PAR
 
     virtual bool FGetTok(PTOK ptok);
     bool FGetS2btk(PS2BTK ps2btk);
-    void GetFni(PFNI pfni)
+    void GetFni(pFileName pfni)
     {
         _pfil->GetFni(pfni);
     }
@@ -390,7 +390,7 @@ class S2B : public S2B_PAR
 
   public:
     static PS2B Ps2bNew(PFIL pfilSrc, bool fSwapHand, uint mdVerbose, int iRound, int iRoundXF, char *pszApp);
-    bool FConvertSI(PMSNK pmsnkErr, PMSNK pmsnkDst, PFNI pfniInc = pvNil, ulong grfs2b = fs2bNil);
+    bool FConvertSI(PMSNK pmsnkErr, PMSNK pmsnkDst, pFileName pfniInc = pvNil, ulong grfs2b = fs2bNil);
 };
 
 #endif // !SITOBREN_H

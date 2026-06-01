@@ -26,7 +26,7 @@ enum
     ffniCreateDir = 0x0001,
     ffniMoveToDir = 0x0002,
 
-// for FNI::AssertValid
+// for FileNames::AssertValid
 #ifdef DEBUG
     ffniFile = 0x10000,
     ffniDir = 0x20000,
@@ -56,16 +56,16 @@ extern FTG vftgTemp; // the ftg to use for temp files
 /****************************************
     File name class
 ****************************************/
-typedef class FNI *PFNI;
-#define FNI_PAR BASE
-#define kclsFNI 'FNI'
-class FNI : public FNI_PAR
+typedef class FileName *pFileName;
+#define FileName_PAR BASE
+#define kclsFileName 'FNI'
+class FileName : public FileName_PAR
 {
     RTCLASS_DEC
     ASSERT
 
     friend class FIL;
-    friend class FNE;
+    friend class FileNameEnumerator;
 
   private:
     FTG _ftg;
@@ -83,7 +83,7 @@ class FNI : public FNI_PAR
 #endif // WIN
 
   public:
-    FNI(void);
+    FileName(void);
 
 // building FNIs
 #ifdef MAC
@@ -110,23 +110,18 @@ class FNI : public FNI_PAR
 
     tribool TExists(void);
     bool FDelete(void);
-    bool FRename(PFNI pfniNew);
-    bool FEqual(PFNI pfni);
+    bool FRename(pFileName pfniNew);
+    bool FEqual(pFileName pfni);
 
     bool FDir(void);
-    bool FSameDir(PFNI pfni);
+    bool FSameDir(pFileName pfni);
     bool FDownDir(PSTN pstn, ulong grffni);
     bool FUpDir(PSTN pstn, ulong grffni);
 };
 
-#ifdef MAC
-#define FGetFniOpenMacro(pfni, prgftg, cftg, prgchFilter, hwndOwner) (pfni)->FGetOpen(prgftg, cftg)
-#define FGetFniSaveMacro(pfni, ftg, pstPrompt, pstDef, prgchFilter, hwndOwner) (pfni)->FGetSave(ftg, pstPrompt, pstDef)
-#endif // MAC
-#ifdef WIN
+
 #define FGetFniOpenMacro(pfni, prgftg, cftg, prgchFilter, hwndOwner) (pfni)->FGetOpen(prgchFilter, hwndOwner)
 #define FGetFniSaveMacro(pfni, ftg, pstPrompt, pstDef, prgchFilter, hwndOwner) (pfni)->FGetSave(prgchFilter, hwndOwner)
-#endif // WIN
 
 /****************************************
     File name enumerator.
@@ -144,14 +139,14 @@ enum
     ffneSkipDir = 0x80,
 };
 
-#define FNE_PAR BASE
-#define kclsFNE 'FNE'
-class FNE : public FNE_PAR
+#define FileNameEnumerator_PAR BASE
+#define kclsFileNameEnumerator 'FNE'
+class FileNameEnumerator : public FileNameEnumerator_PAR
 {
     RTCLASS_DEC
     ASSERT
     MARKMEM
-    NOCOPY(FNE)
+    NOCOPY(FileNameEnumerator)
 
   private:
     // file enumeration state
@@ -163,7 +158,7 @@ class FNE : public FNE_PAR
         long iv;
 #endif // MAC
 #ifdef WIN
-        FNI fni; // directory fni
+        FileName fni; // directory fni
         HN hn;   // for enumerating files/directories
         WIN32_FIND_DATA wfd;
         ulong grfvol; // which volumes are available (for enumerating volumes)
@@ -185,11 +180,11 @@ class FNE : public FNE_PAR
 #endif // WIN
 
   public:
-    FNE(void);
-    ~FNE(void);
+    FileNameEnumerator(void);
+    ~FileNameEnumerator(void);
 
-    bool FInit(FNI *pfniDir, FTG *prgftg, long cftg, ulong grffne = ffneNil);
-    bool FNextFni(FNI *pfni, ulong *pgrffneOut = pvNil, ulong grffneIn = ffneNil);
+    bool FInit(FileName *pfniDir, FTG *prgftg, long cftg, ulong grffne = ffneNil);
+    bool FNextFileName(FileName *pfni, ulong *pgrffneOut = pvNil, ulong grffneIn = ffneNil);
 };
 
 #endif //! FNI_H

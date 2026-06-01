@@ -19,7 +19,7 @@ CHTXD::CHTXD(PDOCB pdocb, ulong grfdoc) : CHTXD_PAR(pdocb, grfdoc)
 /***************************************************************************
     Create a new chunky text doc.
 ***************************************************************************/
-PCHTXD CHTXD::PchtxdNew(PFNI pfni, PBSF pbsf, short osk, PDOCB pdocb, ulong grfdoc)
+PCHTXD CHTXD::PchtxdNew(pFileName pfni, PBSF pbsf, short osk, PDOCB pdocb, ulong grfdoc)
 {
     AssertNilOrPo(pfni, ffniFile);
     AssertNilOrPo(pbsf, 0);
@@ -86,7 +86,7 @@ PCHTDD CHTDD::PchtddNew(PTXTB ptxtb, PGCB pgcb, long onn, ulong grfont, long dyp
 ***************************************************************************/
 bool CHTDD::FCmdCompileChunky(PCMD pcmd)
 {
-    FNI fni;
+    FileName fni;
     PCFL pcfl;
     STN stnFile;
     MSFIL msfil;
@@ -175,7 +175,7 @@ void OpenSinkDoc(PMSFIL pmsfil)
 {
     PDOCB pdocb;
     PFIL pfil;
-    FNI fni;
+    FileName fni;
     bool fTemp;
 
     if (pvNil == (pfil = pmsfil->PfilRelease()))

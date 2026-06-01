@@ -204,7 +204,7 @@ bool MODL::_FInit(PBLCK pblck)
 /***************************************************************************
     Reads a BRender model from a .DAT file
 ***************************************************************************/
-PMODL MODL::PmodlReadFromDat(FNI *pfni)
+PMODL MODL::PmodlReadFromDat(FileName *pfni)
 {
     AssertPo(pfni, ffniFile);
 

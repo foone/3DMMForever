@@ -33,7 +33,7 @@ class GVID : public GVID_PAR
     }
 
   public:
-    static PGVID PgvidNew(PFNI pfni, PGOB pgobBase, bool fHwndBased = fFalse, long hid = hidNil);
+    static PGVID PgvidNew(pFileName pfni, PGOB pgobBase, bool fHwndBased = fFalse, long hid = hidNil);
 
     virtual long NfrMac(void) = 0;
     virtual long NfrCur(void) = 0;
@@ -84,10 +84,10 @@ class GVDS : public GVDS_PAR
     GVDS(long hid);
     ~GVDS(void);
 
-    virtual bool _FInit(PFNI pfni, PGOB pgobBase);
+    virtual bool _FInit(pFileName pfni, PGOB pgobBase);
 
   public:
-    static PGVDS PgvdsNew(PFNI pfni, PGOB pgobBase, long hid = hidNil);
+    static PGVDS PgvdsNew(pFileName pfni, PGOB pgobBase, long hid = hidNil);
 
     virtual long NfrMac(void);
     virtual long NfrCur(void);
@@ -133,11 +133,11 @@ class GVDW : public GVDW_PAR
     GVDW(long hid);
     ~GVDW(void);
 
-    virtual bool _FInit(PFNI pfni, PGOB pgobBase);
+    virtual bool _FInit(pFileName pfni, PGOB pgobBase);
     virtual void _SetRc(void);
 
   public:
-    static PGVDW PgvdwNew(PFNI pfni, PGOB pgobBase, long hid = hidNil);
+    static PGVDW PgvdwNew(pFileName pfni, PGOB pgobBase, long hid = hidNil);
 
     virtual long NfrMac(void);
     virtual long NfrCur(void);

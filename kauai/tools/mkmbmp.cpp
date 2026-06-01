@@ -21,7 +21,7 @@ bool _FGetLwFromSzs(PSZS pszs, long *plw);
 ***************************************************************************/
 int __cdecl main(int cpszs, char *prgpszs[])
 {
-    FNI fniSrc, fniDst;
+    FileName fniSrc, fniDst;
     STN stn;
     char chs;
     FLO flo;

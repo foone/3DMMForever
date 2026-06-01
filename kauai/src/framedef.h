@@ -315,15 +315,15 @@
 #define ercFileRename 105    // FRename failed
 #define ercStnRead 106       // reading a string failed
 
-// 00200 - 00299: fni errors
-#define ercFniGeneral 200   // couldn't build an fni
+// 00200 - 00299: FileName errors
+#define ercFniGeneral 200   // couldn't build an FileName
 #define ercFniDelete 201    // delete failed
 #define ercFniRename 202    // rename failed
 #define ercFniMismatch 203  // requested dir is a file or file is dir
 #define ercFniHidden 204    // requested file/dir is hidden or alias
 #define ercFniDirCreate 205 // can't create directory
 
-// 00300 - 00399: fne errors
+// 00300 - 00399: FileNameEnumerator errors
 #define ercFneGeneral 300
 
 // 00400 - 00499: chunk errors

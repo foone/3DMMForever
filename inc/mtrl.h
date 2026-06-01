@@ -70,8 +70,8 @@ class MTRL : public MTRL_PAR
     static bool FSetShadeTable(PCFL pcfl, CTG ctg, CNO cno);
     static PMTRL PmtrlNew(long iclrBase = ivNil, long cclr = ivNil);
     static bool FReadMtrl(PCRF pcrf, CTG ctg, CNO cno, PBLCK pblck, PBACO *ppbaco, long *pcb);
-    static PMTRL PmtrlNewFromPix(PFNI pfni);
-    static PMTRL PmtrlNewFromBmp(PFNI pfni, PGL pglclr = pvNil);
+    static PMTRL PmtrlNewFromPix(pFileName pfni);
+    static PMTRL PmtrlNewFromBmp(pFileName pfni, PGL pglclr = pvNil);
     static PMTRL PmtrlFromBmtl(PBMTL pbmtl);
     ~MTRL(void);
     PTMAP Ptmap(void);

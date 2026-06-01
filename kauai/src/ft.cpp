@@ -1040,7 +1040,7 @@ long _LwSqrt(long lw)
 ***************************************************************************/
 bool APP::FCmdMacro(PCMD pcmd)
 {
-    FNI fni;
+    FileName fni;
     PCFL pcfl;
 
     // make sure we're not already recording or playing a macro.
@@ -1095,7 +1095,7 @@ bool APP::FCmdTestFni(PCMD pcmd)
 {
     long idit;
     STN stn, stnT;
-    FNI fni;
+    FileName fni;
     PDLG pdlg;
 
     // put up the dialog
@@ -1407,7 +1407,7 @@ class DOCPIC : public DOCPIC_PAR
     {
         return _ppic;
     }
-    virtual bool FSaveToFni(FNI *pfni, bool fSetFni);
+    virtual bool FSaveToFni(FileName *pfni, bool fSetFni);
 };
 
 // picture document display
@@ -1531,7 +1531,7 @@ PDDG DOCPIC::PddgNew(PGCB pgcb)
 /***************************************************************************
     Save the picture in a chunky file.
 ***************************************************************************/
-bool DOCPIC::FSaveToFni(FNI *pfni, bool fSetFni)
+bool DOCPIC::FSaveToFni(FileName *pfni, bool fSetFni)
 {
     PCFL pcfl;
     bool fT;

@@ -109,7 +109,7 @@ class TXTB : public TXTB_PAR
 
     TXTB(PDOCB pdocb = pvNil, ulong grfdoc = fdocNil);
     ~TXTB(void);
-    virtual bool _FInit(PFNI pfni = pvNil, PBSF pbsf = pvNil, short osk = koskCur);
+    virtual bool _FInit(pFileName pfni = pvNil, PBSF pbsf = pvNil, short osk = koskCur);
     virtual bool _FLoad(short osk = koskCur);
     virtual achar _ChFetch(long cp);
     virtual void _CacheRange(long cpMin, long cpLim);
@@ -153,7 +153,7 @@ class TXTB : public TXTB_PAR
     virtual bool FGetObjectRc(long cp, PGNV pgnv, PCHP pchp, RC *prc);
     virtual bool FDrawObject(long cp, PGNV pgnv, long *pxp, long yp, PCHP pchp, RC *prcClip);
 
-    virtual bool FGetFni(FNI *pfni);
+    virtual bool FGetFni(FileName *pfni);
 
     virtual void HideSel(void);
     virtual void SetSel(long cp1, long cp2, long gin = kginDraw);
@@ -185,11 +185,11 @@ class TXPD : public TXPD_PAR
     TXPD(PDOCB pdocb = pvNil, ulong grfdoc = fdocNil);
 
   public:
-    static PTXPD PtxpdNew(PFNI pfni = pvNil, PBSF pbsf = pvNil, short osk = koskCur, PDOCB pdocb = pvNil,
+    static PTXPD PtxpdNew(pFileName pfni = pvNil, PBSF pbsf = pvNil, short osk = koskCur, PDOCB pdocb = pvNil,
                           ulong grfdoc = fdocNil);
 
     virtual PDDG PddgNew(PGCB pgcb);
-    virtual bool FSaveToFni(FNI *pfni, bool fSetFni);
+    virtual bool FSaveToFni(FileName *pfni, bool fSetFni);
 };
 
 /***************************************************************************
@@ -296,7 +296,7 @@ class TXRD : public TXRD_PAR
 
     TXRD(PDOCB pdocb = pvNil, ulong grfdoc = fdocNil);
     ~TXRD(void);
-    bool _FInit(PFNI pfni = pvNil, CTG ctg = kctgRichText);
+    bool _FInit(pFileName pfni = pvNil, CTG ctg = kctgRichText);
     virtual bool _FReadChunk(PCFL pcfl, CTG ctg, CNO cno, bool fCopyText);
     virtual bool _FOpenArg(long icact, byte sprm, short bo, short osk);
 
@@ -338,7 +338,7 @@ class TXRD : public TXRD_PAR
     static bool _FSprmInAg(byte sprm);
 
   public:
-    static PTXRD PtxrdNew(PFNI pfni = pvNil);
+    static PTXRD PtxrdNew(pFileName pfni = pvNil);
     static PTXRD PtxrdReadChunk(PCFL pcfl, CTG ctg, CNO cno, bool fCopyText = fTrue);
 
     virtual PDDG PddgNew(PGCB pgcb);
@@ -373,9 +373,9 @@ class TXRD : public TXRD_PAR
     virtual bool FGetObjectRc(long cp, PGNV pgnv, PCHP pchp, RC *prc);
     virtual bool FDrawObject(long cp, PGNV pgnv, long *pxp, long yp, PCHP pchp, RC *prcClip);
 
-    virtual bool FGetFni(FNI *pfni);
-    virtual bool FGetFniSave(FNI *pfni);
-    virtual bool FSaveToFni(FNI *pfni, bool fSetFni);
+    virtual bool FGetFni(FileName *pfni);
+    virtual bool FGetFniSave(FileName *pfni);
+    virtual bool FSaveToFni(FileName *pfni, bool fSetFni);
     virtual bool FSaveToChunk(PCFL pcfl, CKI *pcki, bool fRedirectText = fFalse);
 
     virtual bool FSetUndo(long cp1, long cp2, long ccpIns);

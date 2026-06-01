@@ -89,10 +89,10 @@ class TMAP : public TMAP_PAR
     }
 
     //	Reads a .bmp file.
-    static PTMAP PtmapReadNative(FNI *pfni, PGL pglclr = pvNil);
+    static PTMAP PtmapReadNative(FileName *pfni, PGL pglclr = pvNil);
 
     // Writes a standalone TMAP-chunk file (not a .chk)
-    bool FWriteTmapChkFile(PFNI pfniDst, bool fCompress, PMSNK pmsnkErr = pvNil);
+    bool FWriteTmapChkFile(pFileName pfniDst, bool fCompress, PMSNK pmsnkErr = pvNil);
 
     // Creates a TMAP from the width, height, and an array of bytes
     static PTMAP PtmapNew(byte *prgbPixels, long dxWidth, long dxHeight);

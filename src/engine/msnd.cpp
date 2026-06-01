@@ -260,7 +260,7 @@ bool MSND::FCopyMidi(PFIL pfilSrc, PCFL pcflDest, CNO *pcno, PSTN pstn)
     AssertNilOrPo(pstn, 0);
 
     PMIDS pmids = pvNil;
-    FNI fniSrc;
+    FileName fniSrc;
     STN stnName;
 
     pfilSrc->GetFni(&fniSrc);
@@ -303,7 +303,7 @@ bool MSND::FCopyWave(PFIL pfilSrc, PCFL pcflDest, long sty, CNO *pcno, PSTN pstn
     Assert(sty != styMidi, "Illegal sty argument");
     AssertNilOrPo(pstn, 0);
 
-    FNI fniSrc;
+    FileName fniSrc;
     STN stnName; // sound name
     STN stn;     // src file path name
     WAVEFORMATEX wfxSrc;
@@ -311,7 +311,7 @@ bool MSND::FCopyWave(PFIL pfilSrc, PCFL pcflDest, long sty, CNO *pcno, PSTN pstn
     LPSOUND psndTemp = pvNil;
     FIL *pfilNew = pvNil;
     STN stnNew;
-    FNI fniNew;
+    FileName fniNew;
     WAVEFORMATEX *pwfxDst = pvNil;
     DWORD cbwfx;          // size of waveformatex needed
     DWORD csampSrc;       // number of source samples

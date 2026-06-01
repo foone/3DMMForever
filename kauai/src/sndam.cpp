@@ -198,7 +198,7 @@ PSTBL STBL::PstblNew(FLO *pflo, bool fPacked)
     else
     {
         // see if it's on a removeable disk
-        FNI fni;
+        FileName fni;
 
         pflo->pfil->GetFni(&fni);
         if (fni.Grfvk() & (fvkFloppy | fvkCD | fvkRemovable))

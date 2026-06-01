@@ -1509,7 +1509,7 @@ bool BCL::_FBuildThd(PCRM pcrm)
     PCFL pcfl;
     long sid;
     FNET fnet;
-    FNI fniThd;
+    FileName fniThd;
 
     if (!fnet.FInit())
         return fFalse;
@@ -1767,11 +1767,11 @@ bool FNET::FInit(void)
  *
  * Enumerate thumbnail files
  *
- * Return the fni & (optionally) the sid
+ * Return the FileName & (optionally) the sid
  * Note: _idir == 0 -> current product
  *
  ****************************************************/
-bool FNET::FNext(FNI *pfni, long *psid)
+bool FNET::FNext(FileName *pfni, long *psid)
 {
     AssertThis(0);
     AssertPo(pfni, 0);
@@ -1797,7 +1797,7 @@ bool FNET::FNext(FNI *pfni, long *psid)
         _fInitMSKDir = fFalse;
     }
 
-    while (_fneDir.FNextFni(&_fniDir))
+    while (_fneDir.FNextFileName(&_fniDir))
     {
         if (_fniDir.FSameDir(&_fniDirProduct)) // already enumerated
             continue;
@@ -1814,10 +1814,10 @@ bool FNET::FNext(FNI *pfni, long *psid)
 /****************************************************
  *
  * Gets the file from the current FNET enumeration
- * This uses the current fne.
+ * This uses the current FileNameEnumerator.
  *
  ****************************************************/
-bool FNET::_FNextFni(FNI *pfni, long *psid)
+bool FNET::_FNextFni(FileName *pfni, long *psid)
 {
     AssertThis(0);
     STN stnProduct;
@@ -1831,7 +1831,7 @@ bool FNET::_FNextFni(FNI *pfni, long *psid)
             return fFalse;
     }
 
-    return (_fne.FNextFni(pfni));
+    return (_fne.FNextFileName(pfni));
 }
 
 /****************************************************
@@ -2207,7 +2207,7 @@ bool BRWM::FCmdFile(PCMD pcmd)
     AssertThis(0);
     AssertVarMem(pcmd);
 
-    FNI fni;
+    FileName fni;
     long kidBrws;
     PFIL pfil = pvNil; // Wave or midi file
     PCFL pcfl = pvNil; // Movie file
@@ -2749,7 +2749,7 @@ bool BRWI::FInit(PCMD pcmd, CKI ckiRoot, PSTDIO pstdio)
     AssertBaseThis(0);
 
     PCFL pcfl;
-    FNI fni;
+    FileName fni;
     STN stn;
 
     _pstdio = pstdio;
@@ -3008,7 +3008,7 @@ bool BRWR::FInit(PCMD pcmd, CTG ctgTmplThum, long ithumDisplay, PSTDIO pstdio)
     TFC tfc;
     KID kid;
     FNET fnet;
-    FNI fniThd;
+    FileName fniThd;
 
     if (!fnet.FInit())
         return fFalse;

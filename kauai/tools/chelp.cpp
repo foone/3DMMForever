@@ -128,7 +128,7 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
 
 #ifdef WIN
     // parse the command line and load any resource files and help files
-    FNI fni;
+    FileName fni;
     bool fQuote, fRes, fSkip;
     PSZ psz = vwig.pszCmdLine;
 
@@ -252,8 +252,8 @@ bool APP::FCmdOpen(PCMD pcmd)
 {
     AssertThis(0);
     AssertVarMem(pcmd);
-    FNI fni;
-    FNI *pfni;
+    FileName fni;
+    FileName *pfni;
 
     pfni = pvNil;
     switch (pcmd->cid)
@@ -300,7 +300,7 @@ bool APP::FCmdOpen(PCMD pcmd)
 /***************************************************************************
     Load a document file.
 ***************************************************************************/
-bool APP::FOpenDocFile(PFNI pfni, long cid)
+bool APP::FOpenDocFile(pFileName pfni, long cid)
 {
     AssertThis(0);
     AssertNilOrPo(pfni, 0);
@@ -383,7 +383,7 @@ bool APP::FCmdLoadResFile(PCMD pcmd)
 {
     AssertThis(0);
     AssertVarMem(pcmd);
-    FNI fni;
+    FileName fni;
 
     if (!FGetFniOpenMacro(&fni, pvNil, 0, PszLit("Chunky Resource Files\0*.chk\0All Files\0*.*\0"), vwig.hwndApp))
     {
@@ -397,7 +397,7 @@ bool APP::FCmdLoadResFile(PCMD pcmd)
 /***************************************************************************
     Load a resource file.
 ***************************************************************************/
-bool APP::FLoadResFile(PFNI pfni)
+bool APP::FLoadResFile(pFileName pfni)
 {
     AssertThis(0);
     AssertPo(pfni, ffniFile);

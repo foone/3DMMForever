@@ -203,14 +203,14 @@ MVIE::MVIE(void) : _clok(khidMvieClock)
 
 /******************************************************************************
     _FSetPfilSave
-        Given an FNI, looks for and remembers if found the FIL associated with
+        Given a FileName, looks for and remembers if found the FIL associated with
         it.  If the FIL was found, will also check to see if it's read-only.
 
     Returns:
         fFalse if the FIL wasn't found.
 
 ************************************************************ PETED ***********/
-bool MVIE::_FSetPfilSave(PFNI pfni)
+bool MVIE::_FSetPfilSave(pFileName pfni)
 {
     AssertBaseThis(0);
     AssertPo(pfni, 0);
@@ -252,7 +252,7 @@ bool MVIE::_FSetPfilSave(PFNI pfni)
  *  pvNil if failure, else a pointer to the movie object.
  *
  ****************************************************/
-PMVIE MVIE::PmvieNew(bool fHalfMode, PMCC pmcc, FNI *pfni, CNO cno)
+PMVIE MVIE::PmvieNew(bool fHalfMode, PMCC pmcc, FileName *pfni, CNO cno)
 {
     AssertNilOrPo(pfni, 0);
     AssertPo(pmcc, 0);
@@ -1615,7 +1615,7 @@ bool MVIE::FCopySndFileToMvie(PFIL pfilSrc, long sty, CNO *pcno, PSTN pstn)
     Assert(_pcrfAutoSave != pvNil, "Bad working file.");
 
     PCFL pcfl;
-    FNI fniSrc;
+    FileName fniSrc;
     CHID chid;
     KID kidScen;
 
@@ -1682,7 +1682,7 @@ bool MVIE::FCopyMsndFromPcfl(PCFL pcflSrc, CNO cnoSrc, CNO *pcnoDest)
     PCFL pcflDest;
     KID kidScen;
     CHID chid;
-    FNI fni;
+    FileName fni;
 
     if (!FEnsureAutosave())
         return fFalse;
@@ -2327,7 +2327,7 @@ bool MVIE::_FUseTempFile(void)
 
     PCFL pcfl;
     KID kid;
-    FNI fni;
+    FileName fni;
 
     pcfl = _pcrfAutoSave->Pcfl();
 
@@ -2376,7 +2376,7 @@ bool MVIE::_FMakeCrfValid(void)
     AssertThis(0);
 
     PCFL pcfl;
-    FNI fni;
+    FileName fni;
 
     if (_pcrfAutoSave != pvNil)
     {
@@ -2437,7 +2437,7 @@ bool MVIE::_FMakeCrfValid(void)
  *  fFalse if there was a failure, else fTrue.
  *
  ****************************************************/
-bool MVIE::FAutoSave(PFNI pfni, bool fCleanRollCall)
+bool MVIE::FAutoSave(pFileName pfni, bool fCleanRollCall)
 {
     AssertThis(0);
     AssertNilOrPo(_pcrfAutoSave, 0);
@@ -2861,11 +2861,11 @@ LFail:
  *	pfni - A pointer to a place to store the name
  *
  * Returns:
- *  fFalse if the fni is valid, else fTrue *and*
+ *  fFalse if the FileName is valid, else fTrue *and*
  *  pfni filled in.
  *
  ****************************************************/
-bool MVIE::FGetFni(FNI *pfni)
+bool MVIE::FGetFni(FileName *pfni)
 {
     AssertThis(0);
     AssertPo(pfni, 0);
@@ -2905,7 +2905,7 @@ bool MVIE::FSave(long cid)
 
 /****************************************************
  *
- * Saves a movie to the given fni.
+ * Saves a movie to the given FileName.
  *
  * Parameters:
  *	pfni - File to write to.
@@ -2915,7 +2915,7 @@ bool MVIE::FSave(long cid)
  *  fFalse if there was a failure, else fTrue.
  *
  ****************************************************/
-bool MVIE::FSaveToFni(FNI *pfni, bool fSetFni)
+bool MVIE::FSaveToFni(FileName *pfni, bool fSetFni)
 {
     AssertThis(0);
     AssertNilOrPo(pfni, ffniFile);
@@ -2962,18 +2962,18 @@ bool MVIE::FSaveToFni(FNI *pfni, bool fSetFni)
 
 /***************************************************************************
  *
- * Called by docb.cpp to get an fni for a selected movie file using
+ * Called by docb.cpp to get a FileName for a selected movie file using
  * the save portfolio.
  *
  * Parameters:
- *	pfni - fni for selected file
+ *	pfni - FileName for selected file
  *
  * Returns:
  *  TRUE  - User selected a file
  *  FALSE - User canceled, (or other error).
  *
  ***************************************************************************/
-bool MVIE::FGetFniSave(FNI *pfni)
+bool MVIE::FGetFniSave(FileName *pfni)
 {
     AssertThis(0);
     AssertVarMem(pfni);
@@ -5381,7 +5381,7 @@ void MVIE::MarkViews(void)
 #ifdef DEBUG
     if (FWriteBmps())
     {
-        FNI fni;
+        FileName fni;
         STN stn;
 
         if (stn.FFormatSz(PszLit("cel%04d.dib"), _lwBmp++))
@@ -5429,7 +5429,7 @@ void MVIE::ResetTitle(void)
 {
     AssertThis(0);
 
-    FNI fni;
+    FileName fni;
 
     _stnTitle.SetNil();
     _SetTitle(FGetFni(&fni) ? &fni : pvNil);
@@ -5745,7 +5745,7 @@ bool MVIE::FUnusedSndsUser(bool *pfHaveValid)
  *  None.
  *
  **************************************************************************/
-void MVIE::_SetTitle(PFNI pfni)
+void MVIE::_SetTitle(pFileName pfni)
 {
     AssertThis(0);
 
@@ -8414,7 +8414,7 @@ bool MVU::FCloseDoc(bool fAssumeYes, bool fSaveDDG)
 {
     AssertThis(0);
     bool fRet;
-    FNI fni;
+    FileName fni;
 
     //
     // FQueryClose calls FAutosave depending on the result of the query.

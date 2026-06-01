@@ -16,7 +16,7 @@ ASSERTNAME
 ***************************************************************************/
 int __cdecl main(int cpszs, char *prgpszs[])
 {
-    FNI fniSrc, fniDst;
+    FileName fniSrc, fniDst;
     PCFL pcfl;
     STN stn;
     char *pszs;

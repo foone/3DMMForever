@@ -20,7 +20,7 @@ int __cdecl main(int cpszs, char *prgpszs[])
 {
     schar chs;
     STN stn;
-    FNI fniSrc, fniT;
+    FileName fniSrc, fniT;
     CKI cki;
     long icki;
     CNO cnoDst;

@@ -352,7 +352,7 @@ CFL::~CFL(void)
     Static method: open an existing file as a chunky file.  Increments the
     open count.
 ***************************************************************************/
-PCFL CFL::PcflOpen(FNI *pfni, ulong grfcfl)
+PCFL CFL::PcflOpen(FileName *pfni, ulong grfcfl)
 {
     AssertPo(pfni, ffniFile);
     PCFL pcfl;
@@ -471,7 +471,7 @@ ulong CFL::_GrffilFromGrfcfl(ulong grfcfl)
 /***************************************************************************
     Static method: create a new file.  Increments the open count.
 ***************************************************************************/
-PCFL CFL::PcflCreate(FNI *pfni, ulong grfcfl)
+PCFL CFL::PcflCreate(FileName *pfni, ulong grfcfl)
 {
     AssertPo(pfni, ffniFile);
     PCFL pcfl;
@@ -509,10 +509,10 @@ PCFL CFL::PcflCreate(FNI *pfni, ulong grfcfl)
     *pfni and with the same ftg.  If pfni is nil, the file is created in
     the standard place with a temp ftg.
 ***************************************************************************/
-PCFL CFL::PcflCreateTemp(FNI *pfni)
+PCFL CFL::PcflCreateTemp(FileName *pfni)
 {
     AssertNilOrPo(pfni, ffniFile);
-    FNI fni;
+    FileName fni;
 
     if (pvNil != pfni)
     {
@@ -534,7 +534,7 @@ PCFL CFL::PcflCreateTemp(FNI *pfni)
     Static method: if we have the chunky file indicated by fni open, returns
     the pcfl, otherwise returns pvNil.  Doesn't affect the open count.
 ***************************************************************************/
-PCFL CFL::PcflFromFni(FNI *pfni)
+PCFL CFL::PcflFromFni(FileName *pfni)
 {
     AssertPo(pfni, ffniFile);
     PFIL pfil;
@@ -1614,12 +1614,12 @@ void CFL::_ReadFreeMap(void)
     write out a new file and do the rename stuff.  If not, just write
     the index and free map.
 ***************************************************************************/
-bool CFL::FSave(CTG ctgCreator, FNI *pfni)
+bool CFL::FSave(CTG ctgCreator, FileName *pfni)
 {
     AssertThis(fcflFull | fcflGraph);
     AssertNilOrPo(pfni, ffniFile);
 
-    FNI fni;
+    FileName fni;
     FLO floSrc, floDst;
     long ccrp, icrp;
     CRP *qcrp;
@@ -1799,7 +1799,7 @@ bool CFL::_FWriteIndex(CTG ctgCreator)
     Save a copy of the chunky file out to *pfni.  The CFL and its FIL
     are untouched.
 ***************************************************************************/
-bool CFL::FSaveACopy(CTG ctgCreator, FNI *pfni)
+bool CFL::FSaveACopy(CTG ctgCreator, FileName *pfni)
 {
     AssertThis(fcflFull | fcflGraph);
     AssertPo(pfni, ffniFile);

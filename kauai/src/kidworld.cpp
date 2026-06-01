@@ -387,7 +387,7 @@ PGOB WOKS::PgobParGob(PGOB pgob)
 /***************************************************************************
     Find a file given a string.
 ***************************************************************************/
-bool WOKS::FFindFile(PSTN pstnSrc, PFNI pfni)
+bool WOKS::FFindFile(PSTN pstnSrc, pFileName pfni)
 {
     AssertThis(0);
     AssertPo(pstnSrc, 0);

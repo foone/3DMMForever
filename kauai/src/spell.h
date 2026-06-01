@@ -110,8 +110,8 @@ class SPLC : public SPLC_PAR
     SPLC(void);
     virtual bool _FInit(SC_LID sclid, PSTN pstnCustom = pvNil);
     virtual bool _FEnsureDll(SC_LID sclid);
-    virtual bool _FEnsureMainDict(SC_LID sclid, PFNI pfniDic = pvNil);
-    virtual bool _FEnsureUserDict(PSTN pstnCustom, PFNI pfniDef = pvNil);
+    virtual bool _FEnsureMainDict(SC_LID sclid, pFileName pfniDic = pvNil);
+    virtual bool _FEnsureUserDict(PSTN pstnCustom, pFileName pfniDef = pvNil);
     virtual bool _FLoadDictionary(SC_LID sclid, PSZ psz, SC_MDRS *pmdrs);
     virtual bool _FLoadUserDictionary(PSZ psz, SC_UDR *pudr, bool fCreate = fFalse);
 

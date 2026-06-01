@@ -29,7 +29,7 @@ const long kcmhlGvds = kswMin; // put videos at the head of the list
     depending on fHwndBased. pgobBase is assumed to be valid for the life
     of the video.
 ***************************************************************************/
-PGVID GVID::PgvidNew(PFNI pfni, PGOB pgobBase, bool fHwndBased, long hid)
+PGVID GVID::PgvidNew(pFileName pfni, PGOB pgobBase, bool fHwndBased, long hid)
 {
     AssertPo(pfni, ffniFile);
     AssertPo(pgobBase, 0);
@@ -83,7 +83,7 @@ GVDS::~GVDS(void)
 /***************************************************************************
     Initialize a video stream object.
 ***************************************************************************/
-bool GVDS::_FInit(PFNI pfni, PGOB pgobBase)
+bool GVDS::_FInit(pFileName pfni, PGOB pgobBase)
 {
     AssertBaseThis(0);
     AssertPo(pfni, ffniFile);
@@ -140,7 +140,7 @@ bool GVDS::_FInit(PFNI pfni, PGOB pgobBase)
 /***************************************************************************
     Create a new video stream object.
 ***************************************************************************/
-PGVDS GVDS::PgvdsNew(PFNI pfni, PGOB pgobBase, long hid)
+PGVDS GVDS::PgvdsNew(pFileName pfni, PGOB pgobBase, long hid)
 {
     AssertPo(pfni, ffniFile);
     PGVDS pgvds;
@@ -331,7 +331,7 @@ void GVDS::AssertValid(ulong grf)
 /***************************************************************************
     Create a new video window.
 ***************************************************************************/
-PGVDW GVDW::PgvdwNew(PFNI pfni, PGOB pgobBase, long hid)
+PGVDW GVDW::PgvdwNew(pFileName pfni, PGOB pgobBase, long hid)
 {
     AssertPo(pfni, ffniFile);
     PGVDW pgvdw;
@@ -384,7 +384,7 @@ GVDW::~GVDW(void)
 /***************************************************************************
     Initialize the GVDW.
 ***************************************************************************/
-bool GVDW::_FInit(PFNI pfni, PGOB pgobBase)
+bool GVDW::_FInit(pFileName pfni, PGOB pgobBase)
 {
     AssertPo(pfni, ffniFile);
     AssertPo(pgobBase, 0);

@@ -129,7 +129,7 @@ class BWLD : public BWLD_PAR
     void Draw(PGNV pgnv, RC *prcClip, long dxp, long dyp);
 
 #ifdef DEBUG
-    bool FWriteBmp(PFNI pfni);
+    bool FWriteBmp(FileName *pfni);
 #endif // DEBUG
 };
 

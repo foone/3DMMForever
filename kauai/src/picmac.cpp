@@ -124,7 +124,7 @@ bool PIC::FWrite(PBLCK pblck)
 /***************************************************************************
     Static method to read the file as a native picture (PICT file on Mac).
 ***************************************************************************/
-PPIC PIC::PpicReadNative(FNI *pfni)
+PPIC PIC::PpicReadNative(FileName *pfni)
 {
     AssertPo(pfni, ffniFile);
     PFIL pfil;

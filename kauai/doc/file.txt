@@ -99,11 +99,11 @@ check for an error.
 	PFIL FIL::PfilFirst(void);
 		The first pfil (they form a linked list).
 
-	PFIL FIL::PfilFromFni(FNI *pfni);
+	PFIL FIL::PfilFromFni(FileName *pfni);
 		If the file indicated by *pfni is open, this returns a pointer
 		to the FIL.  Otherwise it returns pNil.
 
-	PFIL FIL::PfilOpen(FNI *pfni, ushort grffil);
+	PFIL FIL::PfilOpen(FileName *pfni, ushort grffil);
 		Opens the indicated file with the indicated options.  Read-only is
 		the default.  To allow writing to a file, use ffilWriteEnable.
 		If the file is already open, this ensures that the read/write
@@ -111,7 +111,7 @@ check for an error.
 		call should be balanced with a call to pfil->Close().  Specifying
 		ffilMark causes the file to be marked.  ffilTemp is illegal.
 
-	PFIL FIL::PfilCreate(FNI *pfni, ushort grffil);
+	PFIL FIL::PfilCreate(FileName *pfni, ushort grffil);
 		Creates and opens the indicated file (asserts that it isn't
 		already open) and sets the open count to 1.  Assumes
 		ffilWriteEnable.  ffilMark is legal.  Use ffilTemp to create a temp
@@ -152,7 +152,7 @@ check for an error.
 	bool FIL::FTemp(void);
 		Returns the temp flag.
 
-	void FIL::GetFni(FNI *pfni);
+	void FIL::GetFni(FileName *pfni);
 		Gets the file name.
 
 	void FIL::SetFpPos(FP fp);
@@ -182,8 +182,8 @@ check for an error.
 		Renames the files to swap names.  Typically used during a safe save.
 		The files should live in the same directory.
 
-	bool FIL::FRename(FNI *pfni);
-		Renames the file.  The fni should be in the same directory as the
+	bool FIL::FRename(FileName *pfni);
+		Renames the file.  The FileName should be in the same directory as the
 		file.
 
 

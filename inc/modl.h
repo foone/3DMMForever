@@ -54,7 +54,7 @@ class MODL : public MODL_PAR
   public:
     static PMODL PmodlNew(long cbrv, BRV *prgbrv, long cbrf, BRF *prgbrf);
     static bool FReadModl(PCRF pcrf, CTG ctg, CNO cno, PBLCK pblck, PBACO *ppbaco, long *pcb);
-    static PMODL PmodlReadFromDat(FNI *pfni);
+    static PMODL PmodlReadFromDat(FileName *pfni);
     static PMODL PmodlFromBmdl(PBMDL pbmdl);
     ~MODL(void);
     PBMDL Pbmdl(void)

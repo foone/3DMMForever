@@ -260,7 +260,7 @@ class SCCB : public SCCB_PAR
 
     virtual PSCPT PscptCompileLex(PLEXB plexb, bool fInFix, PMSNK pmsnk, long ttEnd = ttNil);
     virtual PSCPT PscptCompileFil(PFIL pfil, bool fInFix, PMSNK pmsnk);
-    virtual PSCPT PscptCompileFni(FNI *pfni, bool fInFix, PMSNK pmsnk);
+    virtual PSCPT PscptCompileFni(FileName *pfni, bool fInFix, PMSNK pmsnk);
     virtual bool FDisassemble(PSCPT pscpt, PMSNK pmsnk, PMSNK pmsnkError = pvNil);
 };
 

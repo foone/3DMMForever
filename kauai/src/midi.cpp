@@ -362,7 +362,7 @@ PMIDS MIDS::PmidsRead(PBLCK pblck)
 /***************************************************************************
     Read a native standard midi file and create a midi stream from it.
 ***************************************************************************/
-PMIDS MIDS::PmidsReadNative(FNI *pfni)
+PMIDS MIDS::PmidsReadNative(FileName *pfni)
 {
     AssertPo(pfni, ffniFile);
 

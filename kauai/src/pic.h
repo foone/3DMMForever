@@ -44,7 +44,7 @@ class PIC : public PIC_PAR
 
     PIC(void);
 #ifdef WIN
-    static HPIC _HpicReadWmf(FNI *pfni);
+    static HPIC _HpicReadWmf(FileName *pfni);
 #endif // WIN
 
   public:
@@ -52,7 +52,7 @@ class PIC : public PIC_PAR
 
     static PPIC PpicFetch(PCFL pcfl, CTG ctg, CNO cno, CHID chid = 0);
     static PPIC PpicRead(PBLCK pblck);
-    static PPIC PpicReadNative(FNI *pfni);
+    static PPIC PpicReadNative(FileName *pfni);
     static PPIC PpicNew(HPIC hpic, RC *prc);
 
     void GetRc(RC *prc);

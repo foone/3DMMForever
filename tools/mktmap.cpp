@@ -22,7 +22,7 @@ ASSERTNAME
 ***************************************************************************/
 int __cdecl main(int cpszs, char *prgpszs[])
 {
-    FNI fniSrc, fniDst;
+    FileName fniSrc, fniDst;
     STN stn;
     char chs;
     PTMAP ptmap = pvNil;

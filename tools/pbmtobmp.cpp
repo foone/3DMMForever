@@ -13,8 +13,8 @@ void FrameMain(void)
 ***************************************************************************/
 int __cdecl main(int cpszs, char *prgpszs[])
 {
-    FNI fniSrc, fniDst;
-    FNI fniPalette;
+    FileName fniSrc, fniDst;
+    FileName fniPalette;
     STN stn;
     FLO floSrc;
     long lwSig;

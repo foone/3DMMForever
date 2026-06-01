@@ -1883,7 +1883,7 @@ bool ESLR::_FAcceptChanges(bool *pfDismissEasel)
     AssertThis(0);
     AssertVarMem(pfDismissEasel);
 
-    FNI fni;
+    FileName fni;
     STN stn;
     PFIL pfil = pvNil;
     CNO cno;

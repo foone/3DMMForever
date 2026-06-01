@@ -588,7 +588,7 @@ bool BKGD::FWritePlaceFile(BRS xrPlace, BRS yrPlace, BRS zrPlace)
     Assert(yrPlace == rZero, "are you sure you want non-zero Y?");
 
     STN stnFile;
-    FNI fni;
+    FileName fni;
     PFIL pfil = pvNil;
     STN stnData;
     FP fp;

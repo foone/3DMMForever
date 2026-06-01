@@ -88,7 +88,7 @@ class DOCB : public DOCB_PAR
 
   public:
     static bool FQueryCloseAll(ulong grfdoc);
-    static PDOCB PdocbFromFni(FNI *pfni);
+    static PDOCB PdocbFromFni(FileName *pfni);
 
     static PDOCB PdocbFirst(void)
     {
@@ -138,9 +138,9 @@ class DOCB : public DOCB_PAR
     virtual bool FQueryCloseDmd(PDMD pdmd);
     virtual bool FSave(long cid = cidSave);
 
-    virtual bool FGetFni(FNI *pfni);
-    virtual bool FGetFniSave(FNI *pfni);
-    virtual bool FSaveToFni(FNI *pfni, bool fSetFni);
+    virtual bool FGetFni(FileName *pfni);
+    virtual bool FGetFniSave(FileName *pfni);
+    virtual bool FSaveToFni(FileName *pfni, bool fSetFni);
     virtual bool FDirty(void)
     {
         return _fDirty && !FInternal();

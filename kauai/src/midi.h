@@ -87,7 +87,7 @@ class MIDS : public MIDS_PAR
   public:
     static bool FReadMids(PCRF pcrf, CTG ctg, CNO cno, PBLCK pblck, PBACO *ppbaco, long *pcb);
     static PMIDS PmidsRead(PBLCK pblck);
-    static PMIDS PmidsReadNative(FNI *pfni);
+    static PMIDS PmidsReadNative(FileName *pfni);
     ~MIDS(void);
 
     virtual bool FWrite(PBLCK pblck);

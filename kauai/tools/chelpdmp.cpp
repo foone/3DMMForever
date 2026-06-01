@@ -23,7 +23,7 @@ int __cdecl main(int cpszs, char *prgpszs[])
 {
     schar chs;
     STN stn;
-    FNI fni;
+    FileName fni;
     PFIL pfil = pvNil;
     PMSNK pmsnk = pvNil;
     PCFL pcflSrc = pvNil;

@@ -453,7 +453,7 @@ class MCC : public MCC_PAR
     virtual void StartListenerEasel(void)
     {
     } // Tells the client to start up the listener easel.
-    virtual bool GetFniSave(FNI *pfni, long lFilterLabel, long lFilterExt, long lTitle, LPTSTR lpstrDefExt,
+    virtual bool GetFniSave(FileName *pfni, long lFilterLabel, long lFilterExt, long lTitle, LPTSTR lpstrDefExt,
                             PSTN pstnDefFileName)
     {
         return fFalse;
@@ -610,9 +610,9 @@ class MVIE : public MVIE_PAR
     bool _FDoMtrlTmplGC(PCFL pcfl);               // Material and template garbage collection
     CHID _ChidScenNewSnd(void);                   // Choose an unused chid for a new scene child user sound
     CHID _ChidMvieNewSnd(void);                   // Choose an unused chid for a new movie child user sound
-    void _SetTitle(PFNI pfni = pvNil);            // Set the title of the movie based on given file name.
+    void _SetTitle(pFileName pfni = pvNil);            // Set the title of the movie based on given file name.
     bool _FIsChild(PCFL pcfl, CTG ctg, CNO cno);
-    bool _FSetPfilSave(PFNI pfni);
+    bool _FSetPfilSave(pFileName pfni);
 
   public:
     //
@@ -641,7 +641,7 @@ class MVIE : public MVIE_PAR
     //
     // Create and Destroy
     //
-    static PMVIE PmvieNew(bool fHalfMode, PMCC pmcc, FNI *pfni = pvNil, CNO cno = cnoNil);
+    static PMVIE PmvieNew(bool fHalfMode, PMCC pmcc, FileName *pfni = pvNil, CNO cno = cnoNil);
     // Create a movie and read it if
     //   pfni != pvNil
     static bool FReadRollCall(PCRF pcrf, CNO cno, PGST *ppgst, long *paridLim = pvNil);
@@ -737,7 +737,7 @@ class MVIE : public MVIE_PAR
     //
     // Auto save stuff
     //
-    bool FAutoSave(PFNI pfni = pvNil, bool fCleanRollCall = fFalse); // Save movie in temp file
+    bool FAutoSave(pFileName pfni = pvNil, bool fCleanRollCall = fFalse); // Save movie in temp file
     bool FSaveTagSnd(TAG *ptag)
     {
         return TAGM::FSaveTag(ptag, _pcrfAutoSave, fTrue);
@@ -783,11 +783,11 @@ class MVIE : public MVIE_PAR
     //
     // Overridden DOCB functions
     //
-    bool FGetFni(FNI *pfni);                  // For saving to a file
+    bool FGetFni(FileName *pfni);                  // For saving to a file
     bool FSave(long cid);                     // For saving to a file, (calls FGetFni and FSaveToFni)
-    bool FSaveToFni(FNI *pfni, bool fSetFni); // For doing a Save As or Save
+    bool FSaveToFni(FileName *pfni, bool fSetFni); // For doing a Save As or Save
     PDMD PdmdNew(void);                       // Do not use!
-    bool FGetFniSave(FNI *pfni);              // For saving via the portfolio.
+    bool FGetFniSave(FileName *pfni);              // For saving via the portfolio.
 
     //
     // Drawing stuff

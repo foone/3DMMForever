@@ -790,7 +790,7 @@ void BWLD::MarkMem(void)
     Returns: fTrue if the file could be written successfully
 
 ************************************************************ PETED ***********/
-bool BWLD::FWriteBmp(PFNI pfni)
+bool BWLD::FWriteBmp(pFileName pfni)
 {
     AssertPo(pfni, 0);
 

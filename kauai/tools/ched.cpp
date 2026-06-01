@@ -38,7 +38,7 @@ bool APP::_FInit(ulong grfapp, ulong grfgob, long ginDef)
 
 #ifdef WIN
     // parse the command line and load any resource files and help files
-    FNI fni;
+    FileName fni;
     STN stn;
     bool fQuote, fScript, fSkip;
     PDMD pdmd;
@@ -184,8 +184,8 @@ void APP::_FastUpdate(PGOB pgob, PREGN pregnClip, ulong grfapp, PGPT pgpt)
 ***************************************************************************/
 bool APP::FCmdOpen(PCMD pcmd)
 {
-    FNI fni;
-    FNI *pfni;
+    FileName fni;
+    FileName *pfni;
     PDOCB pdocb;
 
     pfni = pvNil;

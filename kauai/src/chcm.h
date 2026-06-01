@@ -100,7 +100,7 @@ class CHLX : public CHLX_PAR
     // and recognize our additional key words
     virtual bool FGetTok(PTOK ptok);
     virtual bool FGetTokSkipSemi(PTOK ptok); // also skip ';' & ','
-    virtual bool FGetPath(FNI *pfni);        // read a path
+    virtual bool FGetPath(FileName *pfni);        // read a path
 };
 
 // error types
@@ -254,8 +254,8 @@ class CHCM : public CHCM_PAR
         return _cactError > 0;
     }
 
-    PCFL PcflCompile(PFNI pfniSrc, PFNI pfniDst, PMSNK pmsnk);
-    PCFL PcflCompile(PBSF pbsfSrc, PSTN pstnFile, PFNI pfniDst, PMSNK pmsnk);
+    PCFL PcflCompile(pFileName pfniSrc, pFileName pfniDst, PMSNK pmsnk);
+    PCFL PcflCompile(PBSF pbsfSrc, PSTN pstnFile, pFileName pfniDst, PMSNK pmsnk);
 };
 
 /***************************************************************************

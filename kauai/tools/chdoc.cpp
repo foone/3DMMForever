@@ -163,11 +163,11 @@ DOC::~DOC(void)
 }
 
 /***************************************************************************
-    Static method to create a new document based on the given fni.
+    Static method to create a new document based on the given FileName.
     Use pfni == pvNil to create a new file, non-nil to open an
     existing file.
 ***************************************************************************/
-PDOC DOC::PdocNew(FNI *pfni)
+PDOC DOC::PdocNew(FileName *pfni)
 {
     PCFL pcfl;
     PDOC pdoc;
@@ -208,10 +208,10 @@ PDDG DOC::PddgNew(PGCB pgcb)
 }
 
 /***************************************************************************
-    Get the current FNI for the doc. Return false if the doc is not
-    currently based on an FNI (it's a new doc or an internal one).
+    Get the current FileName for the doc. Return false if the doc is not
+    currently based on a FileName (it's a new doc or an internal one).
 ***************************************************************************/
-bool DOC::FGetFni(FNI *pfni)
+bool DOC::FGetFni(FileName *pfni)
 {
     AssertThis(0);
     AssertBasePo(pfni, 0);
@@ -223,13 +223,13 @@ bool DOC::FGetFni(FNI *pfni)
 }
 
 /***************************************************************************
-    Save the document and optionally set this fni as the current one.
-    If the doc is currently based on an FNI, pfni may be nil, indicating
+    Save the document and optionally set this FileName as the current one.
+    If the doc is currently based on a FileName, pfni may be nil, indicating
     that this is a normal save (not save as). If pfni is not nil and
     fSetFni is false, this just writes a copy of the doc but doesn't change
     the doc one bit.
 ***************************************************************************/
-bool DOC::FSaveToFni(FNI *pfni, bool fSetFni)
+bool DOC::FSaveToFni(FileName *pfni, bool fSetFni)
 {
     AssertThis(0);
     if (!fSetFni && pvNil != pfni)
@@ -255,7 +255,7 @@ bool DOC::FSaveToFni(FNI *pfni, bool fSetFni)
 /***************************************************************************
     Ask the user what file they want to save to.
 ***************************************************************************/
-bool DOC::FGetFniSave(FNI *pfni)
+bool DOC::FGetFniSave(FileName *pfni)
 {
     AssertThis(0);
     return FGetFniSaveMacro(pfni, 'CHN2',
@@ -1427,7 +1427,7 @@ bool DCD::FCmdAddPicChunk(PCMD pcmd)
     BLCK blck;
     long cb;
     long lnOld;
-    FNI fni;
+    FileName fni;
     bool fCreated;
     PPIC ppic = pvNil;
 
@@ -1435,8 +1435,8 @@ bool DCD::FCmdAddPicChunk(PCMD pcmd)
     lnOld = _sel.Ln();
     _SetSel(lnNil);
 
-    // get the fni of the file to add
-    Mac(FTG ftg = 'PICT';) if (!FGetFniOpenMacro(&fni, &ftg, 1, PszLit("MetaFiles\0*.EMF;*.WMF\0"), vwig.hwndApp))
+    // get the  of the file to add
+    Mac(FTG ftg = 'PICT';) if (!FGetFniOpenMacro(&, &ftg, 1, PszLit("MetaFiles\0*.EMF;*.WMF\0"), vwig.hwndApp))
     {
         goto LCancel;
     }
@@ -1540,7 +1540,7 @@ bool DCD::FCmdAddBitmapChunk(PCMD pcmd)
     BLCK blck;
     long lw;
     long lnOld;
-    FNI fni;
+    FileName fni;
     bool fCreated;
     byte bTransparent;
     long xp, yp;
@@ -1553,7 +1553,7 @@ bool DCD::FCmdAddBitmapChunk(PCMD pcmd)
     lnOld = _sel.Ln();
     _SetSel(lnNil);
 
-    // get the fni of the file to add
+    // get the FileName of the file to add
     Mac(FTG ftg = '\0BMP';) // REVIEW shonk: this is bogus
         if (!FGetFniOpenMacro(&fni, &ftg, 1, PszLit("Bitmaps\0*.BMP\0"), vwig.hwndApp)) goto LCancel;
 
@@ -1626,14 +1626,14 @@ bool DCD::FCmdAddFileChunk(PCMD pcmd)
     PFIL pfil;
     BLCK blck;
     long lnOld;
-    FNI fni;
+    FileName fni;
     bool fCreated;
 
     // save and clear the sel
     lnOld = _sel.Ln();
     _SetSel(lnNil);
 
-    // get the fni of the file to add
+    // get the FileName of the file to add
     if (!FGetFniOpenMacro(&fni, pvNil, 0, PszLit("All files\0*.*\0"), vwig.hwndApp))
         goto LCancel;
     if (pvNil == (pfil = FIL::PfilOpen(&fni)))
@@ -2413,7 +2413,7 @@ bool DCD::FCmdImportScript(PCMD pcmd)
     SCCG sccg;
     CKI cki;
     long lnOld;
-    FNI fni;
+    FileName fni;
     bool fCreated;
     MSFIL msfil;
     PSCPT pscpt = pvNil;
@@ -2422,7 +2422,7 @@ bool DCD::FCmdImportScript(PCMD pcmd)
     lnOld = _sel.Ln();
     _SetSel(lnNil);
 
-    // get the fni of the file to add
+    // get the FileName of the file to add
     Mac(FTG ftg = 'TEXT';) if (!FGetFniOpenMacro(&fni, &ftg, 1, PszLit("All files\0*.*\0"), vwig.hwndApp)) goto LCancel;
     if (pvNil == (pscpt = sccg.PscptCompileFni(&fni, pcmd->cid == cidCompileInScript, &msfil)))
     {
@@ -2609,7 +2609,7 @@ bool DCD::FCmdDisasmScript(PCMD pcmd)
     CKI cki;
     PSCPT pscpt;
     SCCG sccg;
-    FNI fni;
+    FileName fni;
     MSFIL msfil, msfilError;
 
     if (fselCki != _sel.GrfselGetCkiKid(&cki, pvNil))

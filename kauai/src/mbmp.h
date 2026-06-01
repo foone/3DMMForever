@@ -89,7 +89,7 @@ class MBMP : public MBMP_PAR
 
     static PMBMP PmbmpNew(byte *prgbPixels, long cbRow, long dyp, RC *prc, long xpRef, long ypRef, byte bTransparent,
                           ulong grfmbmp = fmbmpNil, byte bDefault = 0);
-    static PMBMP PmbmpReadNative(FNI *pfni, byte bTransparent = 0, long xp = 0, long yp = 0, ulong grfmbmp = fmbmpNil,
+    static PMBMP PmbmpReadNative(FileName *pfni, byte bTransparent = 0, long xp = 0, long yp = 0, ulong grfmbmp = fmbmpNil,
                                  byte bDefault = 0);
 
     static PMBMP PmbmpRead(PBLCK pblck);
@@ -109,10 +109,10 @@ class MBMP : public MBMP_PAR
 const BOM kbomMbmph = 0xAFFC0000;
 
 // reads a bitmap from the given file
-bool FReadBitmap(FNI *pfni, byte **pprgb, PGL *ppglclr, long *pdxp, long *pdyp, bool *pfUpsideDown,
+bool FReadBitmap(FileName *pfni, byte **pprgb, PGL *ppglclr, long *pdxp, long *pdyp, bool *pfUpsideDown,
                  byte bTransparent = 0);
 
 // writes a bitmap file
-bool FWriteBitmap(FNI *pfni, byte *prgb, PGL pglclr, long dxp, long dyp, bool fUpsideDown = fTrue);
+bool FWriteBitmap(FileName *pfni, byte *prgb, PGL pglclr, long dxp, long dyp, bool fUpsideDown = fTrue);
 
 #endif //! MBMP_H

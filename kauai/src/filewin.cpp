@@ -300,8 +300,8 @@ bool FIL::FSwapNames(PFIL pfil)
 {
     AssertThis(0);
     AssertPo(pfil, 0);
-    FNI fni;
-    FNI fniT;
+    FileName fni;
+    FileName fniT;
     bool fRet = fFalse;
 
     if (this == pfil)
@@ -372,11 +372,11 @@ LRet:
     Rename a file.  The new fni should be on the same volume.
     This may fail without an error code being set.
 ***************************************************************************/
-bool FIL::FRename(FNI *pfni)
+bool FIL::FRename(FileName *pfni)
 {
     AssertThis(0);
     AssertPo(pfni, ffniFile);
-    FNI fni;
+    FileName fni;
     bool fRet = fFalse;
 
     _mutx.Enter();

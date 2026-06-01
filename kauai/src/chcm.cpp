@@ -630,7 +630,7 @@ void CHCM::_ParseBodyAlign(void)
 void CHCM::_ParseBodyFile(void)
 {
     AssertThis(0);
-    FNI fni;
+    FileName fni;
     FLO floSrc;
 
     if (!_pchlx->FGetPath(&fni))
@@ -699,7 +699,7 @@ bool CHCM::_FEndWrite(bool fPack, CTG ctg, CNO cno, PBLCK pblck)
 void CHCM::_ParseBodyMeta(bool fPack, CTG ctg, CNO cno)
 {
     AssertThis(0);
-    FNI fni;
+    FileName fni;
     BLCK blck;
     PPIC ppic;
     TOK tok;
@@ -740,7 +740,7 @@ void CHCM::_ParseBodyMeta(bool fPack, CTG ctg, CNO cno)
 void CHCM::_ParseBodyBitmap(bool fPack, bool fMask, CTG ctg, CNO cno)
 {
     AssertThis(0);
-    FNI fni;
+    FileName fni;
     BLCK blck;
     TOK tok;
     PHP rgphp[3];
@@ -793,7 +793,7 @@ void CHCM::_ParseBodyBitmap(bool fPack, bool fMask, CTG ctg, CNO cno)
 void CHCM::_ParseBodyPalette(bool fPack, CTG ctg, CNO cno)
 {
     AssertThis(0);
-    FNI fni;
+    FileName fni;
     BLCK blck;
     TOK tok;
     PGL pglclr;
@@ -834,7 +834,7 @@ void CHCM::_ParseBodyPalette(bool fPack, CTG ctg, CNO cno)
 void CHCM::_ParseBodyMidi(bool fPack, CTG ctg, CNO cno)
 {
     AssertThis(0);
-    FNI fni;
+    FileName fni;
     BLCK blck;
     TOK tok;
     PMIDS pmids;
@@ -905,7 +905,7 @@ void CHCM::_ParseBodyCursor(bool fPack, CTG ctg, CNO cno)
     };
 
     AssertThis(0);
-    FNI fni;
+    FileName fni;
     BLCK blck;
     FLO floSrc;
     TOK tok;
@@ -1983,7 +1983,7 @@ void CHCM::_ParseAdopt(void)
 /***************************************************************************
     Compile the given file.
 ***************************************************************************/
-PCFL CHCM::PcflCompile(PFNI pfniSrc, PFNI pfniDst, PMSNK pmsnk)
+PCFL CHCM::PcflCompile(pFileName pfniSrc, pFileName pfniDst, PMSNK pmsnk)
 {
     AssertThis(0);
     AssertPo(pfniSrc, ffniFile);
@@ -2014,7 +2014,7 @@ PCFL CHCM::PcflCompile(PFNI pfniSrc, PFNI pfniDst, PMSNK pmsnk)
 /***************************************************************************
     Compile the given BSF, using initial file name given by pstnFile.
 ***************************************************************************/
-PCFL CHCM::PcflCompile(PBSF pbsfSrc, PSTN pstnFile, PFNI pfniDst, PMSNK pmsnk)
+PCFL CHCM::PcflCompile(PBSF pbsfSrc, PSTN pstnFile, pFileName pfniDst, PMSNK pmsnk)
 {
     AssertThis(0);
     AssertPo(pbsfSrc, ffniFile);
@@ -2246,7 +2246,7 @@ bool CHLX::FGetTokSkipSemi(PTOK ptok)
 /***************************************************************************
     Reads a path and builds an FNI.
 ***************************************************************************/
-bool CHLX::FGetPath(FNI *pfni)
+bool CHLX::FGetPath(FileName *pfni)
 {
     AssertThis(0);
     AssertPo(pfni, 0);

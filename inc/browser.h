@@ -812,7 +812,7 @@ struct CMG // Gokd Cno Map
 
 /************************************
 
-   Fne for  Thumbnails
+   FileName for  Thumbnails
    Enumerates current product first
 
 *************************************/
@@ -825,15 +825,15 @@ class FNET : public FNET_PAR
 
   protected:
     bool _fInitMSKDir;
-    FNE _fne;
-    FNE _fneDir;
-    FNI _fniDirMSK;
-    FNI _fniDir;
-    FNI _fniDirProduct;
+    FileNameEnumerator _fne;
+    FileNameEnumerator _fneDir;
+    FileName _fniDirMSK;
+    FileName _fniDir;
+    FileName _fniDirProduct;
     bool _fInited;
 
   protected:
-    bool _FNextFni(FNI *pfni, long *psid);
+    bool _FNextFni(FileName *pfni, long *psid);
 
   public:
     //
@@ -846,7 +846,7 @@ class FNET : public FNET_PAR
     ~FNET(void){};
 
     bool FInit(void);
-    bool FNext(FNI *pfni, long *psid = pvNil);
+    bool FNext(FileName *pfni, long *psid = pvNil);
 };
 
 #endif

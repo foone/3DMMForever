@@ -83,7 +83,7 @@ bool TATR::FCmdLoad(PCMD pcmd)
     AssertVarMem(pcmd);
 
     PMCC pmcc;
-    FNI fni;
+    FileName fni;
     PMVIE pmvie = pvNil;
     PGOB pgob;
     GCB gcb;
@@ -95,7 +95,7 @@ bool TATR::FCmdLoad(PCMD pcmd)
     vpapp->GetPortfolioDoc(&fni);
     if (fni.Ftg() != kftg3mm)
     {
-        Bug("Portfolio's FNI has bad FTG in theater");
+        Bug("Portfolio's FileName has bad FTG in theater");
         goto LFail;
     }
 

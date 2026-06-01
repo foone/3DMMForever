@@ -39,7 +39,7 @@ TXDC::~TXDC(void)
 /***************************************************************************
     Create a new document based on the given text file and or text stream.
 ***************************************************************************/
-PTXDC TXDC::PtxdcNew(PFNI pfni, PBSF pbsf, PDOCB pdocb, ulong grfdoc)
+PTXDC TXDC::PtxdcNew(pFileName pfni, PBSF pbsf, PDOCB pdocb, ulong grfdoc)
 {
     AssertNilOrPo(pfni, ffniFile);
     AssertNilOrPo(pbsf, 0);
@@ -58,7 +58,7 @@ PTXDC TXDC::PtxdcNew(PFNI pfni, PBSF pbsf, PDOCB pdocb, ulong grfdoc)
 /***************************************************************************
     Initialize the TXDC.
 ***************************************************************************/
-bool TXDC::_FInit(PFNI pfni, PBSF pbsf)
+bool TXDC::_FInit(pFileName pfni, PBSF pbsf)
 {
     AssertNilOrPo(pfni, ffniFile);
     AssertNilOrPo(pbsf, 0);
@@ -101,10 +101,10 @@ PDDG TXDC::PddgNew(PGCB pgcb)
 }
 
 /***************************************************************************
-    Get the current FNI for the doc.  Return false if the doc is not
-    currently based on an FNI (it's a new doc or an internal one).
+    Get the current FileName for the doc.  Return false if the doc is not
+    currently based on a FileName (it's a new doc or an internal one).
 ***************************************************************************/
-bool TXDC::FGetFni(FNI *pfni)
+bool TXDC::FGetFni(FileName *pfni)
 {
     AssertThis(0);
     AssertBasePo(pfni, 0);
@@ -116,18 +116,18 @@ bool TXDC::FGetFni(FNI *pfni)
 }
 
 /***************************************************************************
-    Save the document and optionally set this fni as the current one.
-    If the doc is currently based on an FNI, pfni may be nil, indicating
+    Save the document and optionally set this FileName as the current one.
+    If the doc is currently based on a FileName, pfni may be nil, indicating
     that this is a normal save (not save as).  If pfni is not nil and
     fSetFni is false, this just writes a copy of the doc but doesn't change
     the doc one bit.
 ***************************************************************************/
-bool TXDC::FSaveToFni(FNI *pfni, bool fSetFni)
+bool TXDC::FSaveToFni(FileName *pfni, bool fSetFni)
 {
     AssertThis(0);
     AssertNilOrPo(pfni, ffniFile);
     FLO flo;
-    FNI fniT;
+    FileName fniT;
 
     if (pvNil == pfni)
     {

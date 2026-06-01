@@ -237,7 +237,7 @@ bool MBMP::_FInit(byte *prgbPixels, long cbRow, long dyp, RC *prc, long xpRef, l
     transparent. The bitmap file must be uncompressed and have a bit depth
     of 8.  The palette information is be ignored.
 ****************************************************************************/
-PMBMP MBMP::PmbmpReadNative(FNI *pfni, byte bTransparent, long xp, long yp, ulong grfmbmp, byte bDefault)
+PMBMP MBMP::PmbmpReadNative(FileName *pfni, byte bTransparent, long xp, long yp, ulong grfmbmp, byte bDefault)
 {
     AssertPo(pfni, ffniFile);
     byte *prgb;
@@ -511,7 +511,7 @@ bool MBMP::FReadMbmp(PCRF pcrf, CTG ctg, CNO cno, PBLCK pblck, PBACO *ppbaco, lo
 }
 
 /***************************************************************************
-    Given an FNI refering to a bitmap file, returns the interesting parts of
+    Given a FileName refering to a bitmap file, returns the interesting parts of
     the header and the pixel data and palette.  Fails if the bitmap is not
     8 bits, uncompressed.  Any or all of the output pointers may be nil.
 
@@ -528,7 +528,7 @@ bool MBMP::FReadMbmp(PCRF pcrf, CTG ctg, CNO cno, PBLCK pblck, PBACO *ppbaco, lo
             pfUpsideDown	--	fTrue if the bitmap is upside down
         returns fTrue if it succeeds
 ***************************************************************************/
-bool FReadBitmap(FNI *pfni, byte **pprgb, PGL *ppglclr, long *pdxp, long *pdyp, bool *pfUpsideDown, byte bTransparent)
+bool FReadBitmap(FileName *pfni, byte **pprgb, PGL *ppglclr, long *pdxp, long *pdyp, bool *pfUpsideDown, byte bTransparent)
 {
     AssertPo(pfni, ffniFile);
     AssertNilOrVarMem(pprgb);
@@ -767,7 +767,7 @@ LDone:
     Writes a given bitmap to a given file.
 
     Arguments:
-        FNI *pfni         -- the name of the file to write
+        FileName *pfni         -- the name of the file to write
         byte *prgb        -- the bits in the bitmap
         PGL pglclr        -- the palette of the bitmap
         long dxp          -- the width of the bitmap
@@ -776,7 +776,7 @@ LDone:
 
     Returns: fTrue if it could write the file
 ***************************************************************************/
-bool FWriteBitmap(FNI *pfni, byte *prgb, PGL pglclr, long dxp, long dyp, bool fUpsideDown)
+bool FWriteBitmap(FileName *pfni, byte *prgb, PGL pglclr, long dxp, long dyp, bool fUpsideDown)
 {
     AssertPo(pfni, ffniFile);
     AssertVarMem(prgb);

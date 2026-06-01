@@ -22,7 +22,7 @@ extern void CheckForLostMem(BASE *po);
 void TestInt(void);
 void TestMem(void);
 void TestGl(void);
-void TestFni(void);
+void testFileName(void);
 void TestFil(void);
 void TestGg(void);
 void TestCfl(void);
@@ -274,11 +274,11 @@ void TestGl(void)
 }
 
 /***************************************************************************
-    Test the fni code.
+    Test the FileName code.
 ***************************************************************************/
-void TestFni(void)
+void testFileName(void)
 {
-    FNI fni1, fni2;
+    FileName fni1, fni2;
     STN stn1, stn2, stn3;
 
     AssertDo(fni1.FGetTemp(), 0);
@@ -318,7 +318,7 @@ void TestFni(void)
 void TestFil(void)
 {
     PFIL pfil;
-    FNI fni;
+    FileName fni;
 
     while (FGetFniSaveMacro(&fni, 'TEXT',
                             "\x9"
@@ -452,7 +452,7 @@ void TestCfl(void)
         {kctgSandy, 0, PszLit("Joshua"), relCathy, relLim},   {kctgSandy, 0, PszLit("Rachel"), relCathy, relLim},
     };
 
-    FNI fni, fniDst;
+    FileName fni, fniDst;
     PCFL pcfl, pcflDst;
     BLCK blck;
     short rel;
@@ -628,7 +628,7 @@ void TestErs(void)
 void TestCrf(void)
 {
     const CNO cnoLim = 10;
-    FNI fni;
+    FileName fni;
     CTG ctg = 'JUNK';
     CNO cno;
     PGHQ rgpghq[cnoLim];

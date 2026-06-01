@@ -211,7 +211,7 @@ LFail:
 /***************************************************************************
     Read a PIX and build a PMTRL from it
 ***************************************************************************/
-PMTRL MTRL::PmtrlNewFromPix(PFNI pfni)
+PMTRL MTRL::PmtrlNewFromPix(pFileName pfni)
 {
     AssertPo(pfni, ffniFile);
 
@@ -269,7 +269,7 @@ LFail:
 /***************************************************************************
     Read a BMP and build a PMTRL from it
 ***************************************************************************/
-PMTRL MTRL::PmtrlNewFromBmp(PFNI pfni, PGL pglclr)
+PMTRL MTRL::PmtrlNewFromBmp(pFileName pfni, PGL pglclr)
 {
     AssertPo(pfni, ffniFile);
     AssertPo(_ptmapShadeTable, 0);

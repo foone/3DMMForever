@@ -130,7 +130,7 @@ int __cdecl main(int cpsz, achar *prgpsz[])
     bool fContinue = fFalse, fPreprocess = fFalse, fHaveInc = fFalse;
     bool fIncNext = fFalse, fHaveRoundXF = fFalse, fFixWrap = fTrue;
     uint mdVerbose, iRound = 3, iRet = 1, iRoundXF;
-    FNI fniSrc, fniDst, fniInc;
+    FileName fniSrc, fniDst, fniInc;
     PFIL pfilSrc = pvNil;
     FILE *pfileDst = pvNil;
     MSSIO *pmssioErr = pvNil, *pmssioDst = pvNil;
@@ -514,7 +514,7 @@ PS2B S2B::Ps2bNew(PFIL pfilSrc, bool fSwapHand, uint mdVerbose, int iRound, int 
 S2B::S2B(bool fSwapHand, uint mdVerbose, int iRound, int iRoundXF, PSZ pszApp)
 {
     short bo;
-    FNI fni;
+    FileName fni;
     CFL *pcfl;
     BLCK blck;
     STN stnPal;
@@ -697,7 +697,7 @@ void S2B::_DumpHeader(CTG ctg, CNO cno, PSTN pstnName, bool fPack)
 |		fTrue if it succeeds, fFalse otherwise
 |
 -------------------------------------------------------------PETED-----------*/
-bool S2B::FConvertSI(PMSNK pmsnkErr, PMSNK pmsnkDst, PFNI pfniInc, ulong grfs2b)
+bool S2B::FConvertSI(PMSNK pmsnkErr, PMSNK pmsnkDst, pFileName pfniInc, ulong grfs2b)
 {
     bool fGotTok, fHaveActor = fFalse, fRet = fFalse;
 
@@ -1560,7 +1560,7 @@ bool S2B::_FDumpCameras(int cCam, PSTN pstnBkgd, int iPalBase, int cPal)
     for (iCam = 1; iCam <= cCam; iCam++)
     {
         CNO cnoCam;
-        FNI fni;
+        FileName fni;
         PGL pglapos = pvNil;
 
         /* Get the file */
@@ -1688,7 +1688,7 @@ bool S2B::_FZbmpFromZpic(PSTN pstnBkgd, CNO cnoPar, int iCam, long dxp, long dyp
     bool fRet = fFalse;
     short *prgsw = pvNil;
     float *prgfl = pvNil;
-    FNI fni;
+    FileName fni;
     FIL *pfil = pvNil;
 
     /* Try to find and open the SoftImage data file */
@@ -1706,7 +1706,7 @@ bool S2B::_FZbmpFromZpic(PSTN pstnBkgd, CNO cnoPar, int iCam, long dxp, long dyp
             short *psw, *prgsw;
             long cPix = dxp * dyp, cbSw, cbBuf, cbLeft;
             float fl, *prgfl;
-            FNI fniZbmp;
+            FileName fniZbmp;
             FP fpZbmp;
             FIL *pfilZbmp = pvNil;
             FP fpRead = 0;
@@ -1922,7 +1922,7 @@ void S2B::_Bmat34FromVec3(BVEC3 *pbvec3, BMAT34 *pbmat34)
 ************************************************************ PETED ***********/
 void S2B::_ReadLite(PSTN pstnLite, LITE *plite)
 {
-    FNI fni;
+    FileName fni;
     FIL *pfil;
 
     /* Attempt to open the file */
@@ -2000,7 +2000,7 @@ LFail:
 void S2B::_ReadCam(PSTN pstnCam, CAM *pcam, PGL *ppglapos)
 {
     bool fGotActorPos = fFalse;
-    FNI fni;
+    FileName fni;
     FIL *pfil;
 
     /* Attempt to open the camera file */
@@ -2555,7 +2555,7 @@ bool S2B::_FTmapFromBmp(PBMHR pbmhr, CNO cnoPar, PSTN pstnMtrl)
 
     bool fRet = fFalse;
     long itmapd, itmapdMac;
-    FNI fni;
+    FileName fni;
     PTMAP ptmap = pvNil;
     TMAPD tmapd;
     PSTN pstnBmpFile = pbmhr->pstnMtrlFile;
@@ -2678,7 +2678,7 @@ bool S2B::_FFlushTmaps(void)
 
     for (itmapd = 0; itmapd < itmapdMac; itmapd++)
     {
-        FNI fni;
+        FileName fni;
 
         _pggtmapd->GetFixed(itmapd, &tmapd);
 

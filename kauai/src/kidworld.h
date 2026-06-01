@@ -141,7 +141,7 @@ class WOKS : public WOKS_PAR
     virtual PHBAL PhbalNew(PGOB pgobPar, PRCA prca, CNO cnoTopic, PHTOP phtop = pvNil);
     virtual PCMH PcmhFromHid(long hid);
     virtual PGOB PgobParGob(PGOB pgob);
-    virtual bool FFindFile(PSTN pstnSrc, PFNI pfni);
+    virtual bool FFindFile(PSTN pstnSrc, pFileName pfni);
     virtual tribool TGiveAlert(PSTN pstn, long bk, long cok);
     virtual void Print(PSTN pstn);
 

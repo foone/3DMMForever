@@ -155,10 +155,10 @@ class CFL : public CFL_PAR
     {
         return _pcflFirst;
     }
-    static PCFL PcflOpen(FNI *pfni, ulong grfcfl);
-    static PCFL PcflCreate(FNI *pfni, ulong grfcfl);
-    static PCFL PcflCreateTemp(FNI *pfni = pvNil);
-    static PCFL PcflFromFni(FNI *pfni);
+    static PCFL PcflOpen(FileName *pfni, ulong grfcfl);
+    static PCFL PcflCreate(FileName *pfni, ulong grfcfl);
+    static PCFL PcflCreateTemp(FileName *pfni = pvNil);
+    static PCFL PcflFromFni(FileName *pfni);
 
     static void ClearMarks(void);
     static void CloseUnmarked(void);
@@ -180,11 +180,11 @@ class CFL : public CFL_PAR
     {
         return _csto.pfil->FTemp();
     }
-    void GetFni(FNI *pfni)
+    void GetFni(FileName *pfni)
     {
         _csto.pfil->GetFni(pfni);
     }
-    bool FSetFni(FNI *pfni)
+    bool FSetFni(FileName *pfni)
     {
         return _csto.pfil->FSetFni(pfni);
     }
@@ -261,8 +261,8 @@ class CFL : public CFL_PAR
     PCFL PcflReadForest(CTG ctg, CNO cno, bool fCopyData);
 
     // writing
-    bool FSave(CTG ctgCreator, FNI *pfni = pvNil);
-    bool FSaveACopy(CTG ctgCreator, FNI *pfni);
+    bool FSave(CTG ctgCreator, FileName *pfni = pvNil);
+    bool FSaveACopy(CTG ctgCreator, FileName *pfni);
 };
 
 /***************************************************************************

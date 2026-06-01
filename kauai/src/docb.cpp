@@ -195,7 +195,7 @@ bool DOCB::FQueryCloseAll(ulong grfdoc)
     If the document is dirty, ask the user if they want to save changes
     (and save if they do).  Return false if the user cancels the operation.
     Don't allow cancel if fdocForceClose is set.  Don't ask about saving
-    (assume yes) if fdocAssumeYes is set.  Doesn't assume doc is fni
+    (assume yes) if fdocAssumeYes is set.  Doesn't assume doc is FileName
     based (calls FSave() to perform the save).
 ***************************************************************************/
 bool DOCB::FQueryClose(ulong grfdoc)
@@ -290,13 +290,13 @@ void DOCB::SetInternal(bool fInternal)
 }
 
 /***************************************************************************
-    Static method to return the DOC open on this fni (if there is one).
+    Static method to return the DOC open on this FileName (if there is one).
 ***************************************************************************/
-PDOCB DOCB::PdocbFromFni(FNI *pfni)
+PDOCB DOCB::PdocbFromFni(FileName *pfni)
 {
     AssertPo(pfni, 0);
     PDOCB pdocb;
-    FNI fni;
+    FileName fni;
 
     for (pdocb = _pdocbFirst; pvNil != pdocb; pdocb = pdocb->_pdocbSib)
     {
@@ -309,10 +309,10 @@ PDOCB DOCB::PdocbFromFni(FNI *pfni)
 }
 
 /***************************************************************************
-    Get the current FNI for the doc.  Return false if the doc is not
-    currently based on an FNI (it's a new doc or an internal one).
+    Get the current FileName for the doc.  Return false if the doc is not
+    currently based on an FileName (it's a new doc or an internal one).
 ***************************************************************************/
-bool DOCB::FGetFni(FNI *pfni)
+bool DOCB::FGetFni(FileName *pfni)
 {
     return fFalse;
 }
@@ -322,7 +322,7 @@ bool DOCB::FGetFni(FNI *pfni)
 ***************************************************************************/
 bool DOCB::FSave(long cid)
 {
-    FNI fni;
+    FileName fni;
 
     switch (cid)
     {
@@ -352,13 +352,13 @@ bool DOCB::FSave(long cid)
 }
 
 /***************************************************************************
-    Save the document and optionally set this fni as the current one.
-    If the doc is currently based on an FNI, pfni may be nil, indicating
+    Save the document and optionally set this FileName as the current one.
+    If the doc is currently based on an FileName, pfni may be nil, indicating
     that this is a normal save (not save as).  If pfni is not nil and
     fSetFni is false, this just writes a copy of the doc but doesn't change
     the doc one bit.
 ***************************************************************************/
-bool DOCB::FSaveToFni(FNI *pfni, bool fSetFni)
+bool DOCB::FSaveToFni(FileName *pfni, bool fSetFni)
 {
     return fFalse;
 }
@@ -367,7 +367,7 @@ bool DOCB::FSaveToFni(FNI *pfni, bool fSetFni)
     Ask the user what file they want to save to.  On Mac, assumes saving
     to a text file.
 ***************************************************************************/
-bool DOCB::FGetFniSave(FNI *pfni)
+bool DOCB::FGetFniSave(FileName *pfni)
 {
     return FGetFniSaveMacro(pfni, 'TEXT',
                             "\x9"
@@ -547,7 +547,7 @@ void DOCB::GetName(PSTN pstn)
 {
     AssertThis(0);
     AssertPo(pstn, 0);
-    FNI fni;
+    FileName fni;
 
     // REVIEW shonk: clipboard constant string.
     if (vpclip->FDocIsClip(this))

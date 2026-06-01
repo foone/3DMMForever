@@ -493,7 +493,7 @@ PSCPT SCCB::PscptCompileFil(PFIL pfil, bool fInFix, PMSNK pmsnk)
 /***************************************************************************
     Compile a script from the given text file name.
 ***************************************************************************/
-PSCPT SCCB::PscptCompileFni(FNI *pfni, bool fInFix, PMSNK pmsnk)
+PSCPT SCCB::PscptCompileFni(FileName *pfni, bool fInFix, PMSNK pmsnk)
 {
     AssertPo(pfni, ffniFile);
     AssertPo(pmsnk, 0);

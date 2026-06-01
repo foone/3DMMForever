@@ -19,14 +19,14 @@ ASSERTNAME
  FPortDisplayWithIds: Display the portfolio to open or save a file. Portfolio
                     title and filters generated using supplied string ids.
 
- Arguments: fni 			- Output FNI for file selected
+ Arguments: fni 			- Output FileName for file selected
             fOpen			- fTrue if open portfolio, else save portfolio.
             lFilterLabel	- id of portfolio filter label
             lFilterExt		- id of portfolio filter extension
             lTitle			- id of portfolio title
             lpstrDefExt		- Ptr to string for default file extension for save if required.
             pstnDefFileName - Ptr to default extension stn if required.
-            pfniInitialDir	- Ptr to initial directory fni if required.
+            pfniInitialDir	- Ptr to initial directory FileName if required.
             grfPrevType		- Bits for types of preview required, (eg movie, sound etc) == 0 if no preview
             cnoWave         - Wave cno for audio when portfolio is invoked
 
@@ -34,8 +34,8 @@ ASSERTNAME
             FALSE	- User canceled portfolio.
 
 ***************************************************************************/
-bool FPortDisplayWithIds(FNI *pfni, bool fOpen, long lFilterLabel, long lFilterExt, long lTitle, LPTSTR lpstrDefExt,
-                         PSTN pstnDefFileName, FNI *pfniInitialDir, ulong grfPrevType, CNO cnoWave)
+bool FPortDisplayWithIds(FileName *pfni, bool fOpen, long lFilterLabel, long lFilterExt, long lTitle, LPTSTR lpstrDefExt,
+                         PSTN pstnDefFileName, FileName *pfniInitialDir, ulong grfPrevType, CNO cnoWave)
 {
     STN stnTitle;
     STN stnFilterLabel;
@@ -102,10 +102,10 @@ bool FPortDisplayWithIds(FNI *pfni, bool fOpen, long lFilterLabel, long lFilterE
 
  FPortGetFniOpen: Display the portfolio to open a file.
 
- Arguments: pfni 		- Output FNI for file selected
+ Arguments: pfni 		- Output FileName for file selected
             lpstrFilter	- String containing files types to filter on
             lpstrTitle	- String containing title of portfolio
-            pfniInitialDir	- Ptr to initial directory fni if required.
+            pfniInitialDir	- Ptr to initial directory FileName if required.
             grfPrevType	- Bits for types of preview required, (eg movie, sound etc) == 0 if no preview
             cnoWave     - Wave cno for audio when portfolio is invoked
 
@@ -113,7 +113,7 @@ bool FPortDisplayWithIds(FNI *pfni, bool fOpen, long lFilterLabel, long lFilterE
             FALSE	- User canceled portfolio.
 
 ***************************************************************************/
-bool FPortGetFniOpen(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, FNI *pfniInitialDir, ulong grfPrevType,
+bool FPortGetFniOpen(FileName *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, FileName *pfniInitialDir, ulong grfPrevType,
                      CNO cnoWave)
 {
     SZ szFile;
@@ -191,7 +191,7 @@ bool FPortGetFniOpen(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, FNI *pfni
         }
     }
 
-    // If the user selected a file, build up the associated fni.
+    // If the user selected a file, build up the associated FileName.
     if (fOKed)
     {
         stn.SetSz(ofn.lpstrFile);
@@ -218,7 +218,7 @@ bool FPortGetFniOpen(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, FNI *pfni
 
  pfGetFniSave: Display the save portfolio.
 
- Arguments: pfni		- Output FNI for file selected
+ Arguments: pfni		- Output FileName for file selected
             lpstrFilter	- String containing files types to filter on
             lpstrTitle	- String containing title of portfolio
             lpstrDefExt	- String containing default extension for filenames
@@ -231,7 +231,7 @@ bool FPortGetFniOpen(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, FNI *pfni
             FALSE	- User canceled portfolio, (or other error).
 
 ***************************************************************************/
-bool FPortGetFniSave(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, LPTSTR lpstrDefExt, PSTN pstnDefFileName,
+bool FPortGetFniSave(FileName *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, LPTSTR lpstrDefExt, PSTN pstnDefFileName,
                      ulong grfPrevType, CNO cnoWave)
 {
     DLGINFO diPortfolio;
@@ -241,7 +241,7 @@ bool FPortGetFniSave(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, LPTSTR lp
     bool fRedisplayPortfolio = fFalse;
     bool fExplorer = fTrue;
     STN stnFile, stnErr;
-    FNI fniUserDir;
+    FileName fniUserDir;
     STN stnUserDir;
     SZ szUserDir;
     SZ szDefFileName;
@@ -440,7 +440,7 @@ bool FPortGetFniSave(FNI *pfni, LPTSTR lpstrFilter, LPTSTR lpstrTitle, LPTSTR lp
         }
     } while (fRedisplayPortfolio);
 
-    // If the user selected a file, build up the associated fni.
+    // If the user selected a file, build up the associated FileName.
     if (!fOKed)
     {
         pfni->SetNil();
@@ -615,7 +615,7 @@ UINT CALLBACK OpenHookProc(HWND hwndCustom, UINT msg, UINT wParam, LONG lParam)
                 return (1);
 
             case IDC_BUTTON3: {
-                FNI fniUserDir;
+                FileName fniUserDir;
                 STN stnUserDir;
                 SZ szUserDir;
                 SZ szCurFile;
@@ -1213,7 +1213,7 @@ void OpenPreview(HWND hwndCustom, PGNV pgnvOff, RCS *prcsPreview)
     STN stn;
     PCFL pcfl;
     PMBMP pmbmp;
-    FNI fni;
+    FileName fni;
     SZ szFile;
     ERS ersT;
     ERS *pers;
@@ -1244,7 +1244,7 @@ void OpenPreview(HWND hwndCustom, PGNV pgnvOff, RCS *prcsPreview)
 
     if (CchSz(szFile) != 0)
     {
-        // Get an fni for the selected file.
+        // Get an FileName for the selected file.
         stn.SetSz(szFile);
         fni.FBuildFromPath(&stn, 0);
 

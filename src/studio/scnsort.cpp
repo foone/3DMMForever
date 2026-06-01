@@ -487,7 +487,7 @@ bool SCRT::FCmdPortfolio(PCMD pcmd)
 {
     AssertThis(0);
 
-    FNI fni;
+    FileName fni;
     MCC mcc(2, 2, 0);
     PMVIE pmvie = pvNil;
 

@@ -24,7 +24,7 @@ bool FFindPrime(long lwMax, long lwMaxRoot, long *plwPrime, long *plwRoot);
 void __cdecl main(long cpszs, char **prgpszs)
 {
 #ifdef REVIEW // shonk: for counting lines
-    FNE fne;
+    FileNameEnumerator fne;
     FNI fniDir, fni;
     FTG rgftg[2];
     byte rgb[512];

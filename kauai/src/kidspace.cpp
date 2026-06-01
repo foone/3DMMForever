@@ -2641,7 +2641,7 @@ bool GORV::_FInit(PGOK pgok, PCRF pcrf, CTG ctg, CNO cno)
     PCFL pcfl;
     BLCK blck;
     STN stn;
-    FNI fni;
+    FileName fni;
     RC rc;
     byte bT;
 

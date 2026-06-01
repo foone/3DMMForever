@@ -36,10 +36,10 @@ class TXDC : public TXDC_PAR
 
     TXDC(PDOCB pdocb = pvNil, ulong grfdoc = fdocNil);
     ~TXDC(void);
-    bool _FInit(PFNI pfni = pvNil, PBSF pbsf = pvNil);
+    bool _FInit(pFileName pfni = pvNil, PBSF pbsf = pvNil);
 
   public:
-    static PTXDC PtxdcNew(PFNI pfni = pvNil, PBSF pbsf = pvNil, PDOCB pdocb = pvNil, ulong grfdoc = fdocNil);
+    static PTXDC PtxdcNew(pFileName pfni = pvNil, PBSF pbsf = pvNil, PDOCB pdocb = pvNil, ulong grfdoc = fdocNil);
 
     PBSF Pbsf(void)
     {
@@ -47,8 +47,8 @@ class TXDC : public TXDC_PAR
     }
 
     virtual PDDG PddgNew(PGCB pgcb);
-    virtual bool FGetFni(FNI *pfni);
-    virtual bool FSaveToFni(FNI *pfni, bool fSetFni);
+    virtual bool FGetFni(FileName *pfni);
+    virtual bool FSaveToFni(FileName *pfni, bool fSetFni);
 };
 
 /***************************************************************************

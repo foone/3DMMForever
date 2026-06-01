@@ -70,7 +70,7 @@ class FIL : public FIL_PAR
 
     MUTX _mutx;
 
-    FNI _fni;
+    FileName _fni;
     bool _fOpen : 1;
     bool _fEverOpen : 1;
     bool _fWrote : 1;
@@ -84,7 +84,7 @@ class FIL : public FIL_PAR
 #endif // WIN
 
     // private methods
-    FIL(FNI *pfni, ulong grffil);
+    FIL(FileName *pfni, ulong grffil);
     ~FIL(void);
 
     bool _FOpen(bool fCreate, ulong grffil);
@@ -106,10 +106,10 @@ class FIL : public FIL_PAR
     {
         return _pfilFirst;
     }
-    static PFIL PfilOpen(FNI *pfni, ulong grffil = ffilDenyWrite);
-    static PFIL PfilCreate(FNI *pfni, ulong grffil = ffilWriteEnable | ffilDenyWrite);
-    static PFIL PfilCreateTemp(FNI *pfni = pvNil);
-    static PFIL PfilFromFni(FNI *pfni);
+    static PFIL PfilOpen(FileName *pfni, ulong grffil = ffilDenyWrite);
+    static PFIL PfilCreate(FileName *pfni, ulong grffil = ffilWriteEnable | ffilDenyWrite);
+    static PFIL PfilCreateTemp(FileName *pfni = pvNil);
+    static PFIL PfilFromFni(FileName *pfni);
 
     virtual void Release(void);
     void Mark(void)
@@ -135,7 +135,7 @@ class FIL : public FIL_PAR
     {
         return FPure(_grffil & ffilTemp);
     }
-    void GetFni(FNI *pfni)
+    void GetFni(FileName *pfni)
     {
         *pfni = _fni;
     }
@@ -162,8 +162,8 @@ class FIL : public FIL_PAR
         return fTrue;
     }
     bool FSwapNames(PFIL pfil);
-    bool FRename(FNI *pfni);
-    bool FSetFni(FNI *pfni);
+    bool FRename(FileName *pfni);
+    bool FSetFni(FileName *pfni);
     void Flush(void);
 };
 

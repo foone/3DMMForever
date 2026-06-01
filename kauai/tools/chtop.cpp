@@ -77,11 +77,11 @@ HEDO::~HEDO(void)
 }
 
 /***************************************************************************
-    Static method to create a new document based on the given fni.
+    Static method to create a new document based on the given FileName.
     Use pfni == pvNil to create a new file, non-nil to open an
     existing file.
 ***************************************************************************/
-PHEDO HEDO::PhedoNew(FNI *pfni, PRCA prca)
+PHEDO HEDO::PhedoNew(FileName *pfni, PRCA prca)
 {
     AssertNilOrPo(pfni, ffniFile);
     AssertPo(prca, 0);
@@ -125,10 +125,10 @@ PDDG HEDO::PddgNew(PGCB pgcb)
 }
 
 /***************************************************************************
-    Get the current FNI for the doc.  Return false if the doc is not
-    currently based on an FNI (it's a new doc or an internal one).
+    Get the current FileName for the doc.  Return false if the doc is not
+    currently based on a FileName (it's a new doc or an internal one).
 ***************************************************************************/
-bool HEDO::FGetFni(FNI *pfni)
+bool HEDO::FGetFni(FileName *pfni)
 {
     AssertThis(0);
     AssertBasePo(pfni, 0);
@@ -140,13 +140,13 @@ bool HEDO::FGetFni(FNI *pfni)
 }
 
 /***************************************************************************
-    Save the document and optionally set this fni as the current one.
-    If the doc is currently based on an FNI, pfni may be nil, indicating
+    Save the document and optionally set this FileName as the current one.
+    If the doc is currently based on a FileName, pfni may be nil, indicating
     that this is a normal save (not save as).  If pfni is not nil and
     fSetFni is false, this just writes a copy of the doc but doesn't change
     the doc one bit.
 ***************************************************************************/
-bool HEDO::FSaveToFni(FNI *pfni, bool fSetFni)
+bool HEDO::FSaveToFni(FileName *pfni, bool fSetFni)
 {
     AssertThis(0);
     if (!fSetFni && pvNil != pfni)
@@ -164,7 +164,7 @@ bool HEDO::FSaveToFni(FNI *pfni, bool fSetFni)
 /***************************************************************************
     Ask the user what file they want to save to.
 ***************************************************************************/
-bool HEDO::FGetFniSave(FNI *pfni)
+bool HEDO::FGetFniSave(FileName *pfni)
 {
     AssertThis(0);
     AssertPo(pfni, 0);
@@ -206,7 +206,7 @@ void HEDO::InvalAllDdg(CNO cno)
 bool HEDO::FExportText(void)
 {
     AssertThis(0);
-    FNI fni;
+    FileName fni;
     PFIL pfil;
     MSFIL msfil;
 
@@ -1528,7 +1528,7 @@ bool HEDG::FCmdDump(PCMD pcmd)
     long icki;
     CKI cki;
     PDOCB pdocb;
-    FNI fni;
+    FileName fni;
     PFIL pfil;
     long cpMac;
     long cp;

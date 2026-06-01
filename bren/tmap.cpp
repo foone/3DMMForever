@@ -174,7 +174,7 @@ bool TMAP::FWrite(PBLCK pblck)
  *	output:
  *			returns the pointer to the new TMAP
  */
-PTMAP TMAP::PtmapReadNative(FNI *pfni, PGL pglclr)
+PTMAP TMAP::PtmapReadNative(FileName *pfni, PGL pglclr)
 {
     byte *prgb = pvNil;
     PTMAP ptmap = pvNil;
@@ -328,7 +328,7 @@ PTMAP TMAP::PtmapNew(byte *prgbPixels, long dxp, long dyp)
     Returns: fTrue if the file was written successfully
 
 ************************************************************ PETED ***********/
-bool TMAP::FWriteTmapChkFile(PFNI pfniDst, bool fCompress, PMSNK pmsnkErr)
+bool TMAP::FWriteTmapChkFile(pFileName pfniDst, bool fCompress, PMSNK pmsnkErr)
 {
     AssertThis(0);
     AssertPo(pfniDst, ffniFile);

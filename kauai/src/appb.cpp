@@ -1806,7 +1806,7 @@ void APPB::WarnProcApp(PSZS pszsFile, long lwLine, PSZS pszsMsg)
     _fInWarn = fTrue;
     if (pvNil == _pfilWarn)
     {
-        FNI fni;
+        FileName fni;
         FTG ftg;
 
         // put the warning file at the root of the drive that temp files go on
